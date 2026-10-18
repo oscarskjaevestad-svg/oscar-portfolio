@@ -509,6 +509,8 @@
       transition: border-color .2s;
     }
     .skill-card:hover { border-color: rgba(56,189,248,.3); }
+    /* The current field of work leads, across the full width. */
+    .skill-card-wide { grid-column: 1 / -1; }
     .skill-card-header {
       display: flex;
       align-items: center;
