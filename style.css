@@ -171,7 +171,7 @@
     .hero-glow-1 { width: 500px; height: 500px; background: rgba(56,189,248,.04); top: 10%; left: 15%; }
     .hero-glow-2 { width: 320px; height: 320px; background: rgba(129,140,248,.04); bottom: 15%; right: 10%; }
 
-    .hero-inner { position: relative; padding: 9rem 0 5rem; }
+    .hero-inner { position: relative; padding: 9rem 1.5rem 5rem; }
 
     .hero-badge {
       display: inline-flex;
@@ -201,7 +201,7 @@
     h1.hero-name {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: clamp(3rem, 9vw, 7rem);
+      font-size: clamp(2rem, 9vw, 7rem);
       line-height: 1.02;
       letter-spacing: -.02em;
       color: var(--text);
