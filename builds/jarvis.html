@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J.A.R.V.I.S. — how it’s built — Oscar Skjævestad</title>
+  <meta name="description" content="A local-first voice assistant on a Raspberry Pi and a GPU workstation: wake word, Whisper, local Qwen3 models, Home Assistant and Klipper, behind a permission ladder." />
+  <meta name="author" content="Oscar Skjævestad" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / link previews -->
+  <meta property="og:title" content="J.A.R.V.I.S. — how it’s built" />
+  <meta property="og:description" content="A local-first voice assistant on a Raspberry Pi and a GPU workstation: wake word, Whisper, local Qwen3 models, Home Assistant and Klipper, behind a permission ladder." />
+  <meta property="og:url" content="https://oscarns.com/builds/jarvis.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://oscarns.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead at Wybe Robotics" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="https://oscarns.com/builds/jarvis.html" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <meta name="theme-color" content="#141210" />
+
+  <!-- Before the first paint: mark that scripts run, and apply the saved
+       theme and language, so nothing flashes in the wrong one. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var store = {};
+      try { store.theme = localStorage.getItem('theme'); store.lang = localStorage.getItem('lang'); } catch (e) {}
+      if (store.theme === 'light') root.setAttribute('data-theme', 'light');
+      var asked = new URLSearchParams(location.search).get('lang');
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = asked || store.lang || (/^(nb|nn|no)\b/.test(nav) ? 'no' : 'en');
+      if (lang === 'no') { root.setAttribute('data-lang', 'no'); root.setAttribute('lang', 'nb'); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=2026-10-28.4" />
+</head>
+<body>
+<!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
+
+<span lang="en"><a class="skip-link" href="#main">Skip to content</a></span><span lang="nb"><a class="skip-link" href="#main">Hopp til innhold</a></span>
+
+<header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
+  <div class="wrap nav-inner">
+    <a class="nav-name" href="../#top">Oscar Skjævestad</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="../#work"><span lang="en">Work</span><span lang="nb">Arbeid</span></a>
+      <a href="../#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a>
+      <a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a>
+      <a href="../#skills"><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></a>
+      <a href="../#contact"><span lang="en">Contact</span><span lang="nb">Kontakt</span></a>
+      <span class="nav-tools">
+        <button class="nav-tool theme-switch" id="theme-switch" type="button">light</button>
+        <button class="nav-tool" id="lang-switch" type="button">no</button>
+        <button class="nav-tool palette-open" id="palette-open" type="button" aria-haspopup="dialog"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 9a2 2 0 1 1 2 -2v10a2 2 0 1 1 -2 -2h10a2 2 0 1 1 -2 2v-10a2 2 0 1 1 2 2h-10" /></svg></span><span class="kbd-hint">K</span></button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <header class="page-head" id="top">
+    <div class="wrap">
+      <p class="mono crumb"><a href="../#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a> / <span lang="en">Live</span><span lang="nb">Live</span></p>
+      <h1><span lang="en">J.A.R.V.I.S. — how it’s built</span><span lang="nb">J.A.R.V.I.S. — slik er den bygget</span></h1>
+      <p class="lead" lang="en">A voice assistant that lives on my own hardware. You say its name, ask for something, and it acts — within limits it can’t argue its way past.</p><p class="lead" lang="nb">En stemmeassistent som bor på min egen maskinvare. Du sier navnet, ber om noe, og den handler — innenfor grenser den ikke kan argumentere seg forbi.</p>
+    </div>
+  </header>
+  <article class="wrap article">
+
+    <div class="figures"><div class="figure"><p class="figure-value">Pi 4</p><p class="mono figure-label" lang="en">the ear and the dashboard</p><p class="mono figure-label" lang="nb">øret og dashbordet</p></div><div class="figure"><p class="figure-value">2</p><p class="mono figure-label" lang="en">local language models</p><p class="mono figure-label" lang="nb">lokale språkmodeller</p></div><div class="figure"><p class="figure-value">4</p><p class="mono figure-label" lang="en">permission levels</p><p class="mono figure-label" lang="nb">tillatelsesnivåer</p></div><div class="figure"><p class="figure-value">500+</p><p class="mono figure-label" lang="en">automated tests</p><p class="mono figure-label" lang="nb">automatiske tester</p></div></div>
+
+    <figure class="diagram" aria-labelledby="dg-cap">
+      <svg viewBox="0 0 720 400" role="img" aria-labelledby="dg-title dg-desc">
+        <title id="dg-title">How one request travels through J.A.R.V.I.S.</title>
+        <desc id="dg-desc">A Raspberry Pi hears the wake word and records the request. A GPU workstation turns speech into text and a local language model chooses a tool. The permission ladder checks it before it reaches Home Assistant or the printer, and the reply is spoken back.</desc>
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-arrow" d="M0 0L10 5L0 10z"/></marker>
+          <marker id="ahh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="dg-arrow hot" d="M0 0L10 5L0 10z"/></marker>
+        </defs>
+
+        <rect class="dg-zone" x="12" y="18" width="204" height="364" rx="10"/>
+        <text class="dg-zone-label" x="28" y="40">RASPBERRY PI 4</text>
+        <rect class="dg-zone" x="248" y="18" width="236" height="364" rx="10"/>
+        <text class="dg-zone-label" x="264" y="40">GPU WORKSTATION</text>
+        <text class="dg-zone-label" x="530" y="40">THE HOUSE</text>
+
+        <rect class="dg-box" x="32" y="60" width="164" height="64" rx="6"/>
+        <text class="dg-text" x="48" y="88">Wake word</text>
+        <text class="dg-sub" x="48" y="108">OPENWAKEWORD · 80 MS</text>
+
+        <rect class="dg-box" x="32" y="300" width="164" height="64" rx="6"/>
+        <text class="dg-text" x="48" y="328">Speaker</text>
+        <text class="dg-sub" x="48" y="348">SPOKEN REPLY</text>
+
+        <rect class="dg-box" x="268" y="60" width="196" height="64" rx="6"/>
+        <text class="dg-text" x="284" y="88">Speech to text</text>
+        <text class="dg-sub" x="284" y="108">WHISPER LARGE-V3-TURBO</text>
+
+        <rect class="dg-box" x="268" y="160" width="196" height="64" rx="6"/>
+        <text class="dg-text" x="284" y="188">Local models</text>
+        <text class="dg-sub" x="284" y="208">QWEN3 8B · 4B · OLLAMA</text>
+
+        <rect class="dg-box hot" x="268" y="260" width="196" height="64" rx="6"/>
+        <text class="dg-text" x="284" y="288">Permission ladder</text>
+        <text class="dg-sub" x="284" y="308">READ · SAFE · CONFIRM</text>
+
+        <rect class="dg-box" x="516" y="160" width="190" height="64" rx="6"/>
+        <text class="dg-text" x="532" y="188">Home Assistant</text>
+        <text class="dg-sub" x="532" y="208">LIGHTS · TV · HEATING</text>
+
+        <rect class="dg-box" x="516" y="260" width="190" height="64" rx="6"/>
+        <text class="dg-text" x="532" y="288">Klipper</text>
+        <text class="dg-sub" x="532" y="308">THE 3D PRINTER</text>
+
+        <path class="dg-line" d="M196 92 H262" marker-end="url(#ah)"/>
+        <path class="dg-line" d="M366 124 V154" marker-end="url(#ah)"/>
+        <path class="dg-line" d="M366 224 V254" marker-end="url(#ah)"/>
+        <path class="dg-line hot" d="M464 292 H490 V192 H510" marker-end="url(#ahh)"/>
+        <path class="dg-line hot" d="M464 292 H510" marker-end="url(#ahh)"/>
+        <path class="dg-line" d="M268 300 H230 V332 H202" marker-end="url(#ah)"/>
+      </svg>
+      <figcaption class="mono" id="dg-cap"><span lang="en">One request, from wake word to action</span><span lang="nb">Én forespørsel, fra vekkeord til handling</span></figcaption>
+    </figure>
+
+    <h2 lang="en">The path of one request</h2><h2 lang="nb">Veien til én forespørsel</h2>
+    <ol>
+      <li><span lang="en">A Raspberry Pi 4 listens for the wake word with openWakeWord. Until it hears it, nothing is recorded, stored or sent: audio is examined in memory 80 ms at a time and thrown away.</span><span lang="nb">En Raspberry Pi 4 lytter etter vekkeordet med openWakeWord. Før den hører det, blir ingenting tatt opp, lagret eller sendt: lyden undersøkes i minnet 80 ms om gangen og kastes.</span></li>
+      <li><span lang="en">After the wake word, the clip goes to Whisper on a GPU workstation and becomes text.</span><span lang="nb">Etter vekkeordet sendes klippet til Whisper på en GPU-arbeidsstasjon og blir til tekst.</span></li>
+      <li><span lang="en">A quick router decides whether it’s an action or a conversation. Actions go to Qwen3 8B, conversation to the faster Qwen3 4B, and both stay loaded on the GPU so neither has to wake up first.</span><span lang="nb">En rask ruter avgjør om det er en handling eller en samtale. Handlinger går til Qwen3 8B, samtale til den raskere Qwen3 4B, og begge holdes lastet på GPU-en så ingen av dem må vekkes først.</span></li>
+      <li><span lang="en">The model picks a tool, and the <a href="../log/permission-ladder.html">permission ladder</a> decides whether it may use it.</span><span lang="nb">Modellen velger et verktøy, og <a href="../log/permission-ladder.html">tillatelsesstigen</a> avgjør om den får bruke det.</span></li>
+      <li><span lang="en">The action reaches Home Assistant (lights, TV, heating) or Klipper (the printer), and the answer is spoken through a small speaker. After anything that leaves the TV on, Jarvis keeps quiet until it’s switched off.</span><span lang="nb">Handlingen når Home Assistant (lys, TV, varme) eller Klipper (printeren), og svaret leses opp gjennom en liten høyttaler. Etter noe som lar TV-en stå på, holder Jarvis seg stille til den er skrudd av.</span></li>
+    </ol>
+
+    <h2 lang="en">The dashboard</h2><h2 lang="nb">Dashbordet</h2>
+    <p lang="en">A web console that’s only reachable over my private network. It shows a live health check for every subsystem, has controls for the house and the printer that go through the same gate as voice, a camera on the printer, and a memory view where anything Jarvis remembers can be read and deleted.</p><p lang="nb">En nettkonsoll som bare kan nås over mitt private nettverk. Den viser en sanntids helsesjekk for hvert delsystem, har kontroller for huset og printeren som går gjennom samme port som stemmen, et kamera på printeren, og en minnevisning der alt Jarvis husker kan leses og slettes.</p>
+
+    <h2 lang="en">Privacy, plainly</h2><h2 lang="nb">Personvern, rett frem</h2>
+    <ul><li><span lang="en">The microphone only acts on the wake word.</span><span lang="nb">Mikrofonen reagerer bare på vekkeordet.</span></li><li><span lang="en">The camera points at the printer and nothing else.</span><span lang="nb">Kameraet peker mot printeren og ingenting annet.</span></li><li><span lang="en">Speech-to-text and the language models run on my own machines.</span><span lang="nb">Tale-til-tekst og språkmodellene kjører på mine egne maskiner.</span></li><li><span lang="en">The honest exceptions: spoken replies use a hosted text-to-speech service, and a few devices only work through their maker’s cloud.</span><span lang="nb">De ærlige unntakene: talesvarene bruker en ekstern tekst-til-tale-tjeneste, og noen få enheter fungerer bare via produsentens sky.</span></li></ul>
+
+    <h2 lang="en">Stack</h2><h2 lang="nb">Teknologi</h2>
+    <p class="mono tags">Python · Flask · gunicorn · SQLite · openWakeWord · Whisper · Ollama · Qwen3 · Home Assistant · Klipper · Moonraker · Tailscale · Playwright</p>
+
+    <nav class="article-nav mono" aria-label="More"><span></span><a href="inmoov.html"><span lang="en">InMoov hand</span><span lang="nb">InMoov-hånden</span> →</a></nav>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
+    <p class="mono footer-links">
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
+      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
+    </p>
+  </div>
+</footer>
+
+<script src="../site.js?v=2026-10-28.4"></script>
+</body>
+</html>

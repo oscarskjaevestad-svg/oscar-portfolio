@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zero support roofs: why a nine-hour print failed — Oscar Skjævestad</title>
+  <meta name="description" content="A downloaded print file had 674 support sections and not one roof for the model to land on. Two quick checks would have caught it." />
+  <meta name="author" content="Oscar Skjævestad" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / link previews -->
+  <meta property="og:title" content="Zero support roofs: why a nine-hour print failed" />
+  <meta property="og:description" content="A downloaded print file had 674 support sections and not one roof for the model to land on. Two quick checks would have caught it." />
+  <meta property="og:url" content="https://oscarns.com/log/zero-support-roofs.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://oscarns.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead at Wybe Robotics" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="https://oscarns.com/log/zero-support-roofs.html" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <meta name="theme-color" content="#141210" />
+
+  <!-- Before the first paint: mark that scripts run, and apply the saved
+       theme and language, so nothing flashes in the wrong one. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var store = {};
+      try { store.theme = localStorage.getItem('theme'); store.lang = localStorage.getItem('lang'); } catch (e) {}
+      if (store.theme === 'light') root.setAttribute('data-theme', 'light');
+      var asked = new URLSearchParams(location.search).get('lang');
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = asked || store.lang || (/^(nb|nn|no)\b/.test(nav) ? 'no' : 'en');
+      if (lang === 'no') { root.setAttribute('data-lang', 'no'); root.setAttribute('lang', 'nb'); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=2026-10-28.4" />
+</head>
+<body>
+<!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
+
+<span lang="en"><a class="skip-link" href="#main">Skip to content</a></span><span lang="nb"><a class="skip-link" href="#main">Hopp til innhold</a></span>
+
+<header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
+  <div class="wrap nav-inner">
+    <a class="nav-name" href="../#top">Oscar Skjævestad</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="../#work"><span lang="en">Work</span><span lang="nb">Arbeid</span></a>
+      <a href="../#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a>
+      <a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a>
+      <a href="../#skills"><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></a>
+      <a href="../#contact"><span lang="en">Contact</span><span lang="nb">Kontakt</span></a>
+      <span class="nav-tools">
+        <button class="nav-tool theme-switch" id="theme-switch" type="button">light</button>
+        <button class="nav-tool" id="lang-switch" type="button">no</button>
+        <button class="nav-tool palette-open" id="palette-open" type="button" aria-haspopup="dialog"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 9a2 2 0 1 1 2 -2v10a2 2 0 1 1 -2 -2h10a2 2 0 1 1 -2 2v-10a2 2 0 1 1 2 2h-10" /></svg></span><span class="kbd-hint">K</span></button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <header class="page-head" id="top">
+    <div class="wrap">
+      <p class="mono crumb"><a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a> / <span lang="en">27.09.2026</span><span lang="nb">27.09.2026</span></p>
+      <h1><span lang="en">Zero support roofs: why a nine-hour print failed</span><span lang="nb">Null støttetak: hvorfor en ni timers print feilet</span></h1>
+      <p class="lead" lang="en">I downloaded a ready-made print file for a planter, started it, and stopped it at 46% with filament dragging across the model. The file explained exactly why — once I knew where to look.</p><p class="lead" lang="nb">Jeg lastet ned en ferdig printfil til en plantepotte, startet den, og stoppet den på 46 % med filament som ble dratt over modellen. Filen forklarte nøyaktig hvorfor — da jeg først visste hvor jeg skulle lete.</p>
+    </div>
+  </header>
+  <article class="wrap article">
+
+    <div class="figures"><div class="figure"><p class="figure-value">674</p><p class="mono figure-label" lang="en">support sections</p><p class="mono figure-label" lang="nb">støtteseksjoner</p></div><div class="figure"><p class="figure-value">0</p><p class="mono figure-label" lang="en">support roofs</p><p class="mono figure-label" lang="nb">støttetak</p></div><div class="figure"><p class="figure-value">706 / 706</p><p class="mono figure-label" lang="en">layers / height moves</p><p class="mono figure-label" lang="nb">lag / høydeflytt</p></div><div class="figure"><p class="figure-value"><span lang="en">1,309</span><span lang="nb">1 309</span></p><p class="mono figure-label" lang="en">roofs after re-slicing</p><p class="mono figure-label" lang="nb">tak etter ny slicing</p></div></div>
+
+    <h2 lang="en">What went wrong on the bed</h2><h2 lang="nb">Hva som gikk galt på platen</h2>
+    <p lang="en">The pot itself printed cleanly. The tree supports around it didn’t: their tops frayed, the overhang above them bridged into thin air as an open lattice, and strands of filament were dragged across the print. I paused it, looked, gave it another chance, and then stopped it for good at about 46%.</p><p lang="nb">Selve potten printet fint. Trestøttene rundt den gjorde det ikke: toppene frynset seg, overhenget over dem ble printet rett ut i luften som et åpent gitter, og tråder av filament ble dratt over printen. Jeg satte den på pause, så på den, ga den en sjanse til, og stoppet den for godt på rundt 46 %.</p>
+
+    <h2 lang="en">What the file said</h2><h2 lang="nb">Hva filen sa</h2>
+    <p lang="en">The G-code had been sliced in Cura by someone else, and its settings block showed just three changes from the printer’s stock profile: supports on, tree style, and supports from the build plate only. Everything else was default. Counting what the slicer had actually written out told the rest:</p><p lang="nb">G-koden var slicet i Cura av noen andre, og innstillingsblokken viste bare tre endringer fra printerens standardprofil: støtte på, trestøtte, og støtte bare fra printeplaten. Alt annet var standard. Å telle hva sliceren faktisk hadde skrevet ut fortalte resten:</p>
+    <ul><li><span lang="en"><strong>674 sections of support, and 0 of support interface.</strong> No roof anywhere: every overhang was printed straight onto the hollow tops of the support trunks.</span><span lang="nb"><strong>674 støtteseksjoner, og 0 med støttegrensesnitt.</strong> Ingen tak noe sted: hvert overheng ble printet rett på de hule toppene av støttestammene.</span></li><li><span lang="en"><strong>706 layers, and exactly 706 travel moves that changed height.</strong> The only height changes were layer changes, so Z-hop was off: on every travel, the nozzle dragged across whatever was still soft underneath.</span><span lang="nb"><strong>706 lag, og nøyaktig 706 forflytninger som endret høyde.</strong> De eneste høydeendringene var lagbytter, så Z-hop var av: på hver forflytning ble dysen dratt over det som fortsatt var mykt under.</span></li><li><span lang="en"><strong>0.5 mm of retraction</strong>, which with no Z-hop gave the stringing.</span><span lang="nb"><strong>0,5 mm tilbaketrekking</strong>, som sammen med manglende Z-hop ga trådene.</span></li></ul>
+
+    <h2 lang="en">The fix</h2><h2 lang="nb">Løsningen</h2>
+    <p lang="en">I found the original model and sliced it myself: supports everywhere rather than from the plate only, four roof layers on every support, 0.4 mm of Z-hop on every travel, and 8% infill instead of 20% — a planter doesn’t need a solid core, and the infill had been the single biggest cost in the file. Tree supports threw five “lost branch” warnings on this model; plainer snug supports threw none, so they won.</p><p lang="nb">Jeg fant originalmodellen og slicet den selv: støtte overalt i stedet for bare fra platen, fire taklag på hver støtte, 0,4 mm Z-hop på hver forflytning, og 8 % fyll i stedet for 20 % — en plantepotte trenger ikke en massiv kjerne, og fyllet var den største enkeltkostnaden i filen. Trestøtter ga fem «lost branch»-advarsler på denne modellen; enklere tettsittende støtter ga ingen, så de vant.</p>
+    <div class="table-wrap"><table><thead><tr><th><span lang="en"></span><span lang="nb"></span></th><th><span lang="en">Downloaded file</span><span lang="nb">Nedlastet fil</span></th><th><span lang="en">Re-sliced</span><span lang="nb">Ny slicing</span></th></tr></thead><tbody><tr><td><span lang="en">Support roofs</span><span lang="nb">Støttetak</span></td><td>0</td><td><span lang="en">1,309</span><span lang="nb">1 309</span></td></tr><tr><td><span lang="en">Z-hop</span><span lang="nb">Z-hop</span></td><td><span lang="en">off</span><span lang="nb">av</span></td><td><span lang="en">0.4 mm</span><span lang="nb">0,4 mm</span></td></tr><tr><td><span lang="en">Slicer warnings</span><span lang="nb">Advarsler</span></td><td>—</td><td>0</td></tr><tr><td><span lang="en">Filament</span><span lang="nb">Filament</span></td><td><span lang="en">48.9 m</span><span lang="nb">48,9 m</span></td><td><span lang="en">44.8 m</span><span lang="nb">44,8 m</span></td></tr><tr><td><span lang="en">Estimated time</span><span lang="nb">Beregnet tid</span></td><td>9 h 30 m</td><td>12 h 39 m</td></tr></tbody></table></div>
+    <p lang="en">It takes about three hours longer, and uses less filament than the file that failed. The re-sliced version is next in the printer’s queue.</p><p lang="nb">Den tar rundt tre timer lenger, og bruker mindre filament enn filen som feilet. Den nye versjonen er neste i printerens kø.</p>
+
+    <div class="lesson"><p lang="en">Two checks before trusting someone else’s G-code. Search it for <code>SUPPORT-INTERFACE</code>: if there are none, nothing is holding up your overhangs. Then compare the number of height-changing travel moves with the number of layers: if they’re equal, Z-hop is off.</p><p lang="nb">To sjekker før du stoler på andres G-kode. Søk etter <code>SUPPORT-INTERFACE</code>: finnes det ingen, er det ingenting som holder oppe overhengene. Sammenlign så antall forflytninger som endrer høyde med antall lag: er de like, er Z-hop av.</p></div>
+
+    <nav class="article-nav mono" aria-label="More"><a href="levelling-the-bed.html">← <span lang="en">Levelling the bed</span><span lang="nb">Nivellering av platen</span></a><a href="permission-ladder.html"><span lang="en">The permission ladder</span><span lang="nb">Tillatelsesstigen</span> →</a></nav>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
+    <p class="mono footer-links">
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
+      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
+    </p>
+  </div>
+</footer>
+
+<script src="../site.js?v=2026-10-28.4"></script>
+</body>
+</html>
