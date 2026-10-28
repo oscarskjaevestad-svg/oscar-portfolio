@@ -909,6 +909,8 @@ body.palette-on { overflow: hidden; }
 html:not(.js) .lab-demo, html:not(.js) .part-viewer { display: none; }
 
 .lab-demo { margin-top: var(--s-12); }
+.lab-demo h2 { display: flex; align-items: center; gap: var(--s-2); }
+.lab-demo h2 .ico { width: 1em; height: 1em; flex: none; }
 .lab-demo h2 .ico, .activity-title .ico, .part-viewer figcaption .ico { color: var(--signal); }
 .lab-note { color: var(--text-faint); font-size: var(--fs-xs); }
 .psst { margin-top: var(--s-8); }
@@ -934,12 +936,17 @@ kbd {
   border-radius: var(--radius-panel);
   box-shadow: var(--shadow);
 }
-.hand-svg { width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto; }
-.hand-palm, .hand-arm { fill: var(--bg-alt); stroke: var(--rule); stroke-width: 2; }
-.hand-seg { stroke: var(--bg); stroke-width: 2.5; }
-.hand-seg.pad  { fill: color-mix(in srgb, var(--signal) 32%, var(--bg-alt)); }
-.hand-seg.edge { fill: color-mix(in srgb, var(--signal) 55%, var(--bg-alt)); }
-.hand-seg.back { fill: color-mix(in srgb, var(--signal) 80%, var(--bg-alt)); }
+.hand-stage {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-panel);
+  background: radial-gradient(ellipse 70% 60% at 50% 45%, var(--wash), transparent 75%), var(--bg-alt);
+  overflow: hidden;
+}
+.hand-canvas { width: 100%; height: 100%; display: block; cursor: grab; touch-action: pan-y; }
+.hand-canvas:active { cursor: grabbing; }
+.no-webgl .hand-fallback { display: grid; }
+.no-webgl .hand-canvas { visibility: hidden; }
 .hand-controls { display: grid; gap: var(--s-3); }
 .hand-slider {
   display: grid;
@@ -1069,7 +1076,15 @@ kbd {
 .act-legend { display: inline-flex; align-items: center; gap: 3px; }
 .act-legend .act-cell { --cell: 10px; }
 .act-legend > span[lang] { margin: 0 4px; }
-.log-feed { margin-top: var(--s-3); font-size: var(--fs-xs); }
+.log-feed { margin: var(--s-3) 0 var(--s-6); font-size: var(--fs-xs); }
+.feed-copy {
+  display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap;
+  margin-top: var(--s-4); padding: var(--s-3) var(--s-4);
+  background: var(--surface); border-radius: var(--radius-panel); box-shadow: var(--shadow);
+}
+.article .feed-url { flex: 1; min-width: 0; overflow-wrap: anywhere; background: none; padding: 0; color: var(--text); }
+.article .feed-list li { display: flex; justify-content: space-between; gap: var(--s-4); }
+.feed-list .mono { color: var(--text-faint); font-size: var(--fs-xs); white-space: nowrap; }
 .log-feed a { display: inline-flex; align-items: center; gap: 6px; color: var(--text-dim); }
 .log-feed a:hover { color: var(--signal); }
 .log-feed .ico { width: 14px; height: 14px; }
@@ -1101,7 +1116,7 @@ kbd {
 
 @media (max-width: 640px) {
   .hand-wrap { grid-template-columns: 1fr; padding: var(--s-4); }
-  .hand-svg { max-width: 220px; }
+  .hand-stage { aspect-ratio: 1 / 1; }
   .hand-slider { grid-template-columns: 5.5rem 1fr 2.75rem; }
   .try-panel { padding: var(--s-4); }
   .viewer-stage { aspect-ratio: 1 / 1; }

@@ -339,10 +339,13 @@ def slider(key, en, no, lo=0, hi=180):
 HAND = f'''
     <section class="lab-demo" id="hand" aria-labelledby="hand-title">
       <h2 id="hand-title">{ico("hand-finger")}{t("Move the hand", "Beveg hånden")}</h2>
-      {p("Each finger is one servo pulling a line that runs through all three joints, so one pull curls the whole finger. That’s why one slider per finger is enough. The slider is the servo’s angle; the drawing is the palm side, and segments that tip towards you get shorter.",
-         "Hver finger er én servo som drar i en snor gjennom alle tre leddene, så ett drag krummer hele fingeren. Derfor holder det med én glider per finger. Glideren er servoens vinkel; tegningen viser håndflaten, og ledd som vipper mot deg blir kortere.")}
+      {p("Each finger is one servo pulling a line that runs through all three joints, so one pull curls the whole finger. That’s why one slider per finger is enough. The slider is the servo’s angle. Drag the hand to look around it.",
+         "Hver finger er én servo som drar i en snor gjennom alle tre leddene, så ett drag krummer hele fingeren. Derfor holder det med én glider per finger. Glideren er servoens vinkel. Dra i hånden for å se den fra andre vinkler.")}
       <div class="hand-wrap">
-        <svg class="hand-svg" viewBox="20 60 300 400" aria-hidden="true"></svg>
+        <div class="hand-stage">
+          <canvas class="hand-canvas" tabindex="0" aria-label="3D view of the hand. Drag or use the arrow keys to look around it."></canvas>
+          {t("This browser can’t show 3D.", "Denne nettleseren kan ikke vise 3D.", tag="p", cls="viewer-msg hand-fallback mono")}
+        </div>
         <div class="hand-controls">
           {slider("thumb", "Thumb", "Tommel")}
           {slider("index", "Index", "Pekefinger")}
@@ -360,8 +363,8 @@ HAND = f'''
           </div>
         </div>
       </div>
-      {t("A drawing, not a simulation of the real mechanics — and not yet connected to the real hand.",
-         "En tegning, ikke en simulering av den ekte mekanikken — og ennå ikke koblet til den ekte hånden.", tag="p", cls="mono lab-note")}
+      {t("A model, not the real mechanics — and not yet connected to the real hand. The blue dots are the hinge pins.",
+         "En modell, ikke den ekte mekanikken — og ennå ikke koblet til den ekte hånden. De blå prikkene er hengselpinnene.", tag="p", cls="mono lab-note")}
     </section>'''
 
 PARTS = f'''
@@ -435,6 +438,39 @@ INMOOV = page(
 ''',
     prev=("jarvis.html", ("J.A.R.V.I.S.", "J.A.R.V.I.S.")),
     scripts=("hand.js", "viewer.js"),
+)
+
+
+# ── Follow the log ───────────────────────────────────────────
+# The RSS link lands here, not on feed.xml: a browser shows a raw feed as
+# a wall of text. Feed readers find feed.xml from the <link> in every head.
+
+FEED = "https://oscarns.com/feed.xml"
+
+FOLLOW = page(
+    "follow", "log",
+    ("Follow the log", "Følg loggen"),
+    "Get new log entries in a feed reader: no account, no mailing list, no tracking.",
+    ("Log", "Logg", "log"), ("RSS", "RSS"),
+    ("New entries in the log, in whatever app you read feeds with. No account, no mailing list, nothing tracked.",
+     "Nye innlegg i loggen, i den appen du leser feeder med. Ingen konto, ingen e-postliste, ingenting som spores."),
+    f'''
+    {h2("Paste this into a feed reader", "Lim inn dette i en feedleser")}
+    <div class="feed-copy">
+      <code class="feed-url">{FEED}</code>
+      <button type="button" class="btn btn-secondary" data-copy="{FEED}">{t("Copy", "Kopier")}</button>
+    </div>
+    {p("No reader yet? NetNewsWire is free on Mac and iPhone; Feedly and Inoreader work in any browser. Add the address above and new entries turn up there on their own.",
+       "Ingen leser ennå? NetNewsWire er gratis på Mac og iPhone; Feedly og Inoreader fungerer i alle nettlesere. Legg til adressen over, så dukker nye innlegg opp der av seg selv.")}
+
+    {h2("What’s in it so far", "Hva som er der så langt")}
+    <ul class="feed-list">
+      <li><a href="permission-ladder.html">{t("A voice assistant that can’t do more than it’s allowed to", "En stemmeassistent som ikke kan gjøre mer enn den har lov til")}</a> <span class="mono">10.2026</span></li>
+      <li><a href="zero-support-roofs.html">{t("Zero support roofs: why a nine-hour print failed", "Null støttetak: hvorfor en ni timers print feilet")}</a> <span class="mono">09.2026</span></li>
+      <li><a href="levelling-the-bed.html">{t("Levelling a 420 mm bed by measurement", "Nivellering av en 420 mm printeplate etter mål")}</a> <span class="mono">09.2026</span></li>
+    </ul>
+    {t("The feed is in English; the site is in both.", "Feeden er på engelsk; siden er på begge språk.", tag="p", cls="mono lab-note")}
+''',
 )
 
 

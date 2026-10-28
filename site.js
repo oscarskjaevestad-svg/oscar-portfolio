@@ -196,6 +196,17 @@
       .catch(() => { /* the section stays hidden */ });
   }
 
+  /* ── Copy buttons (the feed address) ── */
+
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => {
+    const done = () => {
+      const was = b.innerHTML;
+      b.textContent = lang() === 'no' ? 'Kopiert' : 'Copied';
+      setTimeout(() => { b.innerHTML = was; }, 1600);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.copy).then(done, () => {});
+  }));
+
   /* ── A hairline under the nav once the page has moved ── */
 
   const nav = $('nav');
@@ -337,7 +348,7 @@
     { en: 'InMoov parts in 3D', no: 'InMoov-deler i 3D', kind: 'page', href: base + 'builds/inmoov.html#parts' },
     { en: 'Try the permission ladder', no: 'Prøv tillatelsesstigen', kind: 'page', href: base + 'log/permission-ladder.html#try' },
     { en: 'Lab activity', no: 'Aktivitet i laben', kind: 'section', href: home + '#activity' },
-    { en: 'RSS feed for the log', no: 'RSS-feed for loggen', kind: 'action', href: base + 'feed.xml' },
+    { en: 'RSS feed for the log', no: 'RSS-feed for loggen', kind: 'page', href: base + 'log/follow.html' },
     { en: 'Download CV', no: 'Last ned CV', kind: 'action', href: () => base + (lang() === 'no' ? 'oscar-cv-no.pdf' : 'oscar-cv.pdf') },
     { en: 'Email Oscar', no: 'Send e-post til Oscar', kind: 'action', href: 'mailto:Oscarskjaevestad@gmail.com' },
     { en: 'Switch light / dark', no: 'Bytt lys / mørk', kind: 'action', run: toggleTheme },

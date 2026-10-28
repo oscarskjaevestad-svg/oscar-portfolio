@@ -12,7 +12,7 @@ and, if the homepage changed, python tools/build-assets.py to re-print the CV.
 import sys
 from pathlib import Path
 from page_index import build as index
-from page_articles import ZERO, LEVEL, LADDER, JARVIS, INMOOV, lost
+from page_articles import ZERO, LEVEL, LADDER, JARVIS, INMOOV, FOLLOW, lost
 
 out = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parents[2]
 (out / "log").mkdir(exist_ok=True)
@@ -25,6 +25,7 @@ pages = {
     "log/permission-ladder.html": LADDER,
     "builds/jarvis.html": JARVIS,
     "builds/inmoov.html": INMOOV,
+    "log/follow.html": FOLLOW,
 }
 for path, html in pages.items():
     (out / path).write_text(html)

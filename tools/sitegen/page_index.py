@@ -321,7 +321,7 @@ def build():
       <h2 id="log-title">{ico("notebook")}{t("Log", "Logg")}</h2>
       {t("Notes from the bench — what broke, what I measured, and what I changed.",
          "Notater fra arbeidsbenken — hva som gikk galt, hva jeg målte, og hva jeg endret.", tag="p", cls="section-intro")}
-      <p class="mono log-feed"><a href="feed.xml">{ico("rss")}{t("Follow the log with RSS", "Følg loggen med RSS")}</a></p>
+      <p class="mono log-feed"><a href="log/follow.html">{ico("rss")}{t("Follow the log with RSS", "Følg loggen med RSS")}</a></p>
       <div class="entries">
         <article class="entry log-row">
           <div class="entry-gutter"><span class="mono">10.2026</span></div>

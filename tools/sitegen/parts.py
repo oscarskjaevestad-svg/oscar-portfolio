@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 # Bumped on every release, so returning visitors never run a stale script.
-VERSION = "2026-10-28.5"
+VERSION = "2026-10-28.6"
 
 ICONS = Path(__file__).resolve().parent / "icons"   # Tabler Icons 3.50.0, MIT
 
@@ -124,7 +124,7 @@ def footer(root, scripts=()):
     <p class="mono footer-links">
       <a href="mailto:Oscarskjaevestad@gmail.com">{ico("mail")}{t("Email", "E-post")}</a>
       <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener">{ico("brand-linkedin")}LinkedIn</a>
-      <a href="{root}feed.xml">{ico("rss")}RSS</a>
+      <a href="{root}log/follow.html">{ico("rss")}RSS</a>
     </p>
   </div>
 </footer>
