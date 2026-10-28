@@ -1,6 +1,6 @@
 # oscarns.com — design system
 
-**Direction: an engineering notebook.** A record of real work and real builds, written down plainly. Warm ink on a dark page by default, warm paper in light mode, one orange signal colour, and type doing the work that cards, glows and icons did before.
+**Direction: an engineering notebook.** A record of real work and real builds, written down plainly. Warm ink on a dark page by default, warm paper in light mode, one ink-blue signal colour — the blue of a ballpoint pen in a lab notebook — and type doing the work that cards, glows and icons did before.
 
 **Audience:** robotics and AI people first. Work leads, builds follow, everything else supports.
 
@@ -12,7 +12,9 @@
 
 ## Colour
 
-Warm neutrals only — no blue anywhere. One signal colour. Every value is a CSS variable in `style.css`; pages use the names, never raw values.
+Warm neutrals, and one ink-blue signal. The backgrounds stay warm, which is what keeps the blue reading as pen ink rather than the old navy-and-cyan tech look. Every value is a CSS variable in `style.css`; pages use the names, never raw values.
+
+**Rejected: orange.** The first version used orange (`#ff6a2b`) on near-black. Bright orange on black is Pornhub's palette, and once noticed it can't be unseen. Avoid orange-on-black pairings for the signal.
 
 | Token | Dark (default) | Light | Role |
 |---|---|---|---|
@@ -22,14 +24,14 @@ Warm neutrals only — no blue anywhere. One signal colour. Every value is a CSS
 | `--text` | `#ece6dc` | `#1d1a16` | Body and headings — the "ink" |
 | `--text-dim` | `#a39b8f` | `#4f4940` | Secondary text, descriptions |
 | `--text-faint` | `#8a8276` | `#6f685e` | Dates, meta, labels |
-| `--signal` | `#ff6a2b` | `#b23a0a` | Links, focus, live/in-progress status, the one accent |
+| `--signal` | `#8fa8ff` | `#2747b8` | Links, focus, live/in-progress status, the progress line — the one accent |
 | `--signal-ink` | `#141210` | `#f4f0e8` | Text on a signal background |
 | `--success` | `#7bc47f` | `#2f7a33` | Reserved; no current use |
 | `--error` | `#ef6b5b` | `#b42318` | Reserved; no current use |
 
-Contrast against `--bg`, calculated (WCAG 2.1): `--text` 15.1:1 dark / 15.3:1 light; `--text-dim` 6.8 / 7.8; `--text-faint` 4.9 / 4.8; `--signal` 6.5 / 5.3. Button text (`--signal-ink` on `--signal`) is 6.5 / 5.3. Everything used for text meets 4.5:1. The light-mode orange was darkened from `#c2410c` (4.56:1) to keep a real margin rather than scrape past.
+Contrast against `--bg`, calculated (WCAG 2.1): `--text` 15.1:1 dark / 15.3:1 light; `--text-dim` 6.8 / 7.8; `--text-faint` 4.9 / 4.8; `--signal` 8.2 / 6.9. Button text (`--signal-ink` on `--signal`) is 8.2 / 6.9. Everything used for text meets 4.5:1.
 
-The orange is used sparingly on purpose. If it appears more than a handful of times on a screen, it stops signalling.
+The blue is used sparingly on purpose. If it appears more than a handful of times on a screen, it stops signalling.
 
 ## Typography
 
@@ -80,7 +82,9 @@ A 4px scale: `--s-1` 4 · `--s-2` 8 · `--s-3` 12 · `--s-4` 16 · `--s-6` 24 ·
 
 **Entry** — the notebook's basic unit, used for jobs, builds, education and certifications. A hairline above, the gutter on the left (date range, then status), and on the right a title, a mono meta line (company · place), a short paragraph, an optional list, and tags.
 
-**Status.** Mono xs uppercase text, no pill: `LIVE` and `IN PROGRESS` in `--signal`, `COMPLETED` in `--text-dim`, `PLANNED` in `--text-faint`, `CURRENT` in `--signal`.
+**Status.** Mono xs uppercase text, no pill: `LIVE` and `IN PROGRESS` in `--signal`, `COMPLETED` in `--text-dim`, `PLANNED` in `--text-faint`, `CURRENT` in `--signal`. `LIVE` and `CURRENT` carry a 6px dot with a slow heartbeat (see Motion).
+
+**Links** also carry a resting 1px underline and, on hover, a 2px line that sweeps in from the left.
 
 **Tags.** A single mono line separated by `·`, in `--text-faint`. No chips.
 
@@ -95,4 +99,20 @@ A 4px scale: `--s-1` 4 · `--s-2` 8 · `--s-3` 12 · `--s-4` 16 · `--s-6` 24 ·
 
 ## Motion
 
-None beyond a 150ms colour transition when the theme changes. No scroll reveals, no typewriter, no pulsing. `prefers-reduced-motion` turns even the transition off.
+Expressive, but always in service of reading, and always on the notebook's terms: things are *written* and *drawn*, not bounced.
+
+| What | How | Timing |
+|---|---|---|
+| Intro | The name and the location line write themselves in left to right (`clip-path`); the lead, roles and buttons settle up 8px. | 0.6–0.7s, 140ms apart |
+| Hairlines | Every rule between entries and sections draws from left to right as it reaches the screen. | 0.9s |
+| Entries | The gutter and content of each entry slide up 14px and fade in, one entry after another. | 0.6s, 70ms stagger |
+| Status | The dot beside `LIVE` and `CURRENT` pulses slowly. | 2.6s cycle |
+| Progress | A 2px `--signal` line under the nav fills as you read down the page. | follows scroll |
+| Links | The hover underline sweeps in. | 0.35s |
+| Theme | Light/dark crossfades (View Transitions, where supported). | 0.35s |
+
+**Rules that keep it accessible:**
+- Content is only hidden for animation once the page script has run (`.js` on `<html>`). With JavaScript off, everything is simply there.
+- `prefers-reduced-motion: reduce` turns all of it off, including the progress line.
+- An entry that receives keyboard focus appears immediately, even if its animation hasn't run (`:focus-within`). The keyboard never lands on something invisible.
+- No motion loops except the status heartbeat, which is slow and small.

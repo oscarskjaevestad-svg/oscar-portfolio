@@ -11,7 +11,7 @@
   --text:        #ece6dc;
   --text-dim:    #a39b8f;
   --text-faint:  #8a8276;
-  --signal:      #ff6a2b;
+  --signal:      #8fa8ff;
   --signal-ink:  #141210;
   --success:     #7bc47f;
   --error:       #ef6b5b;
@@ -48,7 +48,7 @@
   --text:        #1d1a16;
   --text-dim:    #4f4940;
   --text-faint:  #6f685e;
-  --signal:      #b23a0a;
+  --signal:      #2747b8;
   --signal-ink:  #f4f0e8;
   --success:     #2f7a33;
   --error:       #b42318;
@@ -89,11 +89,20 @@ ul { padding: 0; list-style: none; }
 
 a {
   color: var(--signal);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-decoration: none;
+  background-image:
+    linear-gradient(currentColor, currentColor),
+    linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%, 0 100%;
+  background-size: 100% 1px, 0% 2px;
+  padding-bottom: 2px;
+  transition: background-size .35s cubic-bezier(.2,.7,.2,1);
 }
-a:hover { text-decoration-thickness: 2px; }
+a:hover { background-size: 100% 1px, 100% 2px; }
+
+/* the nav and buttons carry their own hover, not the sweep */
+.nav-name, .nav-links a, .btn, .skip-link { background-image: none; padding-bottom: 0; }
 
 :focus-visible {
   outline: 2px solid var(--signal);
@@ -388,8 +397,114 @@ a:hover { text-decoration-thickness: 2px; }
   .nav-inner { flex-direction: column; align-items: flex-start; }
 }
 
-/* ── Motion ─────────────────────────────────────────────── */
+/* ── Motion ─────────────────────────────────────────────
+   Everything that hides content until it animates applies only
+   once the page script has run (.js on <html>) and only when the
+   visitor has not asked for reduced motion. Without either, the
+   page is simply all there. */
 
+/* a reading-progress line along the bottom of the nav */
+.progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 100%;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* a quiet heartbeat beside anything live or current */
+.status-live::before,
+.status-current::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: var(--s-2);
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: 1px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* the intro writes itself in, line by line */
+  .js .intro .write {
+    clip-path: inset(0 100% 0 0);
+    animation: write .7s cubic-bezier(.2,.7,.2,1) forwards;
+    animation-delay: calc(var(--line, 0) * 140ms + 120ms);
+  }
+  .js .intro .settle {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: settle .6s cubic-bezier(.2,.7,.2,1) forwards;
+    animation-delay: calc(var(--line, 0) * 140ms + 120ms);
+  }
+
+  /* hairlines draw from left to right as they come into view */
+  .js .entry,
+  .js .section { border-top-color: transparent; position: relative; }
+  .js .entry::before,
+  .js .section::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 100%;
+    height: 1px;
+    background: var(--rule);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .js .entries > .entry:first-child::before { display: none; }
+  .js .in::before { transform: scaleX(1); }
+
+  /* entries slide in, one after another */
+  .js .entry > * {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+    transition-delay: calc(var(--i, 0) * 70ms + 120ms);
+  }
+  .js .entry.in > *,
+  .js .entry:focus-within > * { opacity: 1; transform: none; }
+
+  .js .section > .wrap > h2,
+  .js .section-intro,
+  .js .prose {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .js .section.in > .wrap > h2,
+  .js .section.in .section-intro,
+  .js .section.in .prose { opacity: 1; transform: none; }
+
+  .status-live::before,
+  .status-current::before { animation: heartbeat 2.6s ease-in-out infinite; }
+
+  .btn { transition: filter .2s ease, border-color .2s ease, transform .2s ease; }
+  .btn:hover { transform: translateY(-1px); }
+  .nav-links a, .theme-switch { transition: color .2s ease; }
+}
+
+@keyframes write  { to { clip-path: inset(0 0 0 0); } }
+@keyframes settle { to { opacity: 1; transform: none; } }
+@keyframes heartbeat {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%      { opacity: .35; transform: scale(.8); }
+}
+
+/* the light/dark switch crossfades where the browser supports it */
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: .35s; }
+
+/* last, so it wins: no motion for anyone who asked for none */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .progress { display: none; }
 }

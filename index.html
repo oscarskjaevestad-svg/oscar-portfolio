@@ -21,6 +21,7 @@
   <!-- The saved theme is applied before the first paint, so a light-mode
        visitor never sees a flash of the dark default. -->
   <script>
+    document.documentElement.classList.add('js');
     try {
       if (localStorage.getItem('theme') === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
@@ -38,6 +39,7 @@
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
   <div class="wrap nav-inner">
     <a class="nav-name" href="#top">Oscar Skjævestad</a>
     <nav class="nav-links" aria-label="Sections">
@@ -55,15 +57,15 @@
   <!-- ── Intro ── -->
   <section class="intro" id="top">
     <div class="wrap">
-      <h1>Oscar Skjævestad</h1>
-      <p class="lead">Team lead for IT and robot deployment at Wybe Robotics. I deploy humanoid robots, run the GPU fleet that trains them, and build the data pipeline that teaches them their jobs.</p>
+      <h1 class="write" style="--line: 0">Oscar Skjævestad</h1>
+      <p class="lead settle" style="--line: 1">Team lead for IT and robot deployment at Wybe Robotics. I deploy humanoid robots, run the GPU fleet that trains them, and build the data pipeline that teaches them their jobs.</p>
 
       <div class="intro-meta">
-        <p class="mono">Moss, Norway · At Wybe Robotics since 06.2026</p>
-        <p class="mono roles">IT &amp; robot deployment lead / AI infrastructure / IT technician / infrastructure engineer / systems administrator / computer electronics tech / home lab builder</p>
+        <p class="mono write" style="--line: 3">Moss, Norway · At Wybe Robotics since 06.2026</p>
+        <p class="mono roles settle" style="--line: 4">IT &amp; robot deployment lead / AI infrastructure / IT technician / infrastructure engineer / systems administrator / computer electronics tech / home lab builder</p>
       </div>
 
-      <div class="actions">
+      <div class="actions settle" style="--line: 5">
         <a class="btn btn-primary" href="oscar-cv.pdf">Download CV</a>
         <a class="quiet" href="mailto:Oscarskjaevestad@gmail.com">Email →</a>
         <a class="quiet" href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener">LinkedIn →</a>
@@ -403,7 +405,9 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // Theme: dark by default, light on request, remembered.
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Theme: dark by default, light on request, remembered, crossfaded.
   const root = document.documentElement;
   const toggle = document.getElementById('theme-switch');
   const label = () => {
@@ -411,13 +415,50 @@
     toggle.textContent = next;
     toggle.setAttribute('aria-label', 'Switch to ' + next + ' mode');
   };
-  label();
-  toggle.addEventListener('click', () => {
+  const flip = () => {
     const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) { /* not remembered */ }
     label();
+  };
+  label();
+  toggle.addEventListener('click', () => {
+    if (document.startViewTransition && !calm) document.startViewTransition(flip);
+    else flip();
   });
+
+  // Entries and sections draw in as they reach the screen. Each list
+  // numbers its entries so they arrive one after another.
+  document.querySelectorAll('.entries').forEach(list => {
+    [...list.children].forEach((entry, i) => entry.style.setProperty('--i', i % 6));
+  });
+  const watched = document.querySelectorAll('.entry, .section');
+  if ('IntersectionObserver' in window && !calm) {
+    const seen = new IntersectionObserver(items => {
+      items.forEach(item => {
+        if (item.isIntersecting) {
+          item.target.classList.add('in');
+          seen.unobserve(item.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    watched.forEach(el => seen.observe(el));
+  } else {
+    watched.forEach(el => el.classList.add('in'));
+  }
+
+  // How far down the page you are, as a line under the nav.
+  const progress = document.getElementById('progress');
+  let pending = false;
+  const measure = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ')';
+    pending = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!pending) { pending = true; requestAnimationFrame(measure); }
+  }, { passive: true });
+  measure();
 </script>
 </body>
 </html>
