@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Follow the log — Oscar Skjævestad</title>
+  <meta name="description" content="Get new log entries in a feed reader: no account, no mailing list, no tracking." />
+  <meta name="author" content="Oscar Skjævestad" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / link previews -->
+  <meta property="og:title" content="Follow the log" />
+  <meta property="og:description" content="Get new log entries in a feed reader: no account, no mailing list, no tracking." />
+  <meta property="og:url" content="https://oscarns.com/log/follow.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://oscarns.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead at Wybe Robotics" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="https://oscarns.com/log/follow.html" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="alternate" type="application/atom+xml" title="Oscar Skjævestad — Log" href="https://oscarns.com/feed.xml" />
+  <meta name="theme-color" content="#141210" />
+
+  <!-- Before the first paint: mark that scripts run, and apply the saved
+       theme and language, so nothing flashes in the wrong one. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var store = {};
+      try { store.theme = localStorage.getItem('theme'); store.lang = localStorage.getItem('lang'); } catch (e) {}
+      if (store.theme === 'light') root.setAttribute('data-theme', 'light');
+      var asked = new URLSearchParams(location.search).get('lang');
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = asked || store.lang || (/^(nb|nn|no)\b/.test(nav) ? 'no' : 'en');
+      if (lang === 'no') { root.setAttribute('data-lang', 'no'); root.setAttribute('lang', 'nb'); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=2026-10-28.6" />
+</head>
+<body>
+<!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
+
+<span lang="en"><a class="skip-link" href="#main">Skip to content</a></span><span lang="nb"><a class="skip-link" href="#main">Hopp til innhold</a></span>
+
+<header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
+  <div class="wrap nav-inner">
+    <a class="nav-name" href="../#top">Oscar Skjævestad</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="../#work"><span lang="en">Work</span><span lang="nb">Arbeid</span></a>
+      <a href="../#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a>
+      <a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a>
+      <a href="../#skills"><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></a>
+      <a href="../#contact"><span lang="en">Contact</span><span lang="nb">Kontakt</span></a>
+      <span class="nav-tools">
+        <button class="nav-tool theme-switch" id="theme-switch" type="button">light</button>
+        <button class="nav-tool" id="lang-switch" type="button">no</button>
+        <button class="nav-tool palette-open" id="palette-open" type="button" aria-haspopup="dialog"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 9a2 2 0 1 1 2 -2v10a2 2 0 1 1 -2 -2h10a2 2 0 1 1 -2 2v-10a2 2 0 1 1 2 2h-10" /></svg></span><span class="kbd-hint">K</span></button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <header class="page-head" id="top">
+    <div class="wrap">
+      <p class="mono crumb"><a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a> / <span lang="en">RSS</span><span lang="nb">RSS</span></p>
+      <h1><span lang="en">Follow the log</span><span lang="nb">Følg loggen</span></h1>
+      <p class="lead" lang="en">New entries in the log, in whatever app you read feeds with. No account, no mailing list, nothing tracked.</p><p class="lead" lang="nb">Nye innlegg i loggen, i den appen du leser feeder med. Ingen konto, ingen e-postliste, ingenting som spores.</p>
+    </div>
+  </header>
+  <article class="wrap article">
+
+    <h2 lang="en">Paste this into a feed reader</h2><h2 lang="nb">Lim inn dette i en feedleser</h2>
+    <div class="feed-copy">
+      <code class="feed-url">https://oscarns.com/feed.xml</code>
+      <button type="button" class="btn btn-secondary" data-copy="https://oscarns.com/feed.xml"><span lang="en">Copy</span><span lang="nb">Kopier</span></button>
+    </div>
+    <p lang="en">No reader yet? NetNewsWire is free on Mac and iPhone; Feedly and Inoreader work in any browser. Add the address above and new entries turn up there on their own.</p><p lang="nb">Ingen leser ennå? NetNewsWire er gratis på Mac og iPhone; Feedly og Inoreader fungerer i alle nettlesere. Legg til adressen over, så dukker nye innlegg opp der av seg selv.</p>
+
+    <h2 lang="en">What’s in it so far</h2><h2 lang="nb">Hva som er der så langt</h2>
+    <ul class="feed-list">
+      <li><a href="permission-ladder.html"><span lang="en">A voice assistant that can’t do more than it’s allowed to</span><span lang="nb">En stemmeassistent som ikke kan gjøre mer enn den har lov til</span></a> <span class="mono">10.2026</span></li>
+      <li><a href="zero-support-roofs.html"><span lang="en">Zero support roofs: why a nine-hour print failed</span><span lang="nb">Null støttetak: hvorfor en ni timers print feilet</span></a> <span class="mono">09.2026</span></li>
+      <li><a href="levelling-the-bed.html"><span lang="en">Levelling a 420 mm bed by measurement</span><span lang="nb">Nivellering av en 420 mm printeplate etter mål</span></a> <span class="mono">09.2026</span></li>
+    </ul>
+    <p class="mono lab-note" lang="en">The feed is in English; the site is in both.</p><p class="mono lab-note" lang="nb">Feeden er på engelsk; siden er på begge språk.</p>
+
+    
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
+    <p class="mono footer-links">
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
+      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
+      <a href="../log/follow.html"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M4 4a16 16 0 0 1 16 16" /><path d="M4 11a9 9 0 0 1 9 9" /></svg></span>RSS</a>
+    </p>
+  </div>
+</footer>
+
+<script src="../site.js?v=2026-10-28.6"></script>
+</body>
+</html>

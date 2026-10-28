@@ -196,6 +196,17 @@
       .catch(() => { /* the section stays hidden */ });
   }
 
+  /* ── Copy buttons (the feed address) ── */
+
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', () => {
+    const done = () => {
+      const was = b.innerHTML;
+      b.textContent = lang() === 'no' ? 'Kopiert' : 'Copied';
+      setTimeout(() => { b.innerHTML = was; }, 1600);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.copy).then(done, () => {});
+  }));
+
   /* ── A hairline under the nav once the page has moved ── */
 
   const nav = $('nav');
@@ -337,7 +348,7 @@
     { en: 'InMoov parts in 3D', no: 'InMoov-deler i 3D', kind: 'page', href: base + 'builds/inmoov.html#parts' },
     { en: 'Try the permission ladder', no: 'Prøv tillatelsesstigen', kind: 'page', href: base + 'log/permission-ladder.html#try' },
     { en: 'Lab activity', no: 'Aktivitet i laben', kind: 'section', href: home + '#activity' },
-    { en: 'RSS feed for the log', no: 'RSS-feed for loggen', kind: 'action', href: base + 'feed.xml' },
+    { en: 'RSS feed for the log', no: 'RSS-feed for loggen', kind: 'page', href: base + 'log/follow.html' },
     { en: 'Download CV', no: 'Last ned CV', kind: 'action', href: () => base + (lang() === 'no' ? 'oscar-cv-no.pdf' : 'oscar-cv.pdf') },
     { en: 'Email Oscar', no: 'Send e-post til Oscar', kind: 'action', href: 'mailto:Oscarskjaevestad@gmail.com' },
     { en: 'Switch light / dark', no: 'Bytt lys / mørk', kind: 'action', run: toggleTheme },
@@ -377,34 +388,76 @@
     return 50 - Math.min(gaps, 49);
   };
 
-  /* ── Say hello: a few things J.A.R.V.I.S. answers from the palette ── */
+  /* ── Say hello: a few things J.A.R.V.I.S. answers from the palette ──
+     The lines live in voice/lines.json; voice/en/<id>.mp3 and
+     voice/no/<id>.mp3 are the same lines recorded in the real Jarvis's
+     voice (tools/jarvis_voice.py). Sound only ever follows something the
+     visitor typed, and the toast has a mute that is remembered. A missing
+     clip just means silence. */
 
-  let toast = null, toastTimer = 0, greeted = 0;
-  const reply = (en, no) => {
+  let lines = null;
+  const loadLines = () => lines || (lines = fetch(base + 'voice/lines.json').then(r => (r.ok ? r.json() : {})).catch(() => ({})));
+  let soundOn = true;
+  try { soundOn = localStorage.getItem('jarvis-sound') !== 'off'; } catch (e) { /* default on */ }
+
+  let toast = null, toastTimer = 0, greeted = 0, playing = null;
+  const hush = () => { if (playing) { playing.pause(); playing = null; } if (toast) toast.classList.remove('speaking'); };
+  const muteLabel = () => {
+    const b = toast && toast.querySelector('.jarvis-mute');
+    if (!b) return;
+    const no = lang() === 'no';
+    b.textContent = soundOn ? (no ? 'lyd av' : 'mute') : (no ? 'lyd på' : 'unmute');
+    b.setAttribute('aria-pressed', String(!soundOn));
+  };
+  const play = ids => {
+    hush();
+    if (!soundOn) return;
+    const queue = ids.slice();
+    const next = () => {
+      const id = queue.shift();
+      if (!id) { hush(); return; }
+      const a = new Audio(base + 'voice/' + lang() + '/' + id + '.mp3');
+      playing = a;
+      a.addEventListener('ended', () => { if (playing === a) next(); });
+      a.addEventListener('error', () => { if (playing === a) next(); });
+      a.play().then(() => toast.classList.add('speaking')).catch(() => hush());
+    };
+    next();
+  };
+  const say = async ids => {
+    const all = await loadLines();
+    const text = k => ids.map(id => (all[id] ? all[id][k] : '')).join(' ');
     if (!toast) {
       toast = document.createElement('div');
       toast.className = 'jarvis-toast';
       toast.setAttribute('role', 'status');
       toast.innerHTML = '<span class="jarvis-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>' +
-        '<span class="jarvis-text"></span>';
+        '<span class="jarvis-text"></span><button type="button" class="jarvis-mute mono"></button>';
+      toast.querySelector('.jarvis-mute').addEventListener('click', () => {
+        soundOn = !soundOn;
+        try { localStorage.setItem('jarvis-sound', soundOn ? 'on' : 'off'); } catch (e) { /* not remembered */ }
+        if (!soundOn) hush();
+        muteLabel();
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('on'), 5000);
+      });
       document.body.append(toast);
     }
-    toast.querySelector('.jarvis-text').innerHTML = '<span class="mono jarvis-name">J.A.R.V.I.S.</span> ' +
-      '<span lang="en">' + en + '</span><span lang="nb">' + no + '</span>';
+    const span = (l, t) => { const e = document.createElement('span'); e.lang = l; e.textContent = t; return e; };
+    const body = toast.querySelector('.jarvis-text');
+    body.textContent = '';
+    const name = document.createElement('span');
+    name.className = 'mono jarvis-name';
+    name.textContent = 'J.A.R.V.I.S. ';
+    body.append(name, span('en', text('en')), span('nb', text('no')));
+    muteLabel();
     toast.classList.remove('on');
     void toast.offsetWidth;  // restart the entrance
     toast.classList.add('on');
+    play(ids);
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('on'), 7000);
+    toastTimer = setTimeout(() => { toast.classList.remove('on'); hush(); }, 9000);
   };
-  const GREETINGS = [
-    ['At your service. Though the real me lives on a Raspberry Pi, not in your browser.',
-     'Til tjeneste. Selv om den ekte meg bor på en Raspberry Pi, ikke i nettleseren din.'],
-    ['Listening. Well — not really. In here I’m a few lines of JavaScript with no microphone.',
-     'Jeg lytter. Vel — egentlig ikke. Her inne er jeg noen linjer JavaScript uten mikrofon.'],
-    ['Hello. I’d offer to dim the lights, but I’m only allowed to touch Oscar’s.',
-     'Hei. Jeg ville tilbudt å dimme lyset, men jeg får bare røre Oscars.'],
-  ];
   const setTheme = want => {
     if (root.getAttribute('data-theme') === want) return false;
     toggleTheme();
@@ -414,40 +467,30 @@
     const q = query.toLowerCase().replace(/[^a-zæøå0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
     if (!q) return null;
     const item = (en, no, run) => ({ label: lang() === 'no' ? no : en, kind: 'jarvis', run });
-    if (/pod bay/.test(q)) {
-      return item('Open the pod bay doors', 'Åpne dørene', () => reply(
-        'I’m sorry, I can’t do that. There’s no tool for doors — I checked.',
-        'Beklager, det kan jeg ikke. Det finnes ikke noe verktøy for dører — jeg sjekket.'));
-    }
+    if (/pod bay/.test(q)) return item('Open the pod bay doors', 'Åpne dørene', () => say(['pod-bay']));
     if (/\b(lights?|lys)\b.*\b(off|av)\b/.test(q)) {
-      return item('Lights off', 'Lys av', () => (setTheme('dark')
-        ? reply('Lights off. That’s a safe action, so I didn’t need to ask.', 'Lyset er av. Det er en trygg handling, så jeg trengte ikke å spørre.')
-        : reply('They’re already off.', 'Det er allerede av.')));
+      return item('Lights off', 'Lys av', () => say([setTheme('dark') ? 'lights-off' : 'lights-already-off']));
     }
     if (/\b(lights?|lys)\b.*\b(on|på)(\s|$)/.test(q)) {
-      return item('Lights on', 'Lys på', () => (setTheme('light')
-        ? reply('Lights on. Safe action — no confirmation needed.', 'Lyset er på. Trygg handling — ingen bekreftelse nødvendig.')
-        : reply('They’re already on.', 'Det er allerede på.')));
+      return item('Lights on', 'Lys på', () => say([setTheme('light') ? 'lights-on' : 'lights-already-on']));
     }
     if (/^(jarvis )?status$|^how are you|^hvordan går det/.test(q)) {
       return item('J.A.R.V.I.S., status', 'J.A.R.V.I.S., status', () => {
         fetch(base + 'status.json', { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).then(st => {
           const live = st && st.jarvis && st.jarvis.state === 'live';
           const stage = st && st.inmoov && st.inmoov.stage;
-          const S = { electronics: ['wiring', 'kobles'], print: ['printing', 'printes'], assemble: ['being assembled', 'monteres'], code: ['being programmed', 'programmeres'], done: ['finished', 'ferdig'] }[stage];
-          reply((live ? 'All systems live.' : 'The real me is offline right now.') + (S ? ' The InMoov hand is ' + S[0] + '.' : ''),
-                (live ? 'Alle systemer er live.' : 'Den ekte meg er frakoblet akkurat nå.') + (S ? ' InMoov-hånden ' + S[1] + '.' : ''));
-        }).catch(() => reply('I can’t reach my own status file. Embarrassing.', 'Jeg når ikke min egen statusfil. Pinlig.'));
+          const ids = [live ? 'status-live' : 'status-offline'];
+          if (['electronics', 'print', 'assemble', 'code', 'done'].includes(stage)) ids.push('stage-' + stage);
+          say(ids);
+        }).catch(() => say(['status-unreachable']));
       });
     }
     if (/\b(hey|hi|hello|hei|hallo|ok|okay|yo)\b.*\bjarvis\b|^jarvis$/.test(q)) {
-      return item('Hey, J.A.R.V.I.S.', 'Hei, J.A.R.V.I.S.', () => {
-        const g = GREETINGS[greeted++ % GREETINGS.length];
-        reply(g[0], g[1]);
-      });
+      return item('Hey, J.A.R.V.I.S.', 'Hei, J.A.R.V.I.S.', () => say(['greet-' + (greeted++ % 3 + 1)]));
     }
     return null;
   };
+  document.addEventListener('langchange', muteLabel);
 
   let palette = null;
   let opener = null;
