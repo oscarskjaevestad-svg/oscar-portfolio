@@ -68,7 +68,7 @@ def build():
          "Teamleder for IT og robotutrulling i Wybe Robotics. Jeg setter humanoide roboter i drift, driver GPU-flåten som trener dem, og bygger datapipelinen som lærer dem jobben sin.",
          tag="p", cls="lead settle\" style=\"--line: 1")}
 
-      <p class="print-only print-contact mono">Oscarskjaevestad@gmail.com · +47 918 00 844 · linkedin.com/in/oscar-skjaevestad · oscarns.com</p>
+      <p class="print-only print-contact mono">Oscarskjaevestad@gmail.com · linkedin.com/in/oscar-skjaevestad · oscarns.com</p>
 
       <div class="intro-meta">
         {t("Moss, Norway · At Wybe Robotics since 06.2026", "Moss · I Wybe Robotics siden 06.2026", tag="p", cls="mono write\" style=\"--line: 3")}
@@ -450,10 +450,6 @@ def build():
         <div class="entry contact-row">
           <div class="entry-gutter"><span class="mono with-ico">{ico("mail")}{t("Email", "E-post")}</span></div>
           <div class="entry-body"><a href="mailto:Oscarskjaevestad@gmail.com">Oscarskjaevestad@gmail.com</a></div>
-        </div>
-        <div class="entry contact-row">
-          <div class="entry-gutter"><span class="mono with-ico">{ico("phone")}{t("Phone", "Telefon")}</span></div>
-          <div class="entry-body"><a href="tel:+4791800844">+47 918 00 844</a></div>
         </div>
         <div class="entry contact-row">
           <div class="entry-gutter"><span class="mono with-ico">{ico("brand-linkedin")}LinkedIn</span></div>
