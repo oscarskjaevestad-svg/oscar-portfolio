@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A voice assistant that can’t do more than it’s allowed to — Oscar Skjævestad</title>
+  <meta name="description" content="How J.A.R.V.I.S. decides what it may touch, why every button goes through the same gate as a spoken request, and the test that once stopped a real printer." />
+  <meta name="author" content="Oscar Skjævestad" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / link previews -->
+  <meta property="og:title" content="A voice assistant that can’t do more than it’s allowed to" />
+  <meta property="og:description" content="How J.A.R.V.I.S. decides what it may touch, why every button goes through the same gate as a spoken request, and the test that once stopped a real printer." />
+  <meta property="og:url" content="https://oscarns.com/log/permission-ladder.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://oscarns.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead at Wybe Robotics" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="https://oscarns.com/log/permission-ladder.html" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <meta name="theme-color" content="#141210" />
+
+  <!-- Before the first paint: mark that scripts run, and apply the saved
+       theme and language, so nothing flashes in the wrong one. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var store = {};
+      try { store.theme = localStorage.getItem('theme'); store.lang = localStorage.getItem('lang'); } catch (e) {}
+      if (store.theme === 'light') root.setAttribute('data-theme', 'light');
+      var asked = new URLSearchParams(location.search).get('lang');
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = asked || store.lang || (/^(nb|nn|no)\b/.test(nav) ? 'no' : 'en');
+      if (lang === 'no') { root.setAttribute('data-lang', 'no'); root.setAttribute('lang', 'nb'); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=2026-10-28.4" />
+</head>
+<body>
+<!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
+
+<span lang="en"><a class="skip-link" href="#main">Skip to content</a></span><span lang="nb"><a class="skip-link" href="#main">Hopp til innhold</a></span>
+
+<header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
+  <div class="wrap nav-inner">
+    <a class="nav-name" href="../#top">Oscar Skjævestad</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="../#work"><span lang="en">Work</span><span lang="nb">Arbeid</span></a>
+      <a href="../#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a>
+      <a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a>
+      <a href="../#skills"><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></a>
+      <a href="../#contact"><span lang="en">Contact</span><span lang="nb">Kontakt</span></a>
+      <span class="nav-tools">
+        <button class="nav-tool theme-switch" id="theme-switch" type="button">light</button>
+        <button class="nav-tool" id="lang-switch" type="button">no</button>
+        <button class="nav-tool palette-open" id="palette-open" type="button" aria-haspopup="dialog"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 9a2 2 0 1 1 2 -2v10a2 2 0 1 1 -2 -2h10a2 2 0 1 1 -2 2v-10a2 2 0 1 1 2 2h-10" /></svg></span><span class="kbd-hint">K</span></button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <header class="page-head" id="top">
+    <div class="wrap">
+      <p class="mono crumb"><a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a> / <span lang="en">10.2026</span><span lang="nb">10.2026</span></p>
+      <h1><span lang="en">A voice assistant that can’t do more than it’s allowed to</span><span lang="nb">En stemmeassistent som ikke kan gjøre mer enn den har lov til</span></h1>
+      <p class="lead" lang="en">J.A.R.V.I.S. can switch my lights, run the TV, keep an eye on the heating and pause my 3D printer. Most of the work went into what it can’t do — and making sure nothing, not even its own dashboard, can talk it into more.</p><p class="lead" lang="nb">J.A.R.V.I.S. kan skru av og på lyset, styre TV-en, følge med på varmen og sette 3D-printeren på pause. Mesteparten av arbeidet gikk med til hva den ikke kan gjøre — og å sørge for at ingenting, ikke engang dens eget dashbord, kan lure den til mer.</p>
+    </div>
+  </header>
+  <article class="wrap article">
+
+    <div class="figures"><div class="figure"><p class="figure-value">4</p><p class="mono figure-label" lang="en">permission levels</p><p class="mono figure-label" lang="nb">tillatelsesnivåer</p></div><div class="figure"><p class="figure-value">500+</p><p class="mono figure-label" lang="en">automated tests</p><p class="mono figure-label" lang="nb">automatiske tester</p></div><div class="figure"><p class="figure-value">2 min</p><p class="mono figure-label" lang="en">to answer a confirmation</p><p class="mono figure-label" lang="nb">til å svare på en bekreftelse</p></div><div class="figure"><p class="figure-value">1</p><p class="mono figure-label" lang="en">gate for voice and buttons</p><p class="mono figure-label" lang="nb">port for stemme og knapper</p></div></div>
+
+    <h2 lang="en">A ladder, not a switch</h2><h2 lang="nb">En stige, ikke en bryter</h2>
+    <p lang="en">Every tool belongs to one of four levels: <strong>read</strong> (observe only), <strong>safe action</strong> (reversible and harmless, like a lamp), <strong>confirm required</strong> (physical or costly — a heater setpoint, cancelling a print) and <strong>disabled</strong>. Each installation has a ceiling in its configuration, and tools above it are never even offered to the language model.</p><p lang="nb">Hvert verktøy hører til ett av fire nivåer: <strong>lese</strong> (bare observere), <strong>trygg handling</strong> (reversibel og ufarlig, som en lampe), <strong>krever bekreftelse</strong> (fysisk eller kostbart — et temperaturpunkt på en ovn, å avbryte en print) og <strong>deaktivert</strong>. Hver installasjon har et tak i konfigurasjonen, og verktøy over det blir aldri engang tilbudt språkmodellen.</p>
+
+    <h2 lang="en">Don’t take the model’s word for it</h2><h2 lang="nb">Ikke stol på modellen</h2>
+    <p lang="en">The list the model sees is filtered, but a filtered list isn’t a control. Every call is checked again at the moment it runs: the permission level, the exact arguments the tool accepts, and the room — which has to come from an allow-list. The model names a room; it never names a device.</p><p lang="nb">Listen modellen ser er filtrert, men en filtrert liste er ikke en kontroll. Hvert kall sjekkes på nytt i det øyeblikket det kjøres: tillatelsesnivået, nøyaktig hvilke argumenter verktøyet godtar, og rommet — som må komme fra en godkjent liste. Modellen nevner et rom; den nevner aldri en enhet.</p>
+
+    <h2 lang="en">Asking instead of doing</h2><h2 lang="nb">Spørre i stedet for å gjøre</h2>
+    <p lang="en">An action that needs confirmation doesn’t happen; it turns into a question. Jarvis says exactly what it’s about to do and waits. The proposal belongs to one conversation, expires after two minutes, and can be answered once. A “yes” said in a different conversation can’t approve it — and if the ceiling is lowered between the question and the answer, the yes does nothing.</p><p lang="nb">En handling som krever bekreftelse skjer ikke; den blir et spørsmål. Jarvis sier nøyaktig hva den skal til å gjøre, og venter. Forslaget hører til én samtale, utløper etter to minutter, og kan besvares én gang. Et «ja» i en annen samtale kan ikke godkjenne det — og hvis taket senkes mellom spørsmålet og svaret, gjør ja-et ingenting.</p>
+
+    <h2 lang="en">Buttons go through the same gate</h2><h2 lang="nb">Knapper går gjennom samme port</h2>
+    <p lang="en">The dashboard has controls for the lights, TV, routines and the printer. Every button calls the same function a spoken request reaches, so it can never do more than Jarvis could be asked to do. On top of that, the dashboard has its own short list: starting a print, slicing, probing the bed and the emergency stop never get a button, whatever the ceiling.</p><p lang="nb">Dashbordet har kontroller for lys, TV, rutiner og printeren. Hver knapp kaller den samme funksjonen som en muntlig forespørsel når, så den kan aldri gjøre mer enn Jarvis kunne blitt bedt om. I tillegg har dashbordet sin egen korte liste: å starte en print, slicing, måling av printeplaten og nødstopp får aldri en knapp, uansett tak.</p>
+
+    <h2 lang="en">Two things the tests caught</h2><h2 lang="nb">To ting testene fanget</h2>
+    <p lang="en">Once, a test sent a real emergency stop to the real printer. It only failed because my laptop happened to be on a different network. Now the test suite refuses any attempt to reach the printer at all.</p><p lang="nb">En gang sendte en test et ekte nødstopp til den ekte printeren. Den feilet bare fordi laptopen min tilfeldigvis var på et annet nettverk. Nå nekter testsuiten ethvert forsøk på å nå printeren i det hele tatt.</p>
+    <p lang="en">Later, a review of the dashboard found that its confirm button checked who was asking and the one-time token — but not what was being confirmed. A print proposed in a chat could, in principle, have been approved from a button. Now the dashboard’s list applies to the yes as well as the asking.</p><p lang="nb">Senere fant en gjennomgang av dashbordet at bekreft-knappen sjekket hvem som spurte og engangsnøkkelen — men ikke hva som ble bekreftet. En print foreslått i en chat kunne i prinsippet blitt godkjent fra en knapp. Nå gjelder dashbordets liste for ja-et like mye som for spørsmålet.</p>
+
+    <div class="lesson"><p lang="en">The interesting part of an assistant that controls real things isn’t what it can do. It’s making sure every path — voice, chat and buttons — meets the same checks, in one place.</p><p lang="nb">Det interessante med en assistent som styrer ekte ting er ikke hva den kan gjøre. Det er å sørge for at hver vei inn — stemme, chat og knapper — møter de samme sjekkene, på ett sted.</p></div>
+    <p class="more"><span lang="en"><a href="../builds/jarvis.html">How J.A.R.V.I.S. is built →</a></span><span lang="nb"><a href="../builds/jarvis.html">Slik er J.A.R.V.I.S. bygget →</a></span></p>
+
+    <nav class="article-nav mono" aria-label="More"><a href="zero-support-roofs.html">← <span lang="en">Zero support roofs</span><span lang="nb">Null støttetak</span></a><span></span></nav>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
+    <p class="mono footer-links">
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
+      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
+    </p>
+  </div>
+</footer>
+
+<script src="../site.js?v=2026-10-28.4"></script>
+</body>
+</html>

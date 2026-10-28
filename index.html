@@ -1,54 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Oscar Skjævestad — IT & Robot Deployment Lead</title>
+  <title>Oscar Skjævestad — IT &amp; Robot Deployment Lead</title>
   <meta name="description" content="Oscar Skjævestad — Team Lead for IT &amp; Robot Deployment at Wybe Robotics in Moss, Norway. Humanoid robot deployment, GPU training infrastructure and enterprise IT." />
   <meta name="keywords" content="Oscar Skjævestad, Robot Deployment, Humanoid Robots, AI Infrastructure, Robotics, IT Infrastructure, IT Technician, Moss, Norway" />
   <meta name="author" content="Oscar Skjævestad" />
   <meta name="robots" content="index, follow" />
 
-  <!-- Open Graph -->
+  <!-- Open Graph / link previews -->
   <meta property="og:title" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead" />
   <meta property="og:description" content="Deploying humanoid robots and building the AI infrastructure that teaches them their jobs. Based in Moss, Norway." />
-  <meta property="og:url" content="https://oscarns.com" />
+  <meta property="og:url" content="https://oscarns.com/" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://oscarns.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead at Wybe Robotics" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://oscarns.com" />
+  <link rel="canonical" href="https://oscarns.com/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#141210" />
 
-  <!-- The saved theme is applied before the first paint, so a light-mode
-       visitor never sees a flash of the dark default. -->
+  <!-- Before the first paint: mark that scripts run, and apply the saved
+       theme and language, so nothing flashes in the wrong one. -->
   <script>
-    document.documentElement.classList.add('js');
-    try {
-      if (localStorage.getItem('theme') === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    } catch (e) { /* storage blocked: stay on the dark default */ }
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var store = {};
+      try { store.theme = localStorage.getItem('theme'); store.lang = localStorage.getItem('lang'); } catch (e) {}
+      if (store.theme === 'light') root.setAttribute('data-theme', 'light');
+      var asked = new URLSearchParams(location.search).get('lang');
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = asked || store.lang || (/^(nb|nn|no)\b/.test(nav) ? 'no' : 'en');
+      if (lang === 'no') { root.setAttribute('data-lang', 'no'); root.setAttribute('lang', 'nb'); }
+    })();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2026-10-28.4" />
 </head>
 <body>
 <!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
 
-<a class="skip-link" href="#main">Skip to content</a>
+<span lang="en"><a class="skip-link" href="#main">Skip to content</a></span><span lang="nb"><a class="skip-link" href="#main">Hopp til innhold</a></span>
 
 <header class="nav" id="nav">
   <span class="progress" id="progress" aria-hidden="true"></span>
   <div class="wrap nav-inner">
     <a class="nav-name" href="#top">Oscar Skjævestad</a>
     <nav class="nav-links" aria-label="Sections">
-      <a href="#work">Work</a>
-      <a href="#builds">Builds</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-      <button class="theme-switch" id="theme-switch" type="button" aria-label="Switch to light mode">light</button>
+      <a href="#work"><span lang="en">Work</span><span lang="nb">Arbeid</span></a>
+      <a href="#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a>
+      <a href="#log"><span lang="en">Log</span><span lang="nb">Logg</span></a>
+      <a href="#skills"><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></a>
+      <a href="#contact"><span lang="en">Contact</span><span lang="nb">Kontakt</span></a>
+      <span class="nav-tools">
+        <button class="nav-tool theme-switch" id="theme-switch" type="button">light</button>
+        <button class="nav-tool" id="lang-switch" type="button">no</button>
+        <button class="nav-tool palette-open" id="palette-open" type="button" aria-haspopup="dialog"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 9a2 2 0 1 1 2 -2v10a2 2 0 1 1 -2 -2h10a2 2 0 1 1 -2 2v-10a2 2 0 1 1 2 2h-10" /></svg></span><span class="kbd-hint">K</span></button>
+      </span>
     </nav>
   </div>
 </header>
@@ -59,54 +77,57 @@
   <section class="intro" id="top">
     <div class="wrap">
       <h1 class="write" style="--line: 0">Oscar Skjævestad</h1>
-      <p class="lead settle" style="--line: 1">Team lead for IT and robot deployment at Wybe Robotics. I deploy humanoid robots, run the GPU fleet that trains them, and build the data pipeline that teaches them their jobs.</p>
+      <p class="lead settle" style="--line: 1" lang="en">Team lead for IT and robot deployment at Wybe Robotics. I deploy humanoid robots, run the GPU fleet that trains them, and build the data pipeline that teaches them their jobs.</p><p class="lead settle" style="--line: 1" lang="nb">Teamleder for IT og robotutrulling i Wybe Robotics. Jeg setter humanoide roboter i drift, driver GPU-flåten som trener dem, og bygger datapipelinen som lærer dem jobben sin.</p>
+
+      <p class="print-only print-contact mono">Oscarskjaevestad@gmail.com · +47 918 00 844 · linkedin.com/in/oscar-skjaevestad · oscarns.com</p>
 
       <div class="intro-meta">
-        <p class="mono write" style="--line: 3">Moss, Norway · At Wybe Robotics since 06.2026</p>
-        <p class="mono roles settle" style="--line: 4">IT &amp; robot deployment lead / AI infrastructure / IT technician / infrastructure engineer / systems administrator / computer electronics tech / home lab builder</p>
+        <p class="mono write" style="--line: 3" lang="en">Moss, Norway · At Wybe Robotics since 06.2026</p><p class="mono write" style="--line: 3" lang="nb">Moss · I Wybe Robotics siden 06.2026</p>
+        <p class="mono roles settle" style="--line: 4" lang="en">IT &amp; robot deployment lead / AI infrastructure / IT technician / infrastructure engineer / systems administrator / computer electronics tech / home lab builder</p><p class="mono roles settle" style="--line: 4" lang="nb">Leder for IT og robotutrulling / AI-infrastruktur / IT-tekniker / infrastrukturingeniør / systemadministrator / dataelektroniker / hjemmelab-bygger</p>
       </div>
 
       <div class="now settle" style="--line: 5" aria-labelledby="now-title">
         <div class="now-head">
-          <p class="mono now-title" id="now-title">Now</p>
+          <p class="mono now-title" id="now-title"><span lang="en">Now</span><span lang="nb">Nå</span></p>
           <p class="mono now-live"><span class="live-dot" aria-hidden="true"></span>Live · Moss <time id="moss-time">—</time></p>
         </div>
         <ul class="now-list">
           <li class="now-item">
             <span class="now-icon"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -4" /><path d="M12 2v2" /><path d="M9 12v9" /><path d="M15 12v9" /><path d="M5 16l4 -2" /><path d="M15 14l4 2" /><path d="M9 18h6" /><path d="M10 8v.01" /><path d="M14 8v.01" /></svg></span>
             <div>
-              <p class="now-what">Deploying humanoid robots</p>
-              <p class="mono now-sub"><a href="#work-wybe">Wybe Robotics</a> · since 06.2026</p>
+              <p class="now-what"><span lang="en">Deploying humanoid robots</span><span lang="nb">Setter humanoide roboter i drift</span></p>
+              <p class="mono now-sub"><a href="#work-wybe">Wybe Robotics</a> · <span lang="en">since 06.2026</span><span lang="nb">siden 06.2026</span></p>
             </div>
           </li>
           <li class="now-item">
             <span class="now-icon"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 13v-7.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M11 5.5v-2a1.5 1.5 0 1 1 3 0v8.5" /><path d="M14 5.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M17 7.5a1.5 1.5 0 0 1 3 0v8.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47" /></svg></span>
             <div>
-              <p class="now-what">Building the <a href="#build-inmoov">InMoov robotic hand</a></p>
-              <p class="mono now-sub stages">
-                <span class="stage done">Electronics<span class="sr-only"> (done)</span></span>
+              <p class="now-what"><span lang="en">Building the <a href="#build-inmoov">InMoov robotic hand</a></span><span lang="nb">Bygger <a href="#build-inmoov">InMoov-robothånden</a></span></p>
+              <p class="mono now-sub stages" id="inmoov-stages">
+                <span class="stage done" data-stage="electronics"><span lang="en">Electronics</span><span lang="nb">Elektronikk</span><span class="sr-only"><span lang="en"> (done)</span><span lang="nb"> (ferdig)</span></span></span>
                 <span class="stage-arrow" aria-hidden="true">→</span>
-                <span class="stage next">Print<span class="sr-only"> (next)</span></span>
+                <span class="stage next" data-stage="print">Print<span class="sr-only"><span lang="en"> (next)</span><span lang="nb"> (neste)</span></span></span>
                 <span class="stage-arrow" aria-hidden="true">→</span>
-                <span class="stage">Assemble</span>
+                <span class="stage" data-stage="assemble"><span lang="en">Assemble</span><span lang="nb">Montering</span><span class="sr-only"></span></span>
                 <span class="stage-arrow" aria-hidden="true">→</span>
-                <span class="stage">Code</span>
+                <span class="stage" data-stage="code"><span lang="en">Code</span><span lang="nb">Kode</span><span class="sr-only"></span></span>
               </p>
             </div>
           </li>
           <li class="now-item">
             <span class="now-icon"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 5a3 3 0 0 1 3 -3a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3a3 3 0 0 1 -3 -3l0 -5" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" /></svg></span>
             <div>
-              <p class="now-what">Running <a href="#build-jarvis">J.A.R.V.I.S.</a> at home</p>
-              <p class="mono now-sub">Live · local voice assistant · 500+ tests</p>
+              <p class="now-what"><span lang="en">Running <a href="#build-jarvis">J.A.R.V.I.S.</a> at home</span><span lang="nb">Kjører <a href="#build-jarvis">J.A.R.V.I.S.</a> hjemme</span></p>
+              <p class="mono now-sub" id="jarvis-status"><span lang="en">Live · local voice assistant · 500+ tests</span><span lang="nb">Live · lokal stemmeassistent · 500+ tester</span></p>
             </div>
           </li>
         </ul>
+        <p class="mono now-updated" id="now-updated" hidden></p>
       </div>
 
       <div class="actions settle" style="--line: 6">
-        <a class="btn btn-primary" href="oscar-cv.pdf">Download CV</a>
-        <a class="quiet" href="mailto:Oscarskjaevestad@gmail.com">Email →</a>
+        <a class="btn btn-primary" href="oscar-cv.pdf" lang="en">Download CV</a><a class="btn btn-primary" href="oscar-cv-no.pdf" lang="nb">Last ned CV</a>
+        <a class="quiet" href="mailto:Oscarskjaevestad@gmail.com"><span lang="en">Email →</span><span lang="nb">E-post →</span></a>
         <a class="quiet" href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener">LinkedIn →</a>
       </div>
     </div>
@@ -115,10 +136,10 @@
   <!-- ── About ── -->
   <section class="section" id="about" aria-labelledby="about-title">
     <div class="wrap">
-      <h2 id="about-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg></span>About</h2>
+      <h2 id="about-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg></span><span lang="en">About</span><span lang="nb">Om meg</span></h2>
       <div class="prose">
-        <p>I'm a computer electronics technician by trade, with a passion for <strong>IT that actually scales</strong>. Before Wybe, I spent over two years running enterprise IT at a fast-growing robotics company, across offices and production sites in Norway and the United States.</p>
-        <p>My background runs from hands-on hardware and soldering to cloud identity, endpoint security and cross-timezone operations — and now to robot fleets and the GPUs that train them. At home I keep building: a local voice assistant, a robotic hand, a drone.</p>
+        <p lang="en">I'm a computer electronics technician by trade, with a passion for <strong>IT that actually scales</strong>. Before Wybe, I spent over two years running enterprise IT at a fast-growing robotics company, across offices and production sites in Norway and the United States.</p><p lang="nb">Jeg er dataelektroniker av fag, med en lidenskap for <strong>IT som faktisk skalerer</strong>. Før Wybe drev jeg i over to år enterprise-IT i et robotselskap i sterk vekst, på tvers av kontorer og produksjonsanlegg i Norge og USA.</p>
+        <p lang="en">My background runs from hands-on hardware and soldering to cloud identity, endpoint security and cross-timezone operations — and now to robot fleets and the GPUs that train them. At home I keep building: a local voice assistant, a robotic hand, a drone.</p><p lang="nb">Bakgrunnen min spenner fra praktisk maskinvare og lodding til skyidentitet, endepunktsikkerhet og drift på tvers av tidssoner — og nå robotflåter og GPU-ene som trener dem. Hjemme fortsetter jeg å bygge: en lokal stemmeassistent, en robothånd, en drone.</p>
       </div>
     </div>
   </section>
@@ -126,33 +147,23 @@
   <!-- ── Work ── -->
   <section class="section shade" id="work" aria-labelledby="work-title">
     <div class="wrap">
-      <h2 id="work-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 9a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -9" /><path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" /><path d="M12 12l0 .01" /><path d="M3 13a20 20 0 0 0 18 0" /></svg></span>Work</h2>
+      <h2 id="work-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 9a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -9" /><path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" /><path d="M12 12l0 .01" /><path d="M3 13a20 20 0 0 0 18 0" /></svg></span><span lang="en">Work</span><span lang="nb">Arbeidserfaring</span></h2>
       <div class="entries timeline">
 
         <article class="entry featured" id="work-wybe">
           <span class="tl here" aria-hidden="true"></span>
           <div class="entry-gutter">
-            <span class="mono">06.2026 — now</span>
-            <span class="mono status-current">Current</span>
+            <span class="mono">06.2026 — <span lang="en">now</span><span lang="nb">nå</span></span>
+            <span class="mono status-current"><span lang="en">Current</span><span lang="nb">Nåværende</span></span>
           </div>
           <div class="entry-body">
             <h3 class="entry-title">Team Lead — IT &amp; Robot Deployment</h3>
-            <p class="mono entry-meta">Wybe Robotics AS · Moss, Norway</p>
-            <p>Leading IT and robot deployment at a company that puts humanoid robots to work, and building the AI infrastructure that teaches them their jobs. The work spans the full chain from hardware to learned behaviour: deploying and operating the robots, running the GPU training fleet, and building the data engine behind our robot learning.</p>
-            <p class="mono entry-label">Responsibilities</p>
-            <ul class="entry-list">
-              <li>Deploying and operating humanoid robots</li>
-              <li>GPU training fleet — NVIDIA Jetson Thor and Grace Blackwell workstations</li>
-              <li>Robot networking, edge inference deployment and NAS-backed data systems</li>
-              <li>Company-wide IT infrastructure</li>
-              <li>Procurement and front-office operations</li>
-            </ul>
-            <p class="mono entry-label">Key contributions</p>
-            <ul class="entry-list">
-              <li>Designed and shipped an end-to-end VR data-collection → training → evaluation loop that took our manipulation policies from zero to demonstrable pick-and-lift within days</li>
-              <li>Built a self-service data pipeline: operators collect demonstrations in VR-teleoperated simulation, review and grade the data, and ship it straight into training of vision-language-action models</li>
-              <li>Built the team's training console — live fleet monitoring, data quality gates and one-click dataset-to-model pipelines across distributed GPU machines</li>
-            </ul>
+            <p class="mono entry-meta">Wybe Robotics AS · <span lang="en">Moss, Norway</span><span lang="nb">Moss, Norge</span></p>
+            <p lang="en">Leading IT and robot deployment at a company that puts humanoid robots to work, and building the AI infrastructure that teaches them their jobs. The work spans the full chain from hardware to learned behaviour: deploying and operating the robots, running the GPU training fleet, and building the data engine behind our robot learning.</p><p lang="nb">Leder IT og robotutrulling i et selskap som setter humanoide roboter i arbeid, og bygger AI-infrastrukturen som lærer dem jobbene sine. Arbeidet dekker hele kjeden fra maskinvare til lært atferd: utrulling og drift av robotene, drift av GPU-flåten for trening, og bygging av datamotoren bak robotlæringen vår.</p>
+            <p class="mono entry-label" lang="en">Responsibilities</p><p class="mono entry-label" lang="nb">Ansvarsområder</p>
+            <ul class="entry-list"><li><span lang="en">Deploying and operating humanoid robots</span><span lang="nb">Utrulling og drift av humanoide roboter</span></li><li><span lang="en">GPU training fleet — NVIDIA Jetson Thor and Grace Blackwell workstations</span><span lang="nb">GPU-flåte for trening — NVIDIA Jetson Thor og Grace Blackwell-arbeidsstasjoner</span></li><li><span lang="en">Robot networking, edge inference deployment and NAS-backed data systems</span><span lang="nb">Robotnettverk, utrulling av edge-inferens og NAS-baserte datasystemer</span></li><li><span lang="en">Company-wide IT infrastructure</span><span lang="nb">IT-infrastruktur for hele selskapet</span></li><li><span lang="en">Procurement and front-office operations</span><span lang="nb">Innkjøp og frontoffice-oppgaver</span></li></ul>
+            <p class="mono entry-label" lang="en">Key contributions</p><p class="mono entry-label" lang="nb">Viktige bidrag</p>
+            <ul class="entry-list"><li><span lang="en">Designed and shipped an end-to-end VR data-collection → training → evaluation loop that took our manipulation policies from zero to demonstrable pick-and-lift within days</span><span lang="nb">Designet og leverte en komplett løkke for VR-datainnsamling → trening → evaluering som tok manipulasjonspolicyene våre fra null til demonstrerbar plukk-og-løft på få dager</span></li><li><span lang="en">Built a self-service data pipeline: operators collect demonstrations in VR-teleoperated simulation, review and grade the data, and ship it straight into training of vision-language-action models</span><span lang="nb">Bygde en selvbetjent datapipeline: operatører samler demonstrasjoner i VR-fjernstyrt simulering, går gjennom og vurderer dataene, og sender dem rett inn i trening av vision-language-action-modeller</span></li><li><span lang="en">Built the team's training console — live fleet monitoring, data quality gates and one-click dataset-to-model pipelines across distributed GPU machines</span><span lang="nb">Bygde teamets treningskonsoll — sanntidsovervåking av flåten, kvalitetsporter for data og ett-klikks pipelines fra datasett til modell på tvers av distribuerte GPU-maskiner</span></li></ul>
             <p class="mono tags">NVIDIA Jetson Thor · Grace Blackwell · GR00T · LeRobot · MuJoCo · Meta Quest 3 · VLA models · Edge inference · NAS</p>
           </div>
         </article>
@@ -164,21 +175,12 @@
           </div>
           <div class="entry-body">
             <h3 class="entry-title">IT Technician — IT Operations &amp; Infrastructure</h3>
-            <p class="mono entry-meta">1X Technologies AS · Moss, Norway</p>
-            <p>Supported global IT operations and infrastructure at an internationally growing robotics company. Involved in designing, implementing, and operating enterprise-grade IT environments across Norway and the USA — covering both office and production environments.</p>
-            <p class="mono entry-label">Responsibilities</p>
-            <ul class="entry-list">
-              <li>Identity &amp; Access Management (IAM)</li>
-              <li>Endpoint management and security</li>
-              <li>Network infrastructure</li>
-              <li>Large-scale onboarding &amp; offboarding</li>
-              <li>Operational IT support across time zones</li>
-            </ul>
-            <p class="mono entry-label">Key contributions</p>
-            <ul class="entry-list">
-              <li>Key role in establishing and scaling offices and production facilities in the USA</li>
-              <li>Contributed to transition and handover of IT operations as the organisation grew</li>
-            </ul>
+            <p class="mono entry-meta">1X Technologies AS · <span lang="en">Moss, Norway</span><span lang="nb">Moss, Norge</span></p>
+            <p lang="en">Supported global IT operations and infrastructure at an internationally growing robotics company. Involved in designing, implementing, and operating enterprise-grade IT environments across Norway and the USA — covering both office and production environments.</p><p lang="nb">Støttet global IT-drift og infrastruktur i et internasjonalt robotselskap i sterk vekst. Deltok i design, implementering og drift av IT-miljøer på enterprise-nivå i Norge og USA — både kontor- og produksjonsmiljøer.</p>
+            <p class="mono entry-label" lang="en">Responsibilities</p><p class="mono entry-label" lang="nb">Ansvarsområder</p>
+            <ul class="entry-list"><li><span lang="en">Identity &amp; Access Management (IAM)</span><span lang="nb">Identitets- og tilgangsstyring (IAM)</span></li><li><span lang="en">Endpoint management and security</span><span lang="nb">Endepunktsadministrasjon og sikkerhet</span></li><li><span lang="en">Network infrastructure</span><span lang="nb">Nettverksinfrastruktur</span></li><li><span lang="en">Large-scale onboarding &amp; offboarding</span><span lang="nb">Onboarding og offboarding i stor skala</span></li><li><span lang="en">Operational IT support across time zones</span><span lang="nb">Operativ IT-støtte på tvers av tidssoner</span></li></ul>
+            <p class="mono entry-label" lang="en">Key contributions</p><p class="mono entry-label" lang="nb">Viktige bidrag</p>
+            <ul class="entry-list"><li><span lang="en">Key role in establishing and scaling offices and production facilities in the USA</span><span lang="nb">Sentral rolle i etablering og skalering av kontorer og produksjonsanlegg i USA</span></li><li><span lang="en">Contributed to transition and handover of IT operations as the organisation grew</span><span lang="nb">Bidro til overgang og overlevering av IT-drift i takt med organisasjonens vekst</span></li></ul>
             <p class="mono tags">Google Workspace · Microsoft 365 · Intune · Entra ID / Azure AD · Azure · Defender · Okta · Aruba Networks · Jira · Confluence</p>
           </div>
         </article>
@@ -189,9 +191,9 @@
             <span class="mono">03.2023 — 02.2024</span>
           </div>
           <div class="entry-body">
-            <h3 class="entry-title">On-Call Factory Operative</h3>
-            <p class="mono entry-meta">Bama Industri AS · Moss, Norway</p>
-            <p>Temporary and on-call position in the operations department while completing supplementary general studies certification. Responsible for product packing and raw material preparation for production.</p>
+            <h3 class="entry-title"><span lang="en">On-Call Factory Operative</span><span lang="nb">Tilkallingsvikar, produksjon</span></h3>
+            <p class="mono entry-meta">Bama Industri AS · <span lang="en">Moss, Norway</span><span lang="nb">Moss, Norge</span></p>
+            <p lang="en">Temporary and on-call position in the operations department while completing supplementary general studies certification. Responsible for product packing and raw material preparation for production.</p><p lang="nb">Midlertidig stilling og tilkallingsvikar i operativ avdeling mens jeg tok påbygg til studiekompetanse. Ansvar for pakking av produkter og klargjøring av råvarer til produksjon.</p>
           </div>
         </article>
 
@@ -201,13 +203,10 @@
             <span class="mono">08.2022 — 02.2023</span>
           </div>
           <div class="entry-body">
-            <h3 class="entry-title">IT Consultant</h3>
-            <p class="mono entry-meta">Data Equipment AS · Oslo, Norway</p>
-            <p>Internal IT support role — assisting employees with technical issues and contributing to infrastructure operations. Gained hands-on experience with server environments and enterprise networking.</p>
-            <ul class="entry-list">
-              <li>Internal IT support for staff</li>
-              <li>Windows Server 2012 &amp; 2019 administration</li>
-            </ul>
+            <h3 class="entry-title"><span lang="en">IT Consultant</span><span lang="nb">IT-konsulent</span></h3>
+            <p class="mono entry-meta">Data Equipment AS · <span lang="en">Oslo, Norway</span><span lang="nb">Oslo, Norge</span></p>
+            <p lang="en">Internal IT support role — assisting employees with technical issues and contributing to infrastructure operations. Gained hands-on experience with server environments and enterprise networking.</p><p lang="nb">Intern IT-support — hjalp ansatte med tekniske problemer og bidro i infrastrukturdriften. Fikk praktisk erfaring med servermiljøer og enterprise-nettverk.</p>
+            <ul class="entry-list"><li><span lang="en">Internal IT support for staff</span><span lang="nb">Intern IT-support for ansatte</span></li><li><span lang="en">Windows Server 2012 &amp; 2019 administration</span><span lang="nb">Administrasjon av Windows Server 2012 og 2019</span></li></ul>
             <p class="mono tags">Windows Server · Kubernetes · SaltStack · Jira · Confluence · Palo Alto NGFW · Extreme Networks</p>
           </div>
         </article>
@@ -219,61 +218,63 @@
   <!-- ── Builds ── -->
   <section class="section" id="builds" aria-labelledby="builds-title">
     <div class="wrap">
-      <h2 id="builds-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M11.414 10l-7.383 7.418a2.091 2.091 0 0 0 0 2.967a2.11 2.11 0 0 0 2.976 0l7.407 -7.385" /><path d="M18.121 15.293l2.586 -2.586a1 1 0 0 0 0 -1.414l-7.586 -7.586a1 1 0 0 0 -1.414 0l-2.586 2.586a1 1 0 0 0 0 1.414l7.586 7.586a1 1 0 0 0 1.414 0" /></svg></span>Builds</h2>
-      <p class="section-intro">Outside of work, I build things — hardware, electronics and systems that push past the day job.</p>
+      <h2 id="builds-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M11.414 10l-7.383 7.418a2.091 2.091 0 0 0 0 2.967a2.11 2.11 0 0 0 2.976 0l7.407 -7.385" /><path d="M18.121 15.293l2.586 -2.586a1 1 0 0 0 0 -1.414l-7.586 -7.586a1 1 0 0 0 -1.414 0l-2.586 2.586a1 1 0 0 0 0 1.414l7.586 7.586a1 1 0 0 0 1.414 0" /></svg></span><span lang="en">Builds</span><span lang="nb">Prosjekter</span></h2>
+      <p class="section-intro" lang="en">Outside of work, I build things — hardware, electronics and systems that push past the day job.</p><p class="section-intro" lang="nb">Utenom jobben bygger jeg ting — maskinvare, elektronikk og systemer som strekker seg lenger enn dagjobben.</p>
       <div class="entries">
 
         <article class="entry featured" id="build-jarvis">
           <div class="entry-gutter"><span class="mono status-live">Live</span></div>
           <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 5a3 3 0 0 1 3 -3a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3a3 3 0 0 1 -3 -3l0 -5" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" /></svg></span><span>J.A.R.V.I.S. — local-first voice assistant</span></h3>
-            <p>A voice assistant running on my own hardware: wake-word detection on a Raspberry Pi, local speech-to-text, and local language models on a GPU workstation. It controls the lights, TV, heating and my 3D printer through Home Assistant and Klipper, behind a permission ladder where anything physical needs a person to confirm. Backed by 500+ automated tests.</p>
-            <p class="mono tags">Python · Local LLMs · Home Assistant · Raspberry Pi</p>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 5a3 3 0 0 1 3 -3a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3a3 3 0 0 1 -3 -3l0 -5" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" /></svg></span><span><span lang="en">J.A.R.V.I.S. — local-first voice assistant</span><span lang="nb">J.A.R.V.I.S. — lokal stemmeassistent</span></span></h3>
+            <p lang="en">A voice assistant running on my own hardware: wake-word detection on a Raspberry Pi, local speech-to-text, and local language models on a GPU workstation. It controls the lights, TV, heating and my 3D printer through Home Assistant and Klipper, behind a permission ladder where anything physical needs a person to confirm. Backed by 500+ automated tests.</p><p lang="nb">En stemmeassistent som kjører på min egen maskinvare: vekkeord på en Raspberry Pi, lokal tale-til-tekst og lokale språkmodeller på en GPU-arbeidsstasjon. Den styrer lys, TV, varme og 3D-printeren min via Home Assistant og Klipper, bak en tillatelsesstige der alt fysisk krever at et menneske bekrefter. Sikret av over 500 automatiske tester.</p>
+            <p class="mono tags" lang="en">Python · Local LLMs · Home Assistant · Raspberry Pi</p><p class="mono tags" lang="nb">Python · Lokale LLM-er · Home Assistant · Raspberry Pi</p>
+            <p class="more"><span lang="en"><a href="builds/jarvis.html">How it’s built →</a></span><span lang="nb"><a href="builds/jarvis.html">Slik er den bygget →</a></span></p>
           </div>
         </article>
 
         <article class="entry" id="build-inmoov">
-          <div class="entry-gutter"><span class="mono status-wip">In progress</span></div>
+          <div class="entry-gutter"><span class="mono status-wip"><span lang="en">In progress</span><span lang="nb">Pågår</span></span></div>
           <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 13v-7.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M11 5.5v-2a1.5 1.5 0 1 1 3 0v8.5" /><path d="M14 5.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M17 7.5a1.5 1.5 0 0 1 3 0v8.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47" /></svg></span><span>InMoov robotic hand</span></h3>
-            <p>Building the right hand and forearm of InMoov, the open-source 3D-printable humanoid robot. The electronics are soldered and wired: an Arduino Nano Matter drives a PCA9685 servo board with seven servos. All 17 parts are sliced and ready to print. Next come assembly, the control code, and voice control through J.A.R.V.I.S.</p>
-            <p class="mono tags">Robotics · 3D printing · Arduino · Embedded systems</p>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 13v-7.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M11 5.5v-2a1.5 1.5 0 1 1 3 0v8.5" /><path d="M14 5.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M17 7.5a1.5 1.5 0 0 1 3 0v8.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47" /></svg></span><span><span lang="en">InMoov robotic hand</span><span lang="nb">InMoov-robothånd</span></span></h3>
+            <p lang="en">Building the right hand and forearm of InMoov, the open-source 3D-printable humanoid robot. The electronics are soldered and wired: an Arduino Nano Matter drives a PCA9685 servo board with seven servos. All 17 parts are sliced and ready to print. Next come assembly, the control code, and voice control through J.A.R.V.I.S.</p><p lang="nb">Bygger høyre hånd og underarm på InMoov, den åpne 3D-printbare humanoide roboten. Elektronikken er loddet og koblet: en Arduino Nano Matter styrer et PCA9685-servokort med sju servoer. Alle 17 deler er slicet og klare til print. Neste steg er montering, styringskode og stemmestyring via J.A.R.V.I.S.</p>
+            <p class="mono tags" lang="en">Robotics · 3D printing · Arduino · Embedded systems</p><p class="mono tags" lang="nb">Robotikk · 3D-printing · Arduino · Innebygde systemer</p>
+            <p class="more"><span lang="en"><a href="builds/inmoov.html">Follow the build →</a></span><span lang="nb"><a href="builds/inmoov.html">Følg byggingen →</a></span></p>
           </div>
         </article>
 
         <article class="entry" id="build-mixer">
-          <div class="entry-gutter"><span class="mono status-done">Completed</span></div>
+          <div class="entry-gutter"><span class="mono status-done"><span lang="en">Completed</span><span lang="nb">Fullført</span></span></div>
           <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 6a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 6l8 0" /><path d="M16 6l4 0" /><path d="M6 12a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 12l2 0" /><path d="M10 12l10 0" /><path d="M15 18a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 18l11 0" /><path d="M19 18l1 0" /></svg></span><span>Custom audio mixer</span></h3>
-            <p>Designed and built a custom audio mixing board from scratch — including PCB layout, component soldering, and signal routing. Combines analog audio engineering with hands-on electronics fabrication.</p>
-            <p class="mono tags">Electronics · Soldering · PCB design · Analog audio</p>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 6a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 6l8 0" /><path d="M16 6l4 0" /><path d="M6 12a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 12l2 0" /><path d="M10 12l10 0" /><path d="M15 18a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 18l11 0" /><path d="M19 18l1 0" /></svg></span><span><span lang="en">Custom audio mixer</span><span lang="nb">Egenbygd lydmikser</span></span></h3>
+            <p lang="en">Designed and built a custom audio mixing board from scratch — including PCB layout, component soldering, and signal routing. Combines analog audio engineering with hands-on electronics fabrication.</p><p lang="nb">Designet og bygde en lydmikser fra bunnen av — med kretskortutlegg, lodding av komponenter og signalføring. Kombinerer analog lydteknikk med praktisk elektronikkproduksjon.</p>
+            <p class="mono tags" lang="en">Electronics · Soldering · PCB design · Analog audio</p><p class="mono tags" lang="nb">Elektronikk · Lodding · Kretskortdesign · Analog lyd</p>
           </div>
         </article>
 
         <article class="entry" id="build-drone">
-          <div class="entry-gutter"><span class="mono status-done">Completed</span></div>
+          <div class="entry-gutter"><span class="mono status-done"><span lang="en">Completed</span><span lang="nb">Fullført</span></span></div>
           <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10h4v4h-4l0 -4" /><path d="M10 10l-3.5 -3.5" /><path d="M9.96 6a3.5 3.5 0 1 0 -3.96 3.96" /><path d="M14 10l3.5 -3.5" /><path d="M18 9.96a3.5 3.5 0 1 0 -3.96 -3.96" /><path d="M14 14l3.5 3.5" /><path d="M14.04 18a3.5 3.5 0 1 0 3.96 -3.96" /><path d="M10 14l-3.5 3.5" /><path d="M6 14.04a3.5 3.5 0 1 0 3.96 3.96" /></svg></span><span>Custom-built drone</span></h3>
-            <p>Assembled and configured a drone from individual components — frame, motors, ESCs, flight controller, and firmware. Covers everything from hardware integration to tuning PID parameters for stable flight.</p>
-            <p class="mono tags">Hardware assembly · Flight controller · Firmware · Electronics</p>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10h4v4h-4l0 -4" /><path d="M10 10l-3.5 -3.5" /><path d="M9.96 6a3.5 3.5 0 1 0 -3.96 3.96" /><path d="M14 10l3.5 -3.5" /><path d="M18 9.96a3.5 3.5 0 1 0 -3.96 -3.96" /><path d="M14 14l3.5 3.5" /><path d="M14.04 18a3.5 3.5 0 1 0 3.96 -3.96" /><path d="M10 14l-3.5 3.5" /><path d="M6 14.04a3.5 3.5 0 1 0 3.96 3.96" /></svg></span><span><span lang="en">Custom-built drone</span><span lang="nb">Egenbygd drone</span></span></h3>
+            <p lang="en">Assembled and configured a drone from individual components — frame, motors, ESCs, flight controller, and firmware. Covers everything from hardware integration to tuning PID parameters for stable flight.</p><p lang="nb">Satte sammen og konfigurerte en drone fra enkeltkomponenter — ramme, motorer, ESC-er, flykontroller og fastvare. Dekker alt fra maskinvareintegrasjon til tuning av PID-parametere for stabil flyging.</p>
+            <p class="mono tags" lang="en">Hardware assembly · Flight controller · Firmware · Electronics</p><p class="mono tags" lang="nb">Maskinvaremontering · Flykontroller · Fastvare · Elektronikk</p>
           </div>
         </article>
 
         <article class="entry" id="build-satellite">
-          <div class="entry-gutter"><span class="mono status-wip">In progress</span></div>
+          <div class="entry-gutter"><span class="mono status-wip"><span lang="en">In progress</span><span lang="nb">Pågår</span></span></div>
           <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414" /><path d="M6 10l-3 3l3 3l3 -3" /><path d="M10 6l3 -3l3 3l-3 3" /><path d="M12 12l1.5 1.5" /><path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5" /><path d="M15 21a6 6 0 0 0 6 -6" /></svg></span><span>Desk satellite</span></h3>
-            <p>Currently building a desk-mounted satellite unit — a custom embedded device combining display, sensors, and connectivity into a compact always-on information hub for the workspace.</p>
-            <p class="mono tags">Embedded systems · Raspberry Pi · Electronics · Fabrication</p>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414" /><path d="M6 10l-3 3l3 3l3 -3" /><path d="M10 6l3 -3l3 3l-3 3" /><path d="M12 12l1.5 1.5" /><path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5" /><path d="M15 21a6 6 0 0 0 6 -6" /></svg></span><span><span lang="en">Desk satellite</span><span lang="nb">Skrivebordssatellitt</span></span></h3>
+            <p lang="en">Currently building a desk-mounted satellite unit — a custom embedded device combining display, sensors, and connectivity into a compact always-on information hub for the workspace.</p><p lang="nb">Bygger en skrivebordsmontert satellittenhet — en egendesignet innebygd enhet som samler skjerm, sensorer og tilkobling i en kompakt, alltid-på informasjonshub for arbeidsplassen.</p>
+            <p class="mono tags" lang="en">Embedded systems · Raspberry Pi · Electronics · Fabrication</p><p class="mono tags" lang="nb">Innebygde systemer · Raspberry Pi · Elektronikk · Produksjon</p>
           </div>
         </article>
 
         <article class="entry" id="build-network">
-          <div class="entry-gutter"><span class="mono status-planned">Planned</span></div>
+          <div class="entry-gutter"><span class="mono status-planned"><span lang="en">Planned</span><span lang="nb">Planlagt</span></span></div>
           <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 9a6 6 0 1 0 12 0a6 6 0 0 0 -12 0" /><path d="M12 3c1.333 .333 2 2.333 2 6s-.667 5.667 -2 6" /><path d="M12 3c-1.333 .333 -2 2.333 -2 6s.667 5.667 2 6" /><path d="M6 9h12" /><path d="M3 20h7" /><path d="M14 20h7" /><path d="M10 20a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M12 15v3" /></svg></span><span>Home network lab</span></h3>
-            <p>Planning a proper home network setup with managed switches, VLAN segmentation, and a dedicated server rack. Goal is to mirror enterprise networking at home — firewall, monitoring, and isolated network zones.</p>
-            <p class="mono tags">VLAN · Managed switches · Firewall · Network monitoring</p>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 9a6 6 0 1 0 12 0a6 6 0 0 0 -12 0" /><path d="M12 3c1.333 .333 2 2.333 2 6s-.667 5.667 -2 6" /><path d="M12 3c-1.333 .333 -2 2.333 -2 6s.667 5.667 2 6" /><path d="M6 9h12" /><path d="M3 20h7" /><path d="M14 20h7" /><path d="M10 20a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M12 15v3" /></svg></span><span><span lang="en">Home network lab</span><span lang="nb">Hjemmenettverkslab</span></span></h3>
+            <p lang="en">Planning a proper home network setup with managed switches, VLAN segmentation, and a dedicated server rack. Goal is to mirror enterprise networking at home — firewall, monitoring, and isolated network zones.</p><p lang="nb">Planlegger et ordentlig hjemmenettverk med administrerte svitsjer, VLAN-segmentering og et eget serverrack. Målet er å speile enterprise-nettverk hjemme — brannmur, overvåking og isolerte nettverkssoner.</p>
+            <p class="mono tags" lang="en">VLAN · Managed switches · Firewall · Network monitoring</p><p class="mono tags" lang="nb">VLAN · Administrerte svitsjer · Brannmur · Nettverksovervåking</p>
           </div>
         </article>
 
@@ -281,52 +282,88 @@
     </div>
   </section>
 
-  <!-- ── Skills ── -->
-  <section class="section shade" id="skills" aria-labelledby="skills-title">
+  <!-- ── Log ── -->
+  <section class="section shade" id="log" aria-labelledby="log-title">
     <div class="wrap">
-      <h2 id="skills-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 4l-8 4l8 4l8 -4l-8 -4" /><path d="M4 12l8 4l8 -4" /><path d="M4 16l8 4l8 -4" /></svg></span>Skills</h2>
-      <p class="section-intro">Pick any skill to see where I've used it.</p>
+      <h2 id="log-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 4h11a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-11a1 1 0 0 1 -1 -1v-14a1 1 0 0 1 1 -1m3 0v18" /><path d="M13 8l2 0" /><path d="M13 12l2 0" /></svg></span><span lang="en">Log</span><span lang="nb">Logg</span></h2>
+      <p class="section-intro" lang="en">Notes from the bench — what broke, what I measured, and what I changed.</p><p class="section-intro" lang="nb">Notater fra arbeidsbenken — hva som gikk galt, hva jeg målte, og hva jeg endret.</p>
       <div class="entries">
-        <div class="entry skill-row">
-          <div class="entry-gutter"><span class="mono status-current">Now</span></div>
+        <article class="entry log-row">
+          <div class="entry-gutter"><span class="mono">10.2026</span></div>
           <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -4" /><path d="M12 2v2" /><path d="M9 12v9" /><path d="M15 12v9" /><path d="M5 16l4 -2" /><path d="M15 14l4 2" /><path d="M9 18h6" /><path d="M10 8v.01" /><path d="M14 8v.01" /></svg></span><span>Robotics &amp; AI</span></h3>
-            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Humanoid robot deployment</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">GPU training fleets</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">NVIDIA Jetson Thor</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Grace Blackwell</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">VLA models</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">GR00T</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">LeRobot</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">MuJoCo</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">VR teleoperation</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Robot data pipelines</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Edge inference</button> · <button class="skill" type="button" aria-pressed="false" data-in="build-jarvis">Local LLMs</button></p>
+            <h3 class="entry-title"><a href="log/permission-ladder.html"><span lang="en">A voice assistant that can’t do more than it’s allowed to</span><span lang="nb">En stemmeassistent som ikke kan gjøre mer enn den har lov til</span></a></h3>
+            <p lang="en">How J.A.R.V.I.S. decides what it may touch, why every button goes through the same gate as a spoken request, and the test that once stopped a real printer.</p><p lang="nb">Hvordan J.A.R.V.I.S. avgjør hva den får røre, hvorfor hver knapp går gjennom samme port som en muntlig forespørsel, og testen som en gang stoppet en ekte printer.</p>
+          </div>
+        </article>
+        <article class="entry log-row">
+          <div class="entry-gutter"><span class="mono">09.2026</span></div>
+          <div class="entry-body">
+            <h3 class="entry-title"><a href="log/zero-support-roofs.html"><span lang="en">Zero support roofs: why a nine-hour print failed</span><span lang="nb">Null støttetak: hvorfor en ni timers print feilet</span></a></h3>
+            <p lang="en">A downloaded print file had 674 support sections and not one roof for the model to land on. Two quick checks would have caught it.</p><p lang="nb">En nedlastet printfil hadde 674 støtteseksjoner og ikke ett eneste tak modellen kunne lande på. To raske sjekker ville ha avslørt det.</p>
+          </div>
+        </article>
+        <article class="entry log-row">
+          <div class="entry-gutter"><span class="mono">09.2026</span></div>
+          <div class="entry-body">
+            <h3 class="entry-title"><a href="log/levelling-the-bed.html"><span lang="en">Levelling a 420 mm bed by measurement</span><span lang="nb">Nivellering av en 420 mm printeplate etter mål</span></a></h3>
+            <p lang="en">From 2.965 mm out of true to 0.597 mm, one screw and one probe at a time — and the whole bed usable again.</p><p lang="nb">Fra 2,965 mm skjevhet til 0,597 mm, én skrue og én måling om gangen — og hele platen brukbar igjen.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Skills ── -->
+  <section class="section" id="skills" aria-labelledby="skills-title">
+    <div class="wrap">
+      <h2 id="skills-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 4l-8 4l8 4l8 -4l-8 -4" /><path d="M4 12l8 4l8 -4" /><path d="M4 16l8 4l8 -4" /></svg></span><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></h2>
+      <p class="section-intro" lang="en">Pick any skill to see where I've used it.</p><p class="section-intro" lang="nb">Velg en ferdighet for å se hvor jeg har brukt den.</p>
+      <div class="entries">
+
+        <div class="entry skill-row">
+          <div class="entry-gutter"><span class="mono status-current"><span lang="en">Now</span><span lang="nb">Nå</span></span></div>
+          <div class="entry-body">
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -4" /><path d="M12 2v2" /><path d="M9 12v9" /><path d="M15 12v9" /><path d="M5 16l4 -2" /><path d="M15 14l4 2" /><path d="M9 18h6" /><path d="M10 8v.01" /><path d="M14 8v.01" /></svg></span><span><span lang="en">Robotics &amp; AI</span><span lang="nb">Robotikk og AI</span></span></h3>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">Humanoid robot deployment</span><span lang="nb">Utrulling av humanoide roboter</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">GPU training fleets</span><span lang="nb">GPU-treningsflåter</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">NVIDIA Jetson Thor</span><span lang="nb">NVIDIA Jetson Thor</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">Grace Blackwell</span><span lang="nb">Grace Blackwell</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">VLA models</span><span lang="nb">VLA-modeller</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">GR00T</span><span lang="nb">GR00T</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">LeRobot</span><span lang="nb">LeRobot</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">MuJoCo</span><span lang="nb">MuJoCo</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">VR teleoperation</span><span lang="nb">VR-fjernstyring</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">Robot data pipelines</span><span lang="nb">Robotdatapipelines</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe"><span lang="en">Edge inference</span><span lang="nb">Edge-inferens</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="build-jarvis"><span lang="en">Local LLMs</span><span lang="nb">Lokale LLM-er</span></button></p>
+          </div>
+        </div>
+
+        <div class="entry skill-row">
+          <div class="entry-gutter"></div>
+          <div class="entry-body">
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M19 18a3.5 3.5 0 0 0 0 -7h-1c.397 -1.768 -.285 -3.593 -1.788 -4.787c-1.503 -1.193 -3.6 -1.575 -5.5 -1s-3.315 2.019 -3.712 3.787c-2.199 -.088 -4.155 1.326 -4.666 3.373c-.512 2.047 .564 4.154 2.566 5.027" /><path d="M8 16a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1l0 -3" /><path d="M10 15v-2a2 2 0 1 1 4 0v2" /></svg></span><span><span lang="en">Cloud &amp; identity</span><span lang="nb">Sky og identitet</span></span></h3>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">Microsoft 365</span><span lang="nb">Microsoft 365</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">Entra ID / Azure AD</span><span lang="nb">Entra ID / Azure AD</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">Microsoft Intune</span><span lang="nb">Microsoft Intune</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">Microsoft Defender</span><span lang="nb">Microsoft Defender</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">Azure</span><span lang="nb">Azure</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">Google Workspace</span><span lang="nb">Google Workspace</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">Okta</span><span lang="nb">Okta</span></button></p>
+          </div>
+        </div>
+
+        <div class="entry skill-row">
+          <div class="entry-gutter"></div>
+          <div class="entry-body">
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M11 11a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12l0 2.5" /></svg></span><span><span lang="en">Networking &amp; security</span><span lang="nb">Nettverk og sikkerhet</span></span></h3>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-wybe work-1x build-network"><span lang="en">Network infrastructure</span><span lang="nb">Nettverksinfrastruktur</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x cert-cisco cert-nsm"><span lang="en">Cybersecurity</span><span lang="nb">Cybersikkerhet</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">Aruba Networks</span><span lang="nb">Aruba Networks</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data"><span lang="en">Palo Alto NGFW</span><span lang="nb">Palo Alto NGFW</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data"><span lang="en">Extreme Networks</span><span lang="nb">Extreme Networks</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x"><span lang="en">IAM</span><span lang="nb">IAM</span></button></p>
+          </div>
+        </div>
+
+        <div class="entry skill-row">
+          <div class="entry-gutter"></div>
+          <div class="entry-body">
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 6a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -12" /><path d="M9 9h6v6h-6l0 -6" /><path d="M3 10h2" /><path d="M3 14h2" /><path d="M10 3v2" /><path d="M14 3v2" /><path d="M21 10h-2" /><path d="M21 14h-2" /><path d="M14 21v-2" /><path d="M10 21v-2" /></svg></span><span><span lang="en">Hardware &amp; electronics</span><span lang="nb">Maskinvare og elektronikk</span></span></h3>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="edu-electronics"><span lang="en">Hardware repair</span><span lang="nb">Maskinvarereparasjon</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics build-mixer build-drone build-satellite build-inmoov"><span lang="en">Electronics</span><span lang="nb">Elektronikk</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics build-mixer build-inmoov"><span lang="en">Soldering</span><span lang="nb">Lodding</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="build-jarvis build-satellite"><span lang="en">Raspberry Pi</span><span lang="nb">Raspberry Pi</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics"><span lang="en">Component-level repair</span><span lang="nb">Reparasjon på komponentnivå</span></button></p>
+          </div>
+        </div>
+
+        <div class="entry skill-row">
+          <div class="entry-gutter"></div>
+          <div class="entry-body">
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" /></svg></span><span><span lang="en">Tools &amp; platforms</span><span lang="nb">Verktøy og plattformer</span></span></h3>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-1x work-data"><span lang="en">Jira</span><span lang="nb">Jira</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x work-data"><span lang="en">Confluence</span><span lang="nb">Confluence</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data"><span lang="en">Windows Server</span><span lang="nb">Windows Server</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data"><span lang="en">Kubernetes</span><span lang="nb">Kubernetes</span></button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data"><span lang="en">SaltStack</span><span lang="nb">SaltStack</span></button> · <button class="skill" type="button" aria-pressed="false" data-in=""><span lang="en">HTML</span><span lang="nb">HTML</span></button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M19 18a3.5 3.5 0 0 0 0 -7h-1c.397 -1.768 -.285 -3.593 -1.788 -4.787c-1.503 -1.193 -3.6 -1.575 -5.5 -1s-3.315 2.019 -3.712 3.787c-2.199 -.088 -4.155 1.326 -4.666 3.373c-.512 2.047 .564 4.154 2.566 5.027" /><path d="M8 16a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1l0 -3" /><path d="M10 15v-2a2 2 0 1 1 4 0v2" /></svg></span><span>Cloud &amp; identity</span></h3>
-            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft 365</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Entra ID / Azure AD</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft Intune</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft Defender</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Azure</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Google Workspace</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Okta</button></p>
-          </div>
-        </div>
-        <div class="entry skill-row">
-          <div class="entry-gutter"></div>
-          <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M11 11a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12l0 2.5" /></svg></span><span>Networking &amp; security</span></h3>
-            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-wybe work-1x build-network">Network infrastructure</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x cert-cisco cert-nsm">Cybersecurity</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Aruba Networks</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Palo Alto NGFW</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Extreme Networks</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">IAM</button></p>
-          </div>
-        </div>
-        <div class="entry skill-row">
-          <div class="entry-gutter"></div>
-          <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 6a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -12" /><path d="M9 9h6v6h-6l0 -6" /><path d="M3 10h2" /><path d="M3 14h2" /><path d="M10 3v2" /><path d="M14 3v2" /><path d="M21 10h-2" /><path d="M21 14h-2" /><path d="M14 21v-2" /><path d="M10 21v-2" /></svg></span><span>Hardware &amp; electronics</span></h3>
-            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="edu-electronics">Hardware repair</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics build-mixer build-drone build-satellite build-inmoov">Electronics</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics build-mixer build-inmoov">Soldering</button> · <button class="skill" type="button" aria-pressed="false" data-in="build-jarvis build-satellite">Raspberry Pi</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics">Component-level repair</button></p>
-          </div>
-        </div>
-        <div class="entry skill-row">
-          <div class="entry-gutter"></div>
-          <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" /></svg></span><span>Tools &amp; platforms</span></h3>
-            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-1x work-data">Jira</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x work-data">Confluence</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Windows Server</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Kubernetes</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">SaltStack</button> · <button class="skill" type="button" aria-pressed="false" data-in="">HTML</button></p>
-          </div>
-        </div>
-        <div class="entry skill-row">
-          <div class="entry-gutter"></div>
-          <div class="entry-body">
-            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 6.371c0 4.418 -2.239 6.629 -5 6.629" /><path d="M4 6.371h7" /><path d="M5 9c0 2.144 2.252 3.908 6 4" /><path d="M12 20l4 -9l4 9" /><path d="M19.1 18h-6.2" /><path d="M6.694 3l.793 .582" /></svg></span><span>Languages</span></h3>
-            <p class="mono tags">Norwegian — native · English — fluent</p>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 6.371c0 4.418 -2.239 6.629 -5 6.629" /><path d="M4 6.371h7" /><path d="M5 9c0 2.144 2.252 3.908 6 4" /><path d="M12 20l4 -9l4 9" /><path d="M19.1 18h-6.2" /><path d="M6.694 3l.793 .582" /></svg></span><span><span lang="en">Languages</span><span lang="nb">Språk</span></span></h3>
+            <p class="mono tags" lang="en">Norwegian — native · English — fluent</p><p class="mono tags" lang="nb">Norsk — morsmål · Engelsk — flytende</p>
           </div>
         </div>
       </div>
@@ -335,40 +372,40 @@
   </section>
 
   <!-- ── Education ── -->
-  <section class="section" id="education" aria-labelledby="education-title">
+  <section class="section shade" id="education" aria-labelledby="education-title">
     <div class="wrap">
-      <h2 id="education-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></svg></span>Education</h2>
+      <h2 id="education-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></svg></span><span lang="en">Education</span><span lang="nb">Utdanning</span></h2>
       <div class="entries">
         <article class="entry">
           <div class="entry-gutter"><span class="mono">01.2023 — 11.2023</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">Supplementary University Admission Certification</h3>
-            <p class="mono entry-meta">ASK Privatist · Remote</p>
+            <h3 class="entry-title"><span lang="en">Supplementary University Admission Certification</span><span lang="nb">Påbygg til generell studiekompetanse</span></h3>
+            <p class="mono entry-meta">ASK Privatist · <span lang="en">Remote</span><span lang="nb">Fjernundervisning</span></p>
           </div>
         </article>
         <article class="entry" id="edu-electronics">
           <div class="entry-gutter"><span class="mono">08.2020 — 06.2022</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">VG2 &amp; VG3 — Computer Electronics &amp; Trade Certificate (Fagbrev)</h3>
-            <p class="mono entry-meta">Malakoff Videregående Skole · Moss, Norway</p>
+            <h3 class="entry-title"><span lang="en">VG2 &amp; VG3 — Computer Electronics &amp; Trade Certificate (Fagbrev)</span><span lang="nb">VG2 og VG3 — Dataelektronikk og fagbrev</span></h3>
+            <p class="mono entry-meta">Malakoff Videregående Skole · <span lang="en">Moss, Norway</span><span lang="nb">Moss, Norge</span></p>
           </div>
         </article>
         <article class="entry">
           <div class="entry-gutter"><span class="mono">08.2019 — 06.2020</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">VG1 — Electrical Engineering</h3>
-            <p class="mono entry-meta">Malakoff Videregående Skole · Moss, Norway</p>
+            <h3 class="entry-title"><span lang="en">VG1 — Electrical Engineering</span><span lang="nb">VG1 — Elektro</span></h3>
+            <p class="mono entry-meta">Malakoff Videregående Skole · <span lang="en">Moss, Norway</span><span lang="nb">Moss, Norge</span></p>
           </div>
         </article>
       </div>
 
-      <h3 class="sub" id="certifications">Certifications</h3>
+      <h3 class="sub" id="certifications"><span lang="en">Certifications</span><span lang="nb">Sertifiseringer</span></h3>
       <div class="entries">
         <article class="entry">
           <div class="entry-gutter"><span class="mono">2022</span></div>
           <div class="entry-body">
-            <h4 class="entry-title">Certificate of Apprenticeship in Computer Technology</h4>
-            <p class="mono entry-meta">Norwegian Trade Certificate</p>
+            <h4 class="entry-title"><span lang="en">Certificate of Apprenticeship in Computer Technology</span><span lang="nb">Fagbrev som dataelektroniker</span></h4>
+            <p class="mono entry-meta"><span lang="en">Norwegian Trade Certificate</span><span lang="nb">Norsk fagbrev</span></p>
           </div>
         </article>
         <article class="entry">
@@ -395,8 +432,8 @@
         <article class="entry" id="cert-nsm">
           <div class="entry-gutter"></div>
           <div class="entry-body">
-            <h4 class="entry-title">Fundamentals for Cybersecurity</h4>
-            <p class="mono entry-meta">NSM — Norwegian National Security Authority</p>
+            <h4 class="entry-title"><span lang="en">Fundamentals for Cybersecurity</span><span lang="nb">Grunnleggende cybersikkerhet</span></h4>
+            <p class="mono entry-meta"><span lang="en">NSM — Norwegian National Security Authority</span><span lang="nb">NSM — Nasjonal sikkerhetsmyndighet</span></p>
           </div>
         </article>
       </div>
@@ -404,17 +441,17 @@
   </section>
 
   <!-- ── Contact ── -->
-  <section class="section shade" id="contact" aria-labelledby="contact-title">
+  <section class="section" id="contact" aria-labelledby="contact-title">
     <div class="wrap">
-      <h2 id="contact-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1" /></svg></span>Contact</h2>
-      <p class="section-intro">Happy to talk humanoid robots, AI infrastructure or home-lab builds — the more hardware involved, the better. I usually reply within a day.</p>
+      <h2 id="contact-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1" /></svg></span><span lang="en">Contact</span><span lang="nb">Kontakt</span></h2>
+      <p class="section-intro" lang="en">Happy to talk humanoid robots, AI infrastructure or home-lab builds — the more hardware involved, the better. I usually reply within a day.</p><p class="section-intro" lang="nb">Snakker gjerne om humanoide roboter, AI-infrastruktur eller hjemmelab-prosjekter — jo mer maskinvare, jo bedre. Jeg svarer vanligvis innen en dag.</p>
       <div class="entries">
         <div class="entry contact-row">
-          <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span>Email</span></div>
+          <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></span></div>
           <div class="entry-body"><a href="mailto:Oscarskjaevestad@gmail.com">Oscarskjaevestad@gmail.com</a></div>
         </div>
         <div class="entry contact-row">
-          <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg></span>Phone</span></div>
+          <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg></span><span lang="en">Phone</span><span lang="nb">Telefon</span></span></div>
           <div class="entry-body"><a href="tel:+4791800844">+47 918 00 844</a></div>
         </div>
         <div class="entry contact-row">
@@ -423,7 +460,7 @@
         </div>
         <div class="entry contact-row">
           <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /><path d="M11 12.5a1.5 1.5 0 0 0 -3 0v3a1.5 1.5 0 0 0 3 0" /><path d="M13 11l1.5 6l1.5 -6" /></svg></span>CV</span></div>
-          <div class="entry-body"><a href="oscar-cv.pdf">oscar-cv.pdf</a></div>
+          <div class="entry-body"><span lang="en"><a href="oscar-cv.pdf">oscar-cv.pdf</a> · English</span><span lang="nb"><a href="oscar-cv-no.pdf">oscar-cv-no.pdf</a> · norsk</span></div>
         </div>
       </div>
     </div>
@@ -435,143 +472,12 @@
   <div class="wrap footer-inner">
     <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
     <p class="mono footer-links">
-      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span>Email</a>
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
       <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
     </p>
   </div>
 </footer>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // The status board's clock: the time where I am, not where you are.
-  const mossTime = document.getElementById('moss-time');
-  const tick = () => {
-    mossTime.textContent = new Intl.DateTimeFormat('en-GB', {
-      timeZone: 'Europe/Oslo', hour: '2-digit', minute: '2-digit'
-    }).format(new Date());
-  };
-  tick();
-  setInterval(tick, 15000);
-
-  // A hairline under the nav once the page has moved.
-  const nav = document.getElementById('nav');
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Theme: dark by default, light on request, remembered, crossfaded.
-  const root = document.documentElement;
-  const toggle = document.getElementById('theme-switch');
-  const label = () => {
-    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    toggle.textContent = next;
-    toggle.setAttribute('aria-label', 'Switch to ' + next + ' mode');
-  };
-  const flip = () => {
-    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch (e) { /* not remembered */ }
-    label();
-  };
-  label();
-  toggle.addEventListener('click', () => {
-    if (document.startViewTransition && !calm) document.startViewTransition(flip);
-    else flip();
-  });
-
-  // Entries and sections draw in as they reach the screen. Each list
-  // numbers its entries so they arrive one after another.
-  document.querySelectorAll('.entries').forEach(list => {
-    [...list.children].forEach((entry, i) => entry.style.setProperty('--i', i % 6));
-  });
-  const watched = document.querySelectorAll('.entry, .section');
-  if ('IntersectionObserver' in window && !calm) {
-    const seen = new IntersectionObserver(items => {
-      items.forEach(item => {
-        if (item.isIntersecting) {
-          item.target.classList.add('in');
-          seen.unobserve(item.target);
-        }
-      });
-    }, { rootMargin: '0px 0px -8% 0px' });
-    watched.forEach(el => seen.observe(el));
-  } else {
-    watched.forEach(el => el.classList.add('in'));
-  }
-
-  // How far down the page you are, as a line under the nav.
-  const progress = document.getElementById('progress');
-  let pending = false;
-  const measure = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ')';
-    pending = false;
-  };
-  window.addEventListener('scroll', () => {
-    if (!pending) { pending = true; requestAnimationFrame(measure); }
-  }, { passive: true });
-  measure();
-
-  // The nav marks the section you are reading.
-  const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
-  if ('IntersectionObserver' in window) {
-    const mark = id => navLinks.forEach(a => {
-      if (a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'location');
-      else a.removeAttribute('aria-current');
-    });
-    const spy = new IntersectionObserver(items => {
-      items.forEach(item => { if (item.isIntersecting) mark(item.target.id); });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    document.querySelectorAll('main > section').forEach(sec => spy.observe(sec));
-  }
-
-  // Skills: pick one and what used it lights up; the answer is written
-  // out too, because the jobs it points at are usually off-screen.
-  const skills = [...document.querySelectorAll('.skill')];
-  const answer = document.getElementById('skill-used');
-  const entries = [...document.querySelectorAll('#work .entry, #builds .entry, #education .entry')];
-  let pinned = null;
-
-  const describe = id => {
-    const entry = document.getElementById(id);
-    const title = entry.querySelector('.entry-title').textContent.trim();
-    const meta = entry.querySelector('.entry-meta');
-    const where = meta ? meta.textContent.split('·')[0].trim() : '';
-    return { id, text: where && !/^(google|cisco|nsm)/i.test(where) ? title + ', ' + where : title };
-  };
-
-  const show = button => {
-    const ids = button ? button.dataset.in.split(' ').filter(Boolean) : [];
-    document.body.classList.toggle('exploring', !!button && ids.length > 0);
-    entries.forEach(e => {
-      e.classList.toggle('lit', ids.includes(e.id));
-      e.classList.toggle('dim', !!button && ids.length > 0 && !ids.includes(e.id));
-    });
-    skills.forEach(b => b.setAttribute('aria-pressed', String(b === pinned)));
-    answer.textContent = '';
-    if (!button) return;
-    const name = button.textContent.trim();
-    if (!ids.length) { answer.textContent = name + ' — general background, not tied to one job or build.'; return; }
-    answer.append(name + ' → ');
-    ids.map(describe).forEach((d, i) => {
-      if (i) answer.append(' · ');
-      const a = document.createElement('a');
-      a.href = '#' + d.id;
-      a.textContent = d.text;
-      answer.append(a);
-    });
-  };
-
-  skills.forEach(b => {
-    b.addEventListener('mouseenter', () => { if (!pinned) show(b); });
-    b.addEventListener('focus', () => { if (!pinned) show(b); });
-    b.addEventListener('click', () => { pinned = pinned === b ? null : b; show(pinned || b); });
-  });
-  document.getElementById('skills').addEventListener('mouseleave', () => { if (!pinned) show(null); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && pinned) { pinned = null; show(null); } });
-</script>
+<script src="site.js?v=2026-10-28.4"></script>
 </body>
 </html>

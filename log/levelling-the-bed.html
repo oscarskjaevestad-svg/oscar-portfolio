@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Levelling a 420 mm bed by measurement — Oscar Skjævestad</title>
+  <meta name="description" content="From 2.965 mm out of true to 0.597 mm, one screw and one probe at a time — and the whole bed usable again." />
+  <meta name="author" content="Oscar Skjævestad" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / link previews -->
+  <meta property="og:title" content="Levelling a 420 mm bed by measurement" />
+  <meta property="og:description" content="From 2.965 mm out of true to 0.597 mm, one screw and one probe at a time — and the whole bed usable again." />
+  <meta property="og:url" content="https://oscarns.com/log/levelling-the-bed.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://oscarns.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead at Wybe Robotics" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="https://oscarns.com/log/levelling-the-bed.html" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <meta name="theme-color" content="#141210" />
+
+  <!-- Before the first paint: mark that scripts run, and apply the saved
+       theme and language, so nothing flashes in the wrong one. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var store = {};
+      try { store.theme = localStorage.getItem('theme'); store.lang = localStorage.getItem('lang'); } catch (e) {}
+      if (store.theme === 'light') root.setAttribute('data-theme', 'light');
+      var asked = new URLSearchParams(location.search).get('lang');
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = asked || store.lang || (/^(nb|nn|no)\b/.test(nav) ? 'no' : 'en');
+      if (lang === 'no') { root.setAttribute('data-lang', 'no'); root.setAttribute('lang', 'nb'); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=2026-10-28.4" />
+</head>
+<body>
+<!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
+
+<span lang="en"><a class="skip-link" href="#main">Skip to content</a></span><span lang="nb"><a class="skip-link" href="#main">Hopp til innhold</a></span>
+
+<header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
+  <div class="wrap nav-inner">
+    <a class="nav-name" href="../#top">Oscar Skjævestad</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="../#work"><span lang="en">Work</span><span lang="nb">Arbeid</span></a>
+      <a href="../#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a>
+      <a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a>
+      <a href="../#skills"><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></a>
+      <a href="../#contact"><span lang="en">Contact</span><span lang="nb">Kontakt</span></a>
+      <span class="nav-tools">
+        <button class="nav-tool theme-switch" id="theme-switch" type="button">light</button>
+        <button class="nav-tool" id="lang-switch" type="button">no</button>
+        <button class="nav-tool palette-open" id="palette-open" type="button" aria-haspopup="dialog"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 9a2 2 0 1 1 2 -2v10a2 2 0 1 1 -2 -2h10a2 2 0 1 1 -2 2v-10a2 2 0 1 1 2 2h-10" /></svg></span><span class="kbd-hint">K</span></button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <header class="page-head" id="top">
+    <div class="wrap">
+      <p class="mono crumb"><a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a> / <span lang="en">27.09.2026</span><span lang="nb">27.09.2026</span></p>
+      <h1><span lang="en">Levelling a 420 mm bed by measurement</span><span lang="nb">Nivellering av en 420 mm printeplate etter mål</span></h1>
+      <p class="lead" lang="en">My Neptune 4 Max has a 420 mm bed, but only a square about 120 mm across printed reliably. The rest was too far out of true for the mesh to make up for. Here’s how it got back to the whole bed in an afternoon.</p><p class="lead" lang="nb">Neptune 4 Max-en min har en printeplate på 420 mm, men bare en firkant på rundt 120 mm printet pålitelig. Resten var for skjev til at meshen kunne kompensere. Slik fikk jeg tilbake hele platen på en ettermiddag.</p>
+    </div>
+  </header>
+  <article class="wrap article">
+
+    <div class="figures"><div class="figure"><p class="figure-value"><span lang="en">2.965 → 0.597</span><span lang="nb">2,965 → 0,597</span></p><p class="mono figure-label" lang="en">mesh range, mm</p><p class="mono figure-label" lang="nb">mesh-spenn, mm</p></div><div class="figure"><p class="figure-value"><span lang="en">1.369 → 0.142</span><span lang="nb">1,369 → 0,142</span></p><p class="mono figure-label" lang="en">corner spread, mm</p><p class="mono figure-label" lang="nb">hjørneavvik, mm</p></div><div class="figure"><p class="figure-value"><span lang="en">0.052</span><span lang="nb">0,052</span></p><p class="mono figure-label" lang="en">probe repeatability, mm</p><p class="mono figure-label" lang="nb">målerepeterbarhet, mm</p></div><div class="figure"><p class="figure-value"><span lang="en">0.011</span><span lang="nb">0,011</span></p><p class="mono figure-label" lang="en">agreement with the printer, mm</p><p class="mono figure-label" lang="nb">avvik fra printerens egen, mm</p></div></div>
+
+    <h2 lang="en">Trust the probe first</h2><h2 lang="nb">Stol på måleren først</h2>
+    <p lang="en">Before turning a single screw, I probed the same points again and again. They agreed within 0.052 mm — so any change bigger than that would be real, not noise.</p><p lang="nb">Før jeg skrudde på én eneste skrue, målte jeg de samme punktene om og om igjen. De var enige innenfor 0,052 mm — så enhver endring større enn det ville være ekte, ikke støy.</p>
+
+    <h2 lang="en">One screw, then measure</h2><h2 lang="nb">Én skrue, så mål</h2>
+    <p lang="en">The bed has six screws: one in each corner and one in the middle of each long side. I turned one at a time and probed again after every turn. That taught me the two things the manual doesn’t say: clockwise raises that corner, and a full turn moves it roughly 0.35–0.55 mm.</p><p lang="nb">Platen har seks skruer: én i hvert hjørne og én midt på hver langside. Jeg skrudde én om gangen og målte på nytt etter hver vridning. Det lærte meg de to tingene manualen ikke sier: med klokken løfter hjørnet, og en hel omdreining flytter det omtrent 0,35–0,55 mm.</p>
+
+    <h2 lang="en">The result</h2><h2 lang="nb">Resultatet</h2>
+    <p lang="en">The mesh range went from 2.965 mm to 0.597 mm, and the spread between the corners from 1.369 mm to 0.142 mm. As a cross-check, the printer’s own auto-level then made a 121-point mesh of the same bed. It came out at 0.606 mm — within 0.011 mm of mine. The whole 420 mm bed is usable again, and that mesh is loaded after homing on every print.</p><p lang="nb">Mesh-spennet gikk fra 2,965 mm til 0,597 mm, og avviket mellom hjørnene fra 1,369 mm til 0,142 mm. Som kontroll lagde printerens egen autonivellering så en mesh med 121 punkter av den samme platen. Den endte på 0,606 mm — innenfor 0,011 mm av min. Hele platen på 420 mm er brukbar igjen, og den meshen lastes etter homing på hver print.</p>
+
+    <h2 lang="en">The last step was by ear</h2><h2 lang="nb">Siste steg var på gehør</h2>
+    <p lang="en">The final Z offset came from the first layer, not a sheet of paper. The nozzle scraped audibly, so I raised it in small steps until the first layer both looked and sounded right: −2.27 mm.</p><p lang="nb">Den endelige Z-offseten kom fra første lag, ikke et ark papir. Dysen skrapte hørbart, så jeg hevet den i små steg til første lag både så og hørtes riktig ut: −2,27 mm.</p>
+
+    <div class="lesson"><p lang="en">Prove the instrument, change one thing, measure again. It’s slower per step and much faster overall.</p><p lang="nb">Bevis at måleinstrumentet er til å stole på, endre én ting, mål igjen. Det er tregere per steg og mye raskere totalt.</p></div>
+
+    <nav class="article-nav mono" aria-label="More"><span></span><a href="zero-support-roofs.html"><span lang="en">Zero support roofs</span><span lang="nb">Null støttetak</span> →</a></nav>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
+    <p class="mono footer-links">
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
+      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
+    </p>
+  </div>
+</footer>
+
+<script src="../site.js?v=2026-10-28.4"></script>
+</body>
+</html>

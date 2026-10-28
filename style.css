@@ -665,9 +665,334 @@ svg.tabler { stroke-width: 1.75; }
   }
   .entry-gutter { flex-direction: row; flex-wrap: wrap; gap: var(--s-1) var(--s-3); }
   .nav-inner { flex-direction: column; align-items: flex-start; }
+  /* the tools wrap onto their own line here, so the divider has nothing to divide */
+  .nav-tools { border-left: 0; padding-left: 0; }
   .now { padding: var(--s-4); }
   .now-item { grid-template-columns: 36px minmax(0, 1fr); gap: var(--s-3); }
   .now-icon { width: 36px; height: 36px; }
+}
+
+/* ── Two languages ──────────────────────────────────────
+   Everything is written twice, lang="en" and lang="nb"; only the
+   chosen one shows. With no CSS at all, a reader gets both. */
+
+:root:not([data-lang="no"]) [lang="nb"]:not(html),
+:root[data-lang="no"] [lang="en"]:not(html) { display: none !important; }
+
+/* ── Nav tools: theme, language, search ─────────────── */
+
+.nav-tools {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-4);
+  padding-left: var(--s-4);
+  border-left: 1px solid var(--rule);
+}
+.nav-tool {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.nav-tool:hover { color: var(--text); }
+.palette-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  align-self: center;
+}
+.palette-open .ico { width: 1em; height: 1em; color: inherit; }
+
+/* ── Small additions to entries ─────────────────────── */
+
+.more { margin-top: var(--s-3); font-size: var(--fs-sm); }
+.log-row .entry-title a { color: var(--text); }
+.log-row .entry-title a:hover { color: var(--signal); }
+.now-updated { margin-top: var(--s-4); }
+
+/* ── ⌘K palette ─────────────────────────────────────── */
+
+.palette {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: start center;
+  padding: 12vh var(--page-pad) var(--page-pad);
+}
+.palette[hidden] { display: none; }
+.palette-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 9, 8, .55);
+  backdrop-filter: blur(2px);
+}
+:root[data-theme="light"] .palette-backdrop { background: rgba(60, 45, 25, .25); }
+.palette-box {
+  position: relative;
+  width: min(560px, 100%);
+  background: var(--surface);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow), 0 30px 80px -30px rgba(0, 0, 0, .6);
+  overflow: hidden;
+}
+.palette-input {
+  width: 100%;
+  padding: var(--s-4) var(--s-6);
+  font: inherit;
+  font-size: var(--fs-lg);
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  outline: none;
+}
+.palette-input::placeholder { color: var(--text-faint); }
+.palette-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: var(--s-2);
+}
+.palette-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-4);
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius);
+  cursor: pointer;
+  color: var(--text-dim);
+}
+.palette-item[aria-selected="true"] { background: var(--wash); color: var(--text); }
+.palette-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.palette-kind { flex: 0 0 auto; }
+.palette-empty { padding: var(--s-4); }
+.palette-foot {
+  padding: var(--s-2) var(--s-6);
+  border-top: 1px solid var(--rule);
+}
+body.palette-on { overflow: hidden; }
+
+/* ── Article pages: the log and the project write-ups ── */
+
+.page-head { padding: var(--s-12) 0 var(--s-8); }
+.crumb { margin-bottom: var(--s-6); }
+.crumb a { color: var(--text-dim); }
+.page-head h1 {
+  font-size: clamp(1.9rem, 4.5vw, 2.75rem);
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  max-width: 22ch;
+}
+.page-head .lead { color: var(--text-dim); }
+.page-meta { margin-top: var(--s-6); }
+
+.article { padding-bottom: var(--section-gap); }
+.article > * + * { margin-top: var(--s-4); }
+.article h2 {
+  margin-top: var(--s-12);
+  font-size: var(--fs-xl);
+  line-height: 1.3;
+  font-weight: 600;
+}
+.article h3 { margin-top: var(--s-8); font-size: var(--fs-lg); font-weight: 600; }
+.article p, .article li { max-width: var(--measure); color: var(--text-dim); }
+.article strong { color: var(--text); font-weight: 600; }
+.article ul, .article ol { padding-left: var(--s-6); }
+.article ul { list-style: none; padding-left: 0; }
+.article ul li { position: relative; padding-left: var(--s-4); }
+.article ul li::before { content: "–"; position: absolute; left: 0; color: var(--text-faint); }
+.article li + li { margin-top: var(--s-2); }
+.article code {
+  font-family: var(--font-mono);
+  font-size: .85em;
+  padding: 1px 5px;
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  color: var(--text);
+}
+
+/* numbers worth seeing at a glance */
+.figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+.figure {
+  padding: var(--s-4);
+  background: var(--surface);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow);
+}
+.figure-value {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.figure-label { margin-top: 2px; }
+
+/* tables, kept quiet */
+.table-wrap { overflow-x: auto; }
+.article table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.article th, .article td {
+  text-align: left;
+  padding: var(--s-2) var(--s-3) var(--s-2) 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--text-dim);
+}
+.article th {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.article td:first-child { color: var(--text); }
+
+/* a callout for the lesson worth keeping */
+.lesson {
+  padding: var(--s-4) var(--s-6);
+  background: var(--surface);
+  border-left: 3px solid var(--signal);
+  border-radius: 0 var(--radius-panel) var(--radius-panel) 0;
+  box-shadow: var(--shadow);
+}
+.lesson p { color: var(--text); }
+
+/* diagrams are drawn in the page's own ink */
+.diagram { margin: var(--s-8) 0; }
+.diagram svg { width: 100%; height: auto; display: block; }
+.diagram figcaption { margin-top: var(--s-2); }
+.dg-box { fill: var(--surface); stroke: var(--rule); stroke-width: 1.5; }
+.dg-box.hot { stroke: var(--signal); }
+.dg-text { fill: var(--text); font-family: var(--font-sans); font-size: 15px; font-weight: 600; }
+.dg-sub { fill: var(--text-faint); font-family: var(--font-mono); font-size: 11px; letter-spacing: .06em; }
+.dg-line { stroke: var(--text-faint); stroke-width: 1.5; fill: none; }
+.dg-line.hot { stroke: var(--signal); }
+.dg-arrow { fill: var(--text-faint); }
+.dg-arrow.hot { fill: var(--signal); }
+.dg-zone { fill: none; stroke: var(--rule); stroke-dasharray: 4 5; }
+.dg-zone-label { fill: var(--text-faint); font-family: var(--font-mono); font-size: 11px; letter-spacing: .1em; }
+
+.article-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-4);
+  padding-top: var(--s-6);
+  margin-top: var(--s-12);
+  border-top: 1px solid var(--rule);
+}
+
+/* ── 404 ────────────────────────────────────────────── */
+
+.lost { padding: var(--s-24) 0; }
+.lost-code { color: var(--signal); }
+.lost h1 { margin-top: var(--s-2); font-size: var(--fs-hero); line-height: 1.06; font-weight: 700; }
+.lost .lead { color: var(--text-dim); }
+
+/* ── Print: the page becomes the CV ─────────────────────
+   Ctrl+P on the homepage gives a clean A4 CV, and the PDFs behind
+   "Download CV" are printed from exactly this, so the CV can never
+   drift from the site. */
+
+.print-only { display: none; }
+
+@media print {
+  @page { size: A4; margin: 14mm 16mm; }
+
+  :root, :root[data-theme="light"] {
+    --bg: #ffffff; --bg-alt: #ffffff; --surface: #ffffff;
+    --rule: #d6d0c6; --text: #16130f; --text-dim: #3d3832; --text-faint: #5d564d;
+    --signal: #2747b8; --shadow: none; --shadow-hover: none; --wash: transparent;
+  }
+  html { font-size: 76%; }
+  body { background: #fff !important; color: var(--text); line-height: 1.45; }
+
+  .nav, .skip-link, .progress, .now, .actions, .section-intro, #log, #contact,
+  .footer, .more, .skill-used, .palette, .tl, .roles, .intro-meta, .live-dot { display: none !important; }
+
+  .print-only { display: block; }
+  .print-contact { margin-top: var(--s-3); text-transform: none; letter-spacing: .02em; }
+
+  .intro { padding: 0 0 var(--s-4); }
+  .intro h1 { font-size: 2.1rem; }
+  .lead { font-size: 1.05rem; margin-top: var(--s-2); }
+
+  .section, .section.shade { padding: var(--s-3) 0 0; background: none; break-inside: auto; }
+  .section h2 { margin-bottom: var(--s-1); font-size: 1.2rem; border-bottom: 1.5px solid var(--text); padding-bottom: 2px; }
+  .section h2, .section h3.sub { break-after: avoid; }
+  .section h3.sub { margin: var(--s-3) 0 var(--s-1); font-size: 1rem; }
+  .prose p + p { margin-top: var(--s-2); }
+  .section h2 .ico { display: none; }
+
+  .entry, .entry.featured { margin: 0; padding: 6px 0; background: none; box-shadow: none; transform: none; break-inside: avoid; }
+  .entries > .entry:first-child, .entries > .entry:first-child:not(.featured) { padding-top: 4px; }
+  /* long jobs may run across a page break; their parts may not */
+  #work .entry { break-inside: auto; }
+  .entry-title, .entry-meta, .entry-label { break-after: avoid; }
+  .entry-list li, .entry-body > p, .tags { break-inside: avoid; }
+
+  /* schooling and certificates are reference, not story: keep them tight */
+  #education .entries { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s-6); }
+  #education .entry { grid-template-columns: 1fr; gap: 0; padding: 3px 0; }
+  #education .entry::before { display: none; }
+  #education .entry-gutter { flex-direction: row; }
+  #education .entry-title { font-size: .95rem; }
+  #skills .entries { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s-6); }
+  #skills .skill-row { grid-template-columns: 1fr; gap: 0; padding: 3px 0; }
+  #skills .skill-row::before, #skills .skill-row .entry-gutter { display: none; }
+  #skills .skill-row .entry-title { font-size: .95rem; }
+  .skill { text-align: left; }
+
+  /* the lead line already says who I am; the About paragraphs are for the site */
+  #about { display: none !important; }
+  .timeline > .entry { padding-left: 0; }
+  .entry::before { left: 0; right: 0; transform: none !important; }
+  .entry-title { font-size: 1rem; }
+  .entry-title .ico { display: none; }
+  .entry-gutter { --gutter: 7rem; }
+  .entry { grid-template-columns: 7rem minmax(0, 1fr); gap: var(--s-3); }
+  .entry-label { margin-top: var(--s-2); }
+  .tags { margin-top: var(--s-2); }
+  .status-live::before, .status-current::before { display: none; }
+
+  /* builds read as a short list on paper: the two that matter now keep
+     their description, the rest are a title and a line of tags, and
+     anything only planned stays off the CV */
+  #builds .entry:not(#build-jarvis):not(#build-inmoov) .entry-body > p:not(.tags) { display: none; }
+  #build-network { display: none !important; }
+  .entry-body > p:not(.entry-meta):not(.tags) { margin-top: 4px; }
+  .entry-list li + li { margin-top: 1px; }
+  .entry-label { margin-top: 6px; margin-bottom: 1px; }
+
+  a { color: inherit; background-image: none; padding: 0; }
+  .skill { padding: 0; margin: 0; color: var(--text-dim); }
+
+  /* anything waiting to animate in is simply there */
+  .js .intro .write, .js .intro .settle, .js .entry > *,
+  .js .section > .wrap > h2, .js .section-intro, .js .prose {
+    opacity: 1 !important; transform: none !important; clip-path: none !important; animation: none !important;
+  }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
 /* ── Motion ─────────────────────────────────────────────
