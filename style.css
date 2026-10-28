@@ -22,8 +22,8 @@
   --shadow:       inset 0 1px 0 rgba(255, 255, 255, .04), 0 18px 40px -18px rgba(0, 0, 0, .75);
   --shadow-hover: 0 16px 36px -20px rgba(0, 0, 0, .7);
 
-  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-sans: 'Schibsted Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --fs-xs:   0.8125rem;
   --fs-sm:   0.9375rem;
@@ -274,35 +274,113 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   margin-top: var(--s-8);
 }
 
-/* what is happening right now */
+/* what is happening right now: a live status board */
 .now {
-  max-width: 34rem;
   margin-top: var(--s-8);
-  padding: var(--s-4) var(--s-6);
+  padding: var(--s-6);
   background: var(--surface);
   border-radius: var(--radius-panel);
   box-shadow: var(--shadow);
 }
-.now-title { margin-bottom: var(--s-2); }
-.now-list li {
+.now-head {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: baseline;
-  gap: var(--s-3);
-  font-size: var(--fs-sm);
-  line-height: 1.55;
-  color: var(--text-dim);
+  gap: var(--s-2) var(--s-4);
+  padding-bottom: var(--s-3);
+  margin-bottom: var(--s-4);
+  border-bottom: 1px solid var(--rule);
 }
-.now-list li + li { margin-top: var(--s-1); }
-.now-list a { color: var(--text); }
-.now-list li::before {
-  content: "";
-  flex: 0 0 auto;
+.now-title { color: var(--text); }
+.now-live { display: inline-flex; align-items: center; gap: var(--s-2); }
+.now-live time { color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.live-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--signal);
-  transform: translateY(-2px);
 }
+.now-item {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: var(--s-4);
+  align-items: center;
+}
+.now-item + .now-item { margin-top: var(--s-4); }
+.now-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--wash);
+  color: var(--signal);
+}
+.now-icon svg { width: 22px; height: 22px; }
+.now-what {
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--text);
+}
+.now-sub { margin-top: 2px; }
+
+/* build stages: done, next, still to come */
+.stages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-2);
+}
+.stage { display: inline-flex; align-items: center; gap: 6px; }
+.stage::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+}
+.stage.done { color: var(--text-dim); }
+.stage.done::before { background: currentColor; }
+.stage.next { color: var(--signal); }
+.stage-arrow { color: var(--text-faint); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ── Icons ──────────────────────────────────────────────
+   Tabler Icons (MIT), outline, inlined. One set, one stroke weight,
+   and always beside a word — never instead of one. */
+
+.ico {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 1.15em;
+  height: 1.15em;
+  color: var(--text-faint);
+  transition: color .2s ease;
+}
+.ico svg { width: 100%; height: 100%; }
+svg.tabler { stroke-width: 1.75; }
+
+.section h2 { display: flex; align-items: center; gap: .45em; }
+.section h2 .ico { color: var(--signal); width: 1em; height: 1em; }
+
+.entry-title { display: flex; align-items: flex-start; gap: .5em; }
+.entry-title .ico { margin-top: .15em; width: 1em; height: 1em; }
+.entry:hover .entry-title .ico,
+.entry.featured .entry-title .ico { color: var(--signal); }
+
+.entry-gutter .mono.with-ico { display: inline-flex; align-items: center; gap: var(--s-2); }
+.entry-gutter .ico { width: 1.25em; height: 1.25em; }
+.footer-links a { display: inline-flex; align-items: center; gap: 6px; }
+.footer-links .ico { color: inherit; }
 
 /* ── Buttons ────────────────────────────────────────────── */
 
@@ -588,6 +666,8 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   .entry-gutter { flex-direction: row; flex-wrap: wrap; gap: var(--s-1) var(--s-3); }
   .nav-inner { flex-direction: column; align-items: flex-start; }
   .now { padding: var(--s-4); }
+  .now-item { grid-template-columns: 36px minmax(0, 1fr); gap: var(--s-3); }
+  .now-icon { width: 36px; height: 36px; }
 }
 
 /* ── Motion ─────────────────────────────────────────────
@@ -642,9 +722,9 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   .status-live::before,
   .status-current::before,
   .tl.here::before,
-  .now-list li::before { animation: heartbeat 2.6s ease-in-out infinite; }
-  .now-list li:nth-child(2)::before { animation-delay: .8s; }
-  .now-list li:nth-child(3)::before { animation-delay: 1.6s; }
+  .live-dot,
+  .stage.next::before { animation: heartbeat 2.6s ease-in-out infinite; }
+  .stage.next::before { animation-delay: 1.3s; }
 
   .btn { transition: filter .2s ease, border-color .2s ease, transform .2s ease; }
   .btn:hover { transform: translateY(-1px); }

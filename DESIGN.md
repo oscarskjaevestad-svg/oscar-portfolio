@@ -1,6 +1,6 @@
 # oscarns.com — design system
 
-**Direction: an engineering notebook.** A record of real work and real builds, written down plainly. Warm ink on a dark page by default, warm paper in light mode, one ink-blue signal colour — the blue of a ballpoint pen in a lab notebook — and type doing the work that cards, glows and icons did before.
+**Direction: an engineering notebook.** A record of real work and real builds, written down plainly. Warm ink on a dark page by default, warm paper in light mode, one ink-blue signal colour — the blue of a ballpoint pen in a lab notebook — and type doing most of the work, with one consistent line-icon set beside the words.
 
 **Audience:** robotics and AI people first. Work leads, builds follow, everything else supports.
 
@@ -38,10 +38,12 @@ The blue is used sparingly on purpose. If it appears more than a handful of time
 
 ## Typography
 
-Two families from one engineering-rooted superfamily, which keeps them coherent without matching a trend:
+Chosen from a rendered specimen of four candidates (Bricolage Grotesque, Archivo, Schibsted Grotesk, Geist):
 
-- **IBM Plex Sans** — headings and body. Weights 400, 500, 600.
-- **IBM Plex Mono** — dates, places, specs, status, tags, the nav. Weights 400, 500.
+- **Schibsted Grotesk** — headings and body. Weights 400, 500, 600, 700. Designed in Norway for Schibsted's newspapers: clean, confident and sharp, with a quiet local tie.
+- **JetBrains Mono** — dates, places, specs, status, tags, the nav. Weights 400, 500.
+
+The first version used IBM Plex Sans and Mono; they read as too tame.
 
 | Token | Size | Line height | Use |
 |---|---|---|---|
@@ -79,7 +81,7 @@ A 4px scale: `--s-1` 4 · `--s-2` 8 · `--s-3` 12 · `--s-4` 16 · `--s-6` 24 ·
 
 **Navigation.** Name on the left; Work, Builds, Skills, Contact and the theme switch on the right, in mono. Sticky; transparent over the ink wash at the top, then the page background and a hairline once scrolled. The section being read is marked with a 2px `--signal` underline (`aria-current`). On phones the links drop to a second line rather than hiding behind a menu button.
 
-**Now panel.** A raised `--surface` card in the intro listing what is happening right now, each line with a pulsing `--signal` dot and a link to the entry it refers to. Three lines at most; every line must be true today.
+**Now panel — a live status board.** A raised `--surface` card in the intro. Its header reads `NOW` on the left and `● LIVE · MOSS hh:mm` on the right — the real time in Moss (Europe/Oslo), updated every 15 seconds. Below, up to three items, each a 40px icon tile (`--wash` fill, `--signal` icon), a bold title, and a mono status line with a link to its entry. A project with real stages shows them as a tracker — filled dot for done, pulsing `--signal` ring for next, empty ring for still to come — with the state also given in text for screen readers. **Every line must be true today**; update it when something changes.
 
 **Links.** `--signal` with a resting 1px underline; on hover a 2px line sweeps in from the left. Visited links don't change colour.
 
@@ -110,8 +112,11 @@ A 4px scale: `--s-1` 4 · `--s-2` 8 · `--s-3` 12 · `--s-4` 16 · `--s-6` 24 ·
 
 ## Imagery and icons
 
-- **No icons and no emoji.** Labels are words.
-- **No images yet.** When project photos arrive: 3:2, full column width, a 1px `--rule` border, square corners, and a mono xs caption below in `--text-faint`. Real photos only — no stock, no illustrations.
+- **Icons: Tabler Icons, outline, MIT** — one set only, inlined as SVG (no runtime requests), 1.75 stroke. Credited once in a comment at the top of `<body>`.
+- **Always beside a word, never instead of one.** Every icon is `aria-hidden`; the word next to it carries the meaning.
+- **Where they go:** section headings (in `--signal`), each build and each skill category (in `--text-faint`, turning `--signal` on hover and on featured entries), the Now board's tiles, the contact rows and the footer links.
+- **Never emoji.** The first version's emoji icons were one of the clearest signs of a generated site.
+- **No images yet.** When project photos arrive: 3:2, full column width, a 1px `--rule` border, `--radius-panel` corners, and a mono xs caption below in `--text-faint`. Real photos only — no stock, no illustrations.
 
 ## Motion
 
@@ -122,7 +127,7 @@ Expressive, but always in service of reading, and always on the notebook's terms
 | Intro | The name and the location line write themselves in left to right (`clip-path`); the lead, roles and buttons settle up 8px. | 0.6–0.7s, 140ms apart |
 | Hairlines | Every rule between entries draws from left to right as it reaches the screen. | 0.9s |
 | Entries | The gutter and content of each entry slide up 14px and fade in, one entry after another. | 0.6s, 70ms stagger |
-| Status | The dots beside `LIVE`, `CURRENT`, the current job on the timeline and each Now line pulse slowly; the Now dots are offset so they never pulse together. | 2.6s cycle |
+| Status | The dots beside `LIVE` and `CURRENT`, the current job on the timeline, the board's `LIVE` dot and the InMoov `next` stage pulse slowly, offset so they don't all beat together. | 2.6s cycle |
 | Timeline | Each line between jobs draws downward as its job reaches the screen. | 1s, after 0.25s |
 | Hover | Entries lift 2px and gain a shadow. | 0.25s |
 | Skills | Lit entries gain a ring; the rest fade to 35%. | 0.3s |

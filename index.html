@@ -31,10 +31,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+<!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
 
 <a class="skip-link" href="#main">Skip to content</a>
 
@@ -66,11 +67,40 @@
       </div>
 
       <div class="now settle" style="--line: 5" aria-labelledby="now-title">
-        <p class="mono now-title" id="now-title">Now</p>
+        <div class="now-head">
+          <p class="mono now-title" id="now-title">Now</p>
+          <p class="mono now-live"><span class="live-dot" aria-hidden="true"></span>Live · Moss <time id="moss-time">—</time></p>
+        </div>
         <ul class="now-list">
-          <li><span>Deploying humanoid robots at <a href="#work-wybe">Wybe Robotics</a></span></li>
-          <li><span>Building the <a href="#build-inmoov">InMoov robotic hand</a></span></li>
-          <li><span>Running <a href="#build-jarvis">J.A.R.V.I.S.</a> at home</span></li>
+          <li class="now-item">
+            <span class="now-icon"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -4" /><path d="M12 2v2" /><path d="M9 12v9" /><path d="M15 12v9" /><path d="M5 16l4 -2" /><path d="M15 14l4 2" /><path d="M9 18h6" /><path d="M10 8v.01" /><path d="M14 8v.01" /></svg></span>
+            <div>
+              <p class="now-what">Deploying humanoid robots</p>
+              <p class="mono now-sub"><a href="#work-wybe">Wybe Robotics</a> · since 06.2026</p>
+            </div>
+          </li>
+          <li class="now-item">
+            <span class="now-icon"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 13v-7.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M11 5.5v-2a1.5 1.5 0 1 1 3 0v8.5" /><path d="M14 5.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M17 7.5a1.5 1.5 0 0 1 3 0v8.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47" /></svg></span>
+            <div>
+              <p class="now-what">Building the <a href="#build-inmoov">InMoov robotic hand</a></p>
+              <p class="mono now-sub stages">
+                <span class="stage done">Electronics<span class="sr-only"> (done)</span></span>
+                <span class="stage-arrow" aria-hidden="true">→</span>
+                <span class="stage next">Print<span class="sr-only"> (next)</span></span>
+                <span class="stage-arrow" aria-hidden="true">→</span>
+                <span class="stage">Assemble</span>
+                <span class="stage-arrow" aria-hidden="true">→</span>
+                <span class="stage">Code</span>
+              </p>
+            </div>
+          </li>
+          <li class="now-item">
+            <span class="now-icon"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 5a3 3 0 0 1 3 -3a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3a3 3 0 0 1 -3 -3l0 -5" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" /></svg></span>
+            <div>
+              <p class="now-what">Running <a href="#build-jarvis">J.A.R.V.I.S.</a> at home</p>
+              <p class="mono now-sub">Live · local voice assistant · 500+ tests</p>
+            </div>
+          </li>
         </ul>
       </div>
 
@@ -85,7 +115,7 @@
   <!-- ── About ── -->
   <section class="section" id="about" aria-labelledby="about-title">
     <div class="wrap">
-      <h2 id="about-title">About</h2>
+      <h2 id="about-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /></svg></span>About</h2>
       <div class="prose">
         <p>I'm a computer electronics technician by trade, with a passion for <strong>IT that actually scales</strong>. Before Wybe, I spent over two years running enterprise IT at a fast-growing robotics company, across offices and production sites in Norway and the United States.</p>
         <p>My background runs from hands-on hardware and soldering to cloud identity, endpoint security and cross-timezone operations — and now to robot fleets and the GPUs that train them. At home I keep building: a local voice assistant, a robotic hand, a drone.</p>
@@ -96,7 +126,7 @@
   <!-- ── Work ── -->
   <section class="section shade" id="work" aria-labelledby="work-title">
     <div class="wrap">
-      <h2 id="work-title">Work</h2>
+      <h2 id="work-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 9a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -9" /><path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" /><path d="M12 12l0 .01" /><path d="M3 13a20 20 0 0 0 18 0" /></svg></span>Work</h2>
       <div class="entries timeline">
 
         <article class="entry featured" id="work-wybe">
@@ -189,14 +219,14 @@
   <!-- ── Builds ── -->
   <section class="section" id="builds" aria-labelledby="builds-title">
     <div class="wrap">
-      <h2 id="builds-title">Builds</h2>
+      <h2 id="builds-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M11.414 10l-7.383 7.418a2.091 2.091 0 0 0 0 2.967a2.11 2.11 0 0 0 2.976 0l7.407 -7.385" /><path d="M18.121 15.293l2.586 -2.586a1 1 0 0 0 0 -1.414l-7.586 -7.586a1 1 0 0 0 -1.414 0l-2.586 2.586a1 1 0 0 0 0 1.414l7.586 7.586a1 1 0 0 0 1.414 0" /></svg></span>Builds</h2>
       <p class="section-intro">Outside of work, I build things — hardware, electronics and systems that push past the day job.</p>
       <div class="entries">
 
         <article class="entry featured" id="build-jarvis">
           <div class="entry-gutter"><span class="mono status-live">Live</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">J.A.R.V.I.S. — local-first voice assistant</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 5a3 3 0 0 1 3 -3a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3a3 3 0 0 1 -3 -3l0 -5" /><path d="M5 10a7 7 0 0 0 14 0" /><path d="M8 21l8 0" /><path d="M12 17l0 4" /></svg></span><span>J.A.R.V.I.S. — local-first voice assistant</span></h3>
             <p>A voice assistant running on my own hardware: wake-word detection on a Raspberry Pi, local speech-to-text, and local language models on a GPU workstation. It controls the lights, TV, heating and my 3D printer through Home Assistant and Klipper, behind a permission ladder where anything physical needs a person to confirm. Backed by 500+ automated tests.</p>
             <p class="mono tags">Python · Local LLMs · Home Assistant · Raspberry Pi</p>
           </div>
@@ -205,7 +235,7 @@
         <article class="entry" id="build-inmoov">
           <div class="entry-gutter"><span class="mono status-wip">In progress</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">InMoov robotic hand</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 13v-7.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M11 5.5v-2a1.5 1.5 0 1 1 3 0v8.5" /><path d="M14 5.5a1.5 1.5 0 0 1 3 0v6.5" /><path d="M17 7.5a1.5 1.5 0 0 1 3 0v8.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47" /></svg></span><span>InMoov robotic hand</span></h3>
             <p>Building the right hand and forearm of InMoov, the open-source 3D-printable humanoid robot. The electronics are soldered and wired: an Arduino Nano Matter drives a PCA9685 servo board with seven servos. All 17 parts are sliced and ready to print. Next come assembly, the control code, and voice control through J.A.R.V.I.S.</p>
             <p class="mono tags">Robotics · 3D printing · Arduino · Embedded systems</p>
           </div>
@@ -214,7 +244,7 @@
         <article class="entry" id="build-mixer">
           <div class="entry-gutter"><span class="mono status-done">Completed</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">Custom audio mixer</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 6a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 6l8 0" /><path d="M16 6l4 0" /><path d="M6 12a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 12l2 0" /><path d="M10 12l10 0" /><path d="M15 18a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 18l11 0" /><path d="M19 18l1 0" /></svg></span><span>Custom audio mixer</span></h3>
             <p>Designed and built a custom audio mixing board from scratch — including PCB layout, component soldering, and signal routing. Combines analog audio engineering with hands-on electronics fabrication.</p>
             <p class="mono tags">Electronics · Soldering · PCB design · Analog audio</p>
           </div>
@@ -223,7 +253,7 @@
         <article class="entry" id="build-drone">
           <div class="entry-gutter"><span class="mono status-done">Completed</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">Custom-built drone</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M10 10h4v4h-4l0 -4" /><path d="M10 10l-3.5 -3.5" /><path d="M9.96 6a3.5 3.5 0 1 0 -3.96 3.96" /><path d="M14 10l3.5 -3.5" /><path d="M18 9.96a3.5 3.5 0 1 0 -3.96 -3.96" /><path d="M14 14l3.5 3.5" /><path d="M14.04 18a3.5 3.5 0 1 0 3.96 -3.96" /><path d="M10 14l-3.5 3.5" /><path d="M6 14.04a3.5 3.5 0 1 0 3.96 3.96" /></svg></span><span>Custom-built drone</span></h3>
             <p>Assembled and configured a drone from individual components — frame, motors, ESCs, flight controller, and firmware. Covers everything from hardware integration to tuning PID parameters for stable flight.</p>
             <p class="mono tags">Hardware assembly · Flight controller · Firmware · Electronics</p>
           </div>
@@ -232,7 +262,7 @@
         <article class="entry" id="build-satellite">
           <div class="entry-gutter"><span class="mono status-wip">In progress</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">Desk satellite</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3.707 6.293l2.586 -2.586a1 1 0 0 1 1.414 0l5.586 5.586a1 1 0 0 1 0 1.414l-2.586 2.586a1 1 0 0 1 -1.414 0l-5.586 -5.586a1 1 0 0 1 0 -1.414" /><path d="M6 10l-3 3l3 3l3 -3" /><path d="M10 6l3 -3l3 3l-3 3" /><path d="M12 12l1.5 1.5" /><path d="M14.5 17a2.5 2.5 0 0 0 2.5 -2.5" /><path d="M15 21a6 6 0 0 0 6 -6" /></svg></span><span>Desk satellite</span></h3>
             <p>Currently building a desk-mounted satellite unit — a custom embedded device combining display, sensors, and connectivity into a compact always-on information hub for the workspace.</p>
             <p class="mono tags">Embedded systems · Raspberry Pi · Electronics · Fabrication</p>
           </div>
@@ -241,7 +271,7 @@
         <article class="entry" id="build-network">
           <div class="entry-gutter"><span class="mono status-planned">Planned</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">Home network lab</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 9a6 6 0 1 0 12 0a6 6 0 0 0 -12 0" /><path d="M12 3c1.333 .333 2 2.333 2 6s-.667 5.667 -2 6" /><path d="M12 3c-1.333 .333 -2 2.333 -2 6s.667 5.667 2 6" /><path d="M6 9h12" /><path d="M3 20h7" /><path d="M14 20h7" /><path d="M10 20a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M12 15v3" /></svg></span><span>Home network lab</span></h3>
             <p>Planning a proper home network setup with managed switches, VLAN segmentation, and a dedicated server rack. Goal is to mirror enterprise networking at home — firewall, monitoring, and isolated network zones.</p>
             <p class="mono tags">VLAN · Managed switches · Firewall · Network monitoring</p>
           </div>
@@ -254,48 +284,48 @@
   <!-- ── Skills ── -->
   <section class="section shade" id="skills" aria-labelledby="skills-title">
     <div class="wrap">
-      <h2 id="skills-title">Skills</h2>
+      <h2 id="skills-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 4l-8 4l8 4l8 -4l-8 -4" /><path d="M4 12l8 4l8 -4" /><path d="M4 16l8 4l8 -4" /></svg></span>Skills</h2>
       <p class="section-intro">Pick any skill to see where I've used it.</p>
       <div class="entries">
         <div class="entry skill-row">
           <div class="entry-gutter"><span class="mono status-current">Now</span></div>
           <div class="entry-body">
-            <h3 class="entry-title">Robotics &amp; AI</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M6 6a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2l0 -4" /><path d="M12 2v2" /><path d="M9 12v9" /><path d="M15 12v9" /><path d="M5 16l4 -2" /><path d="M15 14l4 2" /><path d="M9 18h6" /><path d="M10 8v.01" /><path d="M14 8v.01" /></svg></span><span>Robotics &amp; AI</span></h3>
             <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Humanoid robot deployment</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">GPU training fleets</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">NVIDIA Jetson Thor</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Grace Blackwell</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">VLA models</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">GR00T</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">LeRobot</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">MuJoCo</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">VR teleoperation</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Robot data pipelines</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Edge inference</button> · <button class="skill" type="button" aria-pressed="false" data-in="build-jarvis">Local LLMs</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
-            <h3 class="entry-title">Cloud &amp; identity</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M19 18a3.5 3.5 0 0 0 0 -7h-1c.397 -1.768 -.285 -3.593 -1.788 -4.787c-1.503 -1.193 -3.6 -1.575 -5.5 -1s-3.315 2.019 -3.712 3.787c-2.199 -.088 -4.155 1.326 -4.666 3.373c-.512 2.047 .564 4.154 2.566 5.027" /><path d="M8 16a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1v3a1 1 0 0 1 -1 1h-6a1 1 0 0 1 -1 -1l0 -3" /><path d="M10 15v-2a2 2 0 1 1 4 0v2" /></svg></span><span>Cloud &amp; identity</span></h3>
             <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft 365</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Entra ID / Azure AD</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft Intune</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft Defender</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Azure</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Google Workspace</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Okta</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
-            <h3 class="entry-title">Networking &amp; security</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3" /><path d="M11 11a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 12l0 2.5" /></svg></span><span>Networking &amp; security</span></h3>
             <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-wybe work-1x build-network">Network infrastructure</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x cert-cisco cert-nsm">Cybersecurity</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Aruba Networks</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Palo Alto NGFW</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Extreme Networks</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">IAM</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
-            <h3 class="entry-title">Hardware &amp; electronics</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 6a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -12" /><path d="M9 9h6v6h-6l0 -6" /><path d="M3 10h2" /><path d="M3 14h2" /><path d="M10 3v2" /><path d="M14 3v2" /><path d="M21 10h-2" /><path d="M21 14h-2" /><path d="M14 21v-2" /><path d="M10 21v-2" /></svg></span><span>Hardware &amp; electronics</span></h3>
             <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="edu-electronics">Hardware repair</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics build-mixer build-drone build-satellite build-inmoov">Electronics</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics build-mixer build-inmoov">Soldering</button> · <button class="skill" type="button" aria-pressed="false" data-in="build-jarvis build-satellite">Raspberry Pi</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics">Component-level repair</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
-            <h3 class="entry-title">Tools &amp; platforms</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 10h3v-3l-3.5 -3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1 -3 3l-6 -6a6 6 0 0 1 -8 -8l3.5 3.5" /></svg></span><span>Tools &amp; platforms</span></h3>
             <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-1x work-data">Jira</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x work-data">Confluence</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Windows Server</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Kubernetes</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">SaltStack</button> · <button class="skill" type="button" aria-pressed="false" data-in="">HTML</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
-            <h3 class="entry-title">Languages</h3>
+            <h3 class="entry-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M9 6.371c0 4.418 -2.239 6.629 -5 6.629" /><path d="M4 6.371h7" /><path d="M5 9c0 2.144 2.252 3.908 6 4" /><path d="M12 20l4 -9l4 9" /><path d="M19.1 18h-6.2" /><path d="M6.694 3l.793 .582" /></svg></span><span>Languages</span></h3>
             <p class="mono tags">Norwegian — native · English — fluent</p>
           </div>
         </div>
@@ -307,7 +337,7 @@
   <!-- ── Education ── -->
   <section class="section" id="education" aria-labelledby="education-title">
     <div class="wrap">
-      <h2 id="education-title">Education</h2>
+      <h2 id="education-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" /><path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" /></svg></span>Education</h2>
       <div class="entries">
         <article class="entry">
           <div class="entry-gutter"><span class="mono">01.2023 — 11.2023</span></div>
@@ -376,23 +406,23 @@
   <!-- ── Contact ── -->
   <section class="section shade" id="contact" aria-labelledby="contact-title">
     <div class="wrap">
-      <h2 id="contact-title">Contact</h2>
+      <h2 id="contact-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 20l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c3.255 2.777 3.695 7.266 1.029 10.501c-2.666 3.235 -7.615 4.215 -11.574 2.293l-4.7 1" /></svg></span>Contact</h2>
       <p class="section-intro">Happy to talk humanoid robots, AI infrastructure or home-lab builds — the more hardware involved, the better. I usually reply within a day.</p>
       <div class="entries">
         <div class="entry contact-row">
-          <div class="entry-gutter"><span class="mono">Email</span></div>
+          <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span>Email</span></div>
           <div class="entry-body"><a href="mailto:Oscarskjaevestad@gmail.com">Oscarskjaevestad@gmail.com</a></div>
         </div>
         <div class="entry contact-row">
-          <div class="entry-gutter"><span class="mono">Phone</span></div>
+          <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2" /></svg></span>Phone</span></div>
           <div class="entry-body"><a href="tel:+4791800844">+47 918 00 844</a></div>
         </div>
         <div class="entry contact-row">
-          <div class="entry-gutter"><span class="mono">LinkedIn</span></div>
+          <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</span></div>
           <div class="entry-body"><a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener">oscar-skjaevestad</a></div>
         </div>
         <div class="entry contact-row">
-          <div class="entry-gutter"><span class="mono">CV</span></div>
+          <div class="entry-gutter"><span class="mono with-ico"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /><path d="M11 12.5a1.5 1.5 0 0 0 -3 0v3a1.5 1.5 0 0 0 3 0" /><path d="M13 11l1.5 6l1.5 -6" /></svg></span>CV</span></div>
           <div class="entry-body"><a href="oscar-cv.pdf">oscar-cv.pdf</a></div>
         </div>
       </div>
@@ -405,14 +435,24 @@
   <div class="wrap footer-inner">
     <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
     <p class="mono footer-links">
-      <a href="mailto:Oscarskjaevestad@gmail.com">Email</a>
-      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span>Email</a>
+      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
     </p>
   </div>
 </footer>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // The status board's clock: the time where I am, not where you are.
+  const mossTime = document.getElementById('moss-time');
+  const tick = () => {
+    mossTime.textContent = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Oslo', hour: '2-digit', minute: '2-digit'
+    }).format(new Date());
+  };
+  tick();
+  setInterval(tick, 15000);
 
   // A hairline under the nav once the page has moved.
   const nav = document.getElementById('nav');
