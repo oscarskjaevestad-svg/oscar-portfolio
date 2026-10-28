@@ -19,17 +19,20 @@ Warm neutrals, and one ink-blue signal. The backgrounds stay warm, which is what
 | Token | Dark (default) | Light | Role |
 |---|---|---|---|
 | `--bg` | `#141210` | `#f4f0e8` | Page background |
-| `--surface` | `#1b1916` | `#ebe6dc` | The rare raised area: code, the CV callout |
+| `--bg-alt` | `#1a1815` | `#ece6da` | Every other section, so the page turns like paper |
+| `--surface` | `#23201c` | `#fbf9f4` | Raised panels: the Now card and featured entries |
 | `--rule` | `#2e2a25` | `#d8d1c4` | Hairlines between entries, borders |
 | `--text` | `#ece6dc` | `#1d1a16` | Body and headings — the "ink" |
 | `--text-dim` | `#a39b8f` | `#4f4940` | Secondary text, descriptions |
-| `--text-faint` | `#8a8276` | `#6f685e` | Dates, meta, labels |
+| `--text-faint` | `#968e82` | `#655e55` | Dates, meta, labels |
 | `--signal` | `#8fa8ff` | `#2747b8` | Links, focus, live/in-progress status, the progress line — the one accent |
 | `--signal-ink` | `#141210` | `#f4f0e8` | Text on a signal background |
 | `--success` | `#7bc47f` | `#2f7a33` | Reserved; no current use |
 | `--error` | `#ef6b5b` | `#b42318` | Reserved; no current use |
+| `--wash` | blue at 9% | blue at 8% | The ink soaking into the top of the page; a picked skill |
+| `--hover` | ink at 3.5% | ink at 3.5% | The tint under an entry being pointed at |
 
-Contrast against `--bg`, calculated (WCAG 2.1): `--text` 15.1:1 dark / 15.3:1 light; `--text-dim` 6.8 / 7.8; `--text-faint` 4.9 / 4.8; `--signal` 8.2 / 6.9. Button text (`--signal-ink` on `--signal`) is 8.2 / 6.9. Everything used for text meets 4.5:1.
+Contrast, calculated (WCAG 2.1) on **every** background a colour can sit on — `--bg`, `--bg-alt` and `--surface`, both themes. Worst cases: `--text` 13.1:1; `--text-dim` 5.9:1; `--text-faint` 5.0:1; `--signal` 6.3:1. Button text (`--signal-ink` on `--signal`) is 8.2 / 6.9. Everything used for text meets 4.5:1 everywhere. `--text-faint` was lifted (dark) and deepened (light) when the shaded backgrounds arrived, because the first values dropped to 4.3:1 on them.
 
 The blue is used sparingly on purpose. If it appears more than a handful of times on a screen, it stops signalling.
 
@@ -58,20 +61,27 @@ A 4px scale: `--s-1` 4 · `--s-2` 8 · `--s-3` 12 · `--s-4` 16 · `--s-6` 24 ·
 
 - **One column, left-aligned, max 760px.** A notebook is read top to bottom.
 - **Entries use a gutter:** a 9rem mono column on the left for dates and status, content on the right. On phones the gutter stacks above the content.
-- **Sections** are 96px apart on desktop, 64px on phones, each opened by a hairline rule.
+- **Sections** are 96px apart on desktop, 64px on phones. They alternate between `--bg` and `--bg-alt` (About plain, Work shaded, Builds plain, Skills shaded, Education plain, Contact shaded); the change of shade is the divider, so sections have no rule.
+- **Entries reach past the column:** each entry extends `--entry-pad` (16px phones, 24px desktop) beyond the text on both sides, so hover tints and raised panels have room while the words stay aligned.
 - **Page padding** is 24px on phones, 32px from 768px up.
 
 ## Shape and depth
 
-- Radius: `--radius` **2px**, for focus outlines and the button only. Everything else is square.
-- **No shadows. No blur. No gradients.**
-- Separation comes from hairline rules (`1px solid var(--rule)`) and spacing, never from boxes.
+- Radius: `--radius` **2px** for focus outlines, buttons and skill highlights; `--radius-panel` **6px** for raised panels and entry hover. Nothing rounder.
+- **Two shadows, one for each kind of lift:**
+  - `--shadow` — raised panels (the Now card, featured entries). A 1px top highlight and a long, soft, low-opacity drop. Warm brown in light mode, black in dark.
+  - `--shadow-hover` — an entry being pointed at. Shorter and lighter.
+- **One gradient:** the ink wash at the top of the page (`--wash`, a soft radial from the top-left). No others.
+- **No blur. No glows.** The CV button's shadow is tinted with `--signal`, but it is a shadow beneath it, not a halo around it.
+- Between entries, separation is still a hairline (`--rule`), aligned with the text, not the panel edge.
 
 ## Components
 
-**Navigation.** Name on the left; Work, Builds, Skills, Contact and the theme switch on the right, in mono. Sticky, with the page background behind it and a hairline under it once scrolled. On phones the links drop to a second line rather than hiding behind a menu button — four short words fit.
+**Navigation.** Name on the left; Work, Builds, Skills, Contact and the theme switch on the right, in mono. Sticky; transparent over the ink wash at the top, then the page background and a hairline once scrolled. The section being read is marked with a 2px `--signal` underline (`aria-current`). On phones the links drop to a second line rather than hiding behind a menu button.
 
-**Links.** `--signal`, underlined with a 1px line offset 3px; the line thickens to 2px on hover. Visited links don't change colour.
+**Now panel.** A raised `--surface` card in the intro listing what is happening right now, each line with a pulsing `--signal` dot and a link to the entry it refers to. Three lines at most; every line must be true today.
+
+**Links.** `--signal` with a resting 1px underline; on hover a 2px line sweeps in from the left. Visited links don't change colour.
 
 **Buttons.** Used only where a link would undersell the action (the CV).
 - *Primary:* `--signal` background, `--signal-ink` text, 2px radius. Hover darkens via `filter: brightness(1.1)`.
@@ -80,7 +90,13 @@ A 4px scale: `--s-1` 4 · `--s-2` 8 · `--s-3` 12 · `--s-4` 16 · `--s-6` 24 ·
 - *Focus (all):* 2px `--signal` outline, 2px offset. Never removed.
 - *Disabled:* 40% opacity, `not-allowed` cursor. No current use.
 
-**Entry** — the notebook's basic unit, used for jobs, builds, education and certifications. A hairline above, the gutter on the left (date range, then status), and on the right a title, a mono meta line (company · place), a short paragraph, an optional list, and tags.
+**Entry** — the notebook's basic unit, used for jobs, builds, skills, education, certifications and contact rows. A hairline above, the gutter on the left (date range, then status), and on the right a title, a mono meta line (company · place), a short paragraph, an optional list, and tags.
+- *Hover* (pointer devices only): `--hover` tint, `--shadow-hover`, lifted 2px; its hairlines fade so the lift reads as one object.
+- *Featured:* the current job and the live build sit on `--surface` with `--shadow`. Two at most on the page — featuring more stops meaning anything.
+
+**Timeline.** The Work entries are joined by a 1px `--rule` line in a 22px lane left of the gutter, with a 9px ring at each job. The current job's ring is filled `--signal` and pulses. The line runs from each dot to the next.
+
+**Skill explorer.** Every skill is a button. Pointing, focusing or tapping one marks it (`--wash` behind `--signal` text), lights the jobs and builds that used it with a 1px `--signal` ring, steps the rest back to 35% opacity, and writes the answer out below the list with links — the entries are usually off-screen, so the answer must be readable on its own. A tap pins it; tapping again or Escape clears it. The mapping is written by hand in the markup (`data-in`), never inferred, so it never claims a connection that isn't true; a skill with no single source says so.
 
 **Status.** Mono xs uppercase text, no pill: `LIVE` and `IN PROGRESS` in `--signal`, `COMPLETED` in `--text-dim`, `PLANNED` in `--text-faint`, `CURRENT` in `--signal`. `LIVE` and `CURRENT` carry a 6px dot with a slow heartbeat (see Motion).
 
@@ -104,9 +120,12 @@ Expressive, but always in service of reading, and always on the notebook's terms
 | What | How | Timing |
 |---|---|---|
 | Intro | The name and the location line write themselves in left to right (`clip-path`); the lead, roles and buttons settle up 8px. | 0.6–0.7s, 140ms apart |
-| Hairlines | Every rule between entries and sections draws from left to right as it reaches the screen. | 0.9s |
+| Hairlines | Every rule between entries draws from left to right as it reaches the screen. | 0.9s |
 | Entries | The gutter and content of each entry slide up 14px and fade in, one entry after another. | 0.6s, 70ms stagger |
-| Status | The dot beside `LIVE` and `CURRENT` pulses slowly. | 2.6s cycle |
+| Status | The dots beside `LIVE`, `CURRENT`, the current job on the timeline and each Now line pulse slowly; the Now dots are offset so they never pulse together. | 2.6s cycle |
+| Timeline | Each line between jobs draws downward as its job reaches the screen. | 1s, after 0.25s |
+| Hover | Entries lift 2px and gain a shadow. | 0.25s |
+| Skills | Lit entries gain a ring; the rest fade to 35%. | 0.3s |
 | Progress | A 2px `--signal` line under the nav fills as you read down the page. | follows scroll |
 | Links | The hover underline sweeps in. | 0.35s |
 | Theme | Light/dark crossfades (View Transitions, where supported). | 0.35s |
@@ -115,4 +134,4 @@ Expressive, but always in service of reading, and always on the notebook's terms
 - Content is only hidden for animation once the page script has run (`.js` on `<html>`). With JavaScript off, everything is simply there.
 - `prefers-reduced-motion: reduce` turns all of it off, including the progress line.
 - An entry that receives keyboard focus appears immediately, even if its animation hasn't run (`:focus-within`). The keyboard never lands on something invisible.
-- No motion loops except the status heartbeat, which is slow and small.
+- The only looping motion is the heartbeat, which is slow, small, and never on more than a handful of dots at once.

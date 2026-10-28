@@ -5,16 +5,22 @@
 
 :root {
   /* dark is the default */
-  --bg:          #141210;
-  --surface:     #1b1916;
-  --rule:        #2e2a25;
-  --text:        #ece6dc;
-  --text-dim:    #a39b8f;
-  --text-faint:  #8a8276;
-  --signal:      #8fa8ff;
-  --signal-ink:  #141210;
-  --success:     #7bc47f;
-  --error:       #ef6b5b;
+  --bg:           #141210;
+  --bg-alt:       #1a1815;
+  --surface:      #23201c;
+  --rule:         #2e2a25;
+  --text:         #ece6dc;
+  --text-dim:     #a39b8f;
+  --text-faint:   #968e82;
+  --signal:       #8fa8ff;
+  --signal-ink:   #141210;
+  --success:      #7bc47f;
+  --error:        #ef6b5b;
+
+  --wash:         rgba(143, 168, 255, .09);
+  --hover:        rgba(236, 230, 220, .035);
+  --shadow:       inset 0 1px 0 rgba(255, 255, 255, .04), 0 18px 40px -18px rgba(0, 0, 0, .75);
+  --shadow-hover: 0 16px 36px -20px rgba(0, 0, 0, .7);
 
   --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
@@ -34,24 +40,35 @@
   --column: 760px;
   --gutter: 9rem;
   --page-pad: var(--s-6);
+  --entry-pad: var(--s-4);
   --section-gap: var(--s-16);
+  --lane: 22px;
 
   --radius: 2px;
+  --radius-panel: 6px;
+
+  --ease: cubic-bezier(.2, .7, .2, 1);
 
   color-scheme: dark;
 }
 
 :root[data-theme="light"] {
-  --bg:          #f4f0e8;
-  --surface:     #ebe6dc;
-  --rule:        #d8d1c4;
-  --text:        #1d1a16;
-  --text-dim:    #4f4940;
-  --text-faint:  #6f685e;
-  --signal:      #2747b8;
-  --signal-ink:  #f4f0e8;
-  --success:     #2f7a33;
-  --error:       #b42318;
+  --bg:           #f4f0e8;
+  --bg-alt:       #ece6da;
+  --surface:      #fbf9f4;
+  --rule:         #d8d1c4;
+  --text:         #1d1a16;
+  --text-dim:     #4f4940;
+  --text-faint:   #655e55;
+  --signal:       #2747b8;
+  --signal-ink:   #f4f0e8;
+  --success:      #2f7a33;
+  --error:        #b42318;
+
+  --wash:         rgba(39, 71, 184, .08);
+  --hover:        rgba(29, 26, 22, .035);
+  --shadow:       inset 0 1px 0 rgba(255, 255, 255, .7), 0 18px 40px -20px rgba(70, 52, 28, .3);
+  --shadow-hover: 0 16px 36px -22px rgba(70, 52, 28, .28);
 
   color-scheme: light;
 }
@@ -59,6 +76,7 @@
 @media (min-width: 768px) {
   :root {
     --page-pad: var(--s-8);
+    --entry-pad: var(--s-6);
     --section-gap: var(--s-24);
   }
 }
@@ -71,7 +89,10 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* ink soaking into the top of the page, then plain paper */
+  background:
+    radial-gradient(ellipse 80% 520px at 15% 0, var(--wash), transparent 75%) no-repeat,
+    var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
   font-size: var(--fs-base);
@@ -79,10 +100,9 @@ body {
   font-weight: 400;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  transition: background-color .15s ease, color .15s ease;
 }
 
-h1, h2, h3, p, ul, dl, dd { margin: 0; }
+h1, h2, h3, h4, p, ul, dl, dd { margin: 0; }
 ul { padding: 0; list-style: none; }
 
 ::selection { background: var(--signal); color: var(--signal-ink); }
@@ -97,7 +117,7 @@ a {
   background-position: 0 100%, 0 100%;
   background-size: 100% 1px, 0% 2px;
   padding-bottom: 2px;
-  transition: background-size .35s cubic-bezier(.2,.7,.2,1);
+  transition: background-size .35s var(--ease);
 }
 a:hover { background-size: 100% 1px, 100% 2px; }
 
@@ -119,7 +139,6 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   color: var(--signal-ink);
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
-  text-decoration: none;
   z-index: 10;
 }
 .skip-link:focus { top: var(--s-2); }
@@ -146,11 +165,14 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   position: sticky;
   top: 0;
   z-index: 5;
-  background: var(--bg);
+  background: transparent;
   border-bottom: 1px solid transparent;
-  transition: border-color .15s ease, background-color .15s ease;
+  transition: border-color .2s ease, background-color .2s ease;
 }
-.nav.scrolled { border-bottom-color: var(--rule); }
+.nav.scrolled {
+  background: var(--bg);
+  border-bottom-color: var(--rule);
+}
 
 .nav-inner {
   display: flex;
@@ -165,7 +187,6 @@ a:hover { background-size: 100% 1px, 100% 2px; }
 .nav-name {
   font-weight: 600;
   color: var(--text);
-  text-decoration: none;
 }
 .nav-name:hover { text-decoration: underline; }
 
@@ -183,9 +204,18 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--text-dim);
-  text-decoration: none;
+  transition: color .2s ease;
 }
 .nav-links a:hover { color: var(--text); text-decoration: underline; }
+
+/* where you are on the page */
+.nav-links a[aria-current] {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--signal);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
 
 .theme-switch {
   background: none;
@@ -195,6 +225,19 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   color: var(--text-faint);
 }
 .theme-switch:hover { color: var(--text); }
+
+/* reading progress, along the bottom of the nav */
+.progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 100%;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
 
 /* ── Intro ──────────────────────────────────────────────── */
 
@@ -231,6 +274,36 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   margin-top: var(--s-8);
 }
 
+/* what is happening right now */
+.now {
+  max-width: 34rem;
+  margin-top: var(--s-8);
+  padding: var(--s-4) var(--s-6);
+  background: var(--surface);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow);
+}
+.now-title { margin-bottom: var(--s-2); }
+.now-list li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+.now-list li + li { margin-top: var(--s-1); }
+.now-list a { color: var(--text); }
+.now-list li::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--signal);
+  transform: translateY(-2px);
+}
+
 /* ── Buttons ────────────────────────────────────────────── */
 
 .btn {
@@ -241,15 +314,15 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   font-size: var(--fs-xs);
   letter-spacing: .08em;
   text-transform: uppercase;
-  text-decoration: none;
   cursor: pointer;
 }
 .btn-primary {
   background: var(--signal);
   color: var(--signal-ink);
   border: 1px solid var(--signal);
+  box-shadow: 0 8px 20px -10px var(--signal);
 }
-.btn-primary:hover { filter: brightness(1.1); }
+.btn-primary:hover { filter: brightness(1.08); }
 .btn-secondary {
   background: transparent;
   color: var(--text);
@@ -263,10 +336,11 @@ a:hover { background-size: 100% 1px, 100% 2px; }
 /* ── Sections ───────────────────────────────────────────── */
 
 .section {
-  padding: var(--s-8) 0 var(--section-gap);
-  border-top: 1px solid var(--rule);
-  scroll-margin-top: var(--s-16);
+  padding: var(--s-16) 0 var(--section-gap);
+  scroll-margin-top: var(--s-12);
 }
+/* every other section on a slightly different shade, like turning a page */
+.section.shade { background: var(--bg-alt); }
 
 .section h2 {
   font-size: var(--fs-xl);
@@ -275,12 +349,16 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   margin-bottom: var(--s-8);
 }
 
-.section h4 { margin: 0; }
-
 .section h3.sub {
   font-size: var(--fs-lg);
   font-weight: 600;
   margin: var(--s-12) 0 var(--s-4);
+}
+
+.section-intro {
+  max-width: var(--measure);
+  margin-bottom: var(--s-6);
+  color: var(--text-dim);
 }
 
 .prose { max-width: var(--measure); }
@@ -288,16 +366,55 @@ a:hover { background-size: 100% 1px, 100% 2px; }
 .prose p { color: var(--text-dim); }
 .prose strong { color: var(--text); font-weight: 500; }
 
-/* ── Entry: the notebook's basic unit ───────────────────── */
+/* ── Entry: the notebook's basic unit ─────────────────────
+   Entries reach a little past the text column on both sides,
+   so a hover tint or a featured panel has room to breathe
+   while the words stay aligned with everything else. */
 
 .entry {
+  position: relative;
   display: grid;
   grid-template-columns: var(--gutter) minmax(0, 1fr);
   gap: var(--s-6);
-  padding: var(--s-6) 0;
-  border-top: 1px solid var(--rule);
+  margin: 0 calc(-1 * var(--entry-pad));
+  padding: var(--s-6) var(--entry-pad);
+  border-radius: var(--radius-panel);
+  transition: background-color .25s ease, box-shadow .25s ease, transform .25s var(--ease), opacity .3s ease;
 }
-.entries > .entry:first-child { border-top: 0; padding-top: 0; }
+
+/* the hairline between entries, aligned with the text */
+.entry::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--entry-pad);
+  right: var(--entry-pad);
+  height: 1px;
+  background: var(--rule);
+  transform-origin: left;
+  transition: opacity .2s ease, transform .9s var(--ease);
+}
+.entries > .entry:first-child::before { display: none; }
+.entries > .entry:first-child:not(.featured) { padding-top: 0; }
+
+/* the things that matter most, raised off the page */
+.entry.featured {
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.entry.featured::before,
+.entry.featured + .entry::before { display: none; }
+
+@media (hover: hover) {
+  .entry:not(.featured):hover {
+    background: var(--hover);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+  .entry:hover::before,
+  .entry:hover + .entry::before { opacity: 0; }
+  .entry.featured:hover { transform: translateY(-2px); }
+}
 
 .entry-gutter { display: flex; flex-direction: column; gap: var(--s-1); }
 
@@ -326,6 +443,7 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   line-height: 1.55;
   color: var(--text-dim);
 }
+.entry-body > p + .entry-list { margin-top: var(--s-3); }
 .entry-list li {
   position: relative;
   padding-left: var(--s-4);
@@ -352,22 +470,96 @@ a:hover { background-size: 100% 1px, 100% 2px; }
 .status-done    { color: var(--text-dim); }
 .status-planned { color: var(--text-faint); }
 
-/* skills read as a definition list on the same gutter */
-.skill-row .entry-title { font-size: var(--fs-base); }
-.skill-row .tags { margin-top: 0; color: var(--text-dim); }
-
-/* a section's one-line introduction */
-.section-intro {
-  max-width: var(--measure);
-  margin-bottom: var(--s-6);
-  color: var(--text-dim);
+/* a heartbeat beside anything live or current */
+.status-live::before,
+.status-current::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: var(--s-2);
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: 1px;
 }
 
-/* a list straight after a paragraph needs the paragraph's spacing */
-.entry-body > p + .entry-list { margin-top: var(--s-3); }
+/* ── Timeline: the work, joined up ──────────────────────── */
 
-/* contact rows */
-.contact-row { padding: var(--s-4) 0; align-items: baseline; }
+.timeline > .entry { padding-left: calc(var(--entry-pad) + var(--lane)); }
+
+.tl {
+  position: absolute;
+  left: var(--entry-pad);
+  top: calc(var(--s-6) + .5em);
+  width: 9px;
+  height: 100%;
+  pointer-events: none;
+}
+/* the dot */
+.tl::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--text-faint);
+  background: var(--bg-alt);
+  z-index: 1;
+}
+.tl.here::before { border-color: var(--signal); background: var(--signal); }
+/* the line down to the next job */
+.tl::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 1px;
+  height: 100%;
+  background: var(--rule);
+  transform-origin: top;
+}
+.timeline > .entry:last-child .tl::after { display: none; }
+/* the timeline's own dot marks the current job; the gutter's would repeat it */
+.timeline .status-current::before { display: none; }
+
+/* ── Skills you can explore ─────────────────────────────── */
+
+.skill {
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--text-dim);
+  background: none;
+  border: 0;
+  padding: 1px 3px;
+  margin: 0 -3px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color .2s ease, background-color .2s ease;
+}
+.skill:hover,
+.skill[aria-pressed="true"] {
+  color: var(--signal);
+  background: var(--wash);
+}
+
+.skill-used {
+  min-height: 1.45em;
+  margin-top: var(--s-6);
+  text-transform: none;
+  letter-spacing: .02em;
+  color: var(--text-dim);
+}
+.skill-used a { color: var(--signal); }
+
+/* while a skill is chosen, what uses it stands out and the rest steps back */
+.exploring .entry.dim { opacity: .35; }
+.exploring .entry.lit { box-shadow: 0 0 0 1px var(--signal), var(--shadow-hover); }
+
+/* ── Contact ────────────────────────────────────────────── */
+
+.contact-row { padding-top: var(--s-4); padding-bottom: var(--s-4); align-items: baseline; }
 .contact-row a { font-size: var(--fs-base); }
 
 /* ── Footer ─────────────────────────────────────────────── */
@@ -395,79 +587,41 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   }
   .entry-gutter { flex-direction: row; flex-wrap: wrap; gap: var(--s-1) var(--s-3); }
   .nav-inner { flex-direction: column; align-items: flex-start; }
+  .now { padding: var(--s-4); }
 }
 
 /* ── Motion ─────────────────────────────────────────────
-   Everything that hides content until it animates applies only
-   once the page script has run (.js on <html>) and only when the
-   visitor has not asked for reduced motion. Without either, the
-   page is simply all there. */
-
-/* a reading-progress line along the bottom of the nav */
-.progress {
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  height: 2px;
-  width: 100%;
-  background: var(--signal);
-  transform: scaleX(0);
-  transform-origin: left;
-  pointer-events: none;
-}
-
-/* a quiet heartbeat beside anything live or current */
-.status-live::before,
-.status-current::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: var(--s-2);
-  border-radius: 50%;
-  background: currentColor;
-  vertical-align: 1px;
-}
+   Anything that hides content until it animates applies only
+   once the page script has run (.js on <html>) and only when
+   the visitor has not asked for reduced motion. Without either,
+   the page is simply all there. */
 
 @media (prefers-reduced-motion: no-preference) {
 
   /* the intro writes itself in, line by line */
   .js .intro .write {
     clip-path: inset(0 100% 0 0);
-    animation: write .7s cubic-bezier(.2,.7,.2,1) forwards;
+    animation: write .7s var(--ease) forwards;
     animation-delay: calc(var(--line, 0) * 140ms + 120ms);
   }
   .js .intro .settle {
     opacity: 0;
     transform: translateY(8px);
-    animation: settle .6s cubic-bezier(.2,.7,.2,1) forwards;
+    animation: settle .6s var(--ease) forwards;
     animation-delay: calc(var(--line, 0) * 140ms + 120ms);
   }
 
-  /* hairlines draw from left to right as they come into view */
-  .js .entry,
-  .js .section { border-top-color: transparent; position: relative; }
-  .js .entry::before,
-  .js .section::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: -1px;
-    width: 100%;
-    height: 1px;
-    background: var(--rule);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .9s cubic-bezier(.2,.7,.2,1);
-  }
-  .js .entries > .entry:first-child::before { display: none; }
-  .js .in::before { transform: scaleX(1); }
+  /* hairlines and timeline lines draw as they reach the screen */
+  .js .entry::before { transform: scaleX(0); }
+  .js .entry.in::before { transform: scaleX(1); }
+  .js .tl::after { transform: scaleY(0); transition: transform 1s var(--ease) .25s; }
+  .js .entry.in .tl::after { transform: scaleY(1); }
 
   /* entries slide in, one after another */
   .js .entry > * {
     opacity: 0;
     transform: translateY(14px);
-    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+    transition: opacity .6s ease, transform .6s var(--ease);
     transition-delay: calc(var(--i, 0) * 70ms + 120ms);
   }
   .js .entry.in > *,
@@ -478,18 +632,22 @@ a:hover { background-size: 100% 1px, 100% 2px; }
   .js .prose {
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);
+    transition: opacity .6s ease, transform .6s var(--ease);
   }
   .js .section.in > .wrap > h2,
   .js .section.in .section-intro,
   .js .section.in .prose { opacity: 1; transform: none; }
 
+  /* heartbeats: the live statuses, the current job, the Now list */
   .status-live::before,
-  .status-current::before { animation: heartbeat 2.6s ease-in-out infinite; }
+  .status-current::before,
+  .tl.here::before,
+  .now-list li::before { animation: heartbeat 2.6s ease-in-out infinite; }
+  .now-list li:nth-child(2)::before { animation-delay: .8s; }
+  .now-list li:nth-child(3)::before { animation-delay: 1.6s; }
 
   .btn { transition: filter .2s ease, border-color .2s ease, transform .2s ease; }
   .btn:hover { transform: translateY(-1px); }
-  .nav-links a, .theme-switch { transition: color .2s ease; }
 }
 
 @keyframes write  { to { clip-path: inset(0 0 0 0); } }

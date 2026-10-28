@@ -65,7 +65,16 @@
         <p class="mono roles settle" style="--line: 4">IT &amp; robot deployment lead / AI infrastructure / IT technician / infrastructure engineer / systems administrator / computer electronics tech / home lab builder</p>
       </div>
 
-      <div class="actions settle" style="--line: 5">
+      <div class="now settle" style="--line: 5" aria-labelledby="now-title">
+        <p class="mono now-title" id="now-title">Now</p>
+        <ul class="now-list">
+          <li><span>Deploying humanoid robots at <a href="#work-wybe">Wybe Robotics</a></span></li>
+          <li><span>Building the <a href="#build-inmoov">InMoov robotic hand</a></span></li>
+          <li><span>Running <a href="#build-jarvis">J.A.R.V.I.S.</a> at home</span></li>
+        </ul>
+      </div>
+
+      <div class="actions settle" style="--line: 6">
         <a class="btn btn-primary" href="oscar-cv.pdf">Download CV</a>
         <a class="quiet" href="mailto:Oscarskjaevestad@gmail.com">Email →</a>
         <a class="quiet" href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener">LinkedIn →</a>
@@ -85,12 +94,13 @@
   </section>
 
   <!-- ── Work ── -->
-  <section class="section" id="work" aria-labelledby="work-title">
+  <section class="section shade" id="work" aria-labelledby="work-title">
     <div class="wrap">
       <h2 id="work-title">Work</h2>
-      <div class="entries">
+      <div class="entries timeline">
 
-        <article class="entry">
+        <article class="entry featured" id="work-wybe">
+          <span class="tl here" aria-hidden="true"></span>
           <div class="entry-gutter">
             <span class="mono">06.2026 — now</span>
             <span class="mono status-current">Current</span>
@@ -117,7 +127,8 @@
           </div>
         </article>
 
-        <article class="entry">
+        <article class="entry" id="work-1x">
+          <span class="tl" aria-hidden="true"></span>
           <div class="entry-gutter">
             <span class="mono">02.2024 — 05.2026</span>
           </div>
@@ -142,7 +153,8 @@
           </div>
         </article>
 
-        <article class="entry">
+        <article class="entry" id="work-bama">
+          <span class="tl" aria-hidden="true"></span>
           <div class="entry-gutter">
             <span class="mono">03.2023 — 02.2024</span>
           </div>
@@ -153,7 +165,8 @@
           </div>
         </article>
 
-        <article class="entry">
+        <article class="entry" id="work-data">
+          <span class="tl" aria-hidden="true"></span>
           <div class="entry-gutter">
             <span class="mono">08.2022 — 02.2023</span>
           </div>
@@ -180,7 +193,7 @@
       <p class="section-intro">Outside of work, I build things — hardware, electronics and systems that push past the day job.</p>
       <div class="entries">
 
-        <article class="entry">
+        <article class="entry featured" id="build-jarvis">
           <div class="entry-gutter"><span class="mono status-live">Live</span></div>
           <div class="entry-body">
             <h3 class="entry-title">J.A.R.V.I.S. — local-first voice assistant</h3>
@@ -189,7 +202,7 @@
           </div>
         </article>
 
-        <article class="entry">
+        <article class="entry" id="build-inmoov">
           <div class="entry-gutter"><span class="mono status-wip">In progress</span></div>
           <div class="entry-body">
             <h3 class="entry-title">InMoov robotic hand</h3>
@@ -198,7 +211,7 @@
           </div>
         </article>
 
-        <article class="entry">
+        <article class="entry" id="build-mixer">
           <div class="entry-gutter"><span class="mono status-done">Completed</span></div>
           <div class="entry-body">
             <h3 class="entry-title">Custom audio mixer</h3>
@@ -207,7 +220,7 @@
           </div>
         </article>
 
-        <article class="entry">
+        <article class="entry" id="build-drone">
           <div class="entry-gutter"><span class="mono status-done">Completed</span></div>
           <div class="entry-body">
             <h3 class="entry-title">Custom-built drone</h3>
@@ -216,7 +229,7 @@
           </div>
         </article>
 
-        <article class="entry">
+        <article class="entry" id="build-satellite">
           <div class="entry-gutter"><span class="mono status-wip">In progress</span></div>
           <div class="entry-body">
             <h3 class="entry-title">Desk satellite</h3>
@@ -225,7 +238,7 @@
           </div>
         </article>
 
-        <article class="entry">
+        <article class="entry" id="build-network">
           <div class="entry-gutter"><span class="mono status-planned">Planned</span></div>
           <div class="entry-body">
             <h3 class="entry-title">Home network lab</h3>
@@ -239,43 +252,44 @@
   </section>
 
   <!-- ── Skills ── -->
-  <section class="section" id="skills" aria-labelledby="skills-title">
+  <section class="section shade" id="skills" aria-labelledby="skills-title">
     <div class="wrap">
       <h2 id="skills-title">Skills</h2>
+      <p class="section-intro">Pick any skill to see where I've used it.</p>
       <div class="entries">
         <div class="entry skill-row">
           <div class="entry-gutter"><span class="mono status-current">Now</span></div>
           <div class="entry-body">
             <h3 class="entry-title">Robotics &amp; AI</h3>
-            <p class="mono tags">Humanoid robot deployment · GPU training fleets · NVIDIA Jetson Thor · Grace Blackwell · VLA models · GR00T · LeRobot · MuJoCo · VR teleoperation · Robot data pipelines · Edge inference · Local LLMs</p>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Humanoid robot deployment</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">GPU training fleets</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">NVIDIA Jetson Thor</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Grace Blackwell</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">VLA models</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">GR00T</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">LeRobot</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">MuJoCo</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">VR teleoperation</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Robot data pipelines</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-wybe">Edge inference</button> · <button class="skill" type="button" aria-pressed="false" data-in="build-jarvis">Local LLMs</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
             <h3 class="entry-title">Cloud &amp; identity</h3>
-            <p class="mono tags">Microsoft 365 · Entra ID / Azure AD · Microsoft Intune · Microsoft Defender · Azure · Google Workspace · Okta</p>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft 365</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Entra ID / Azure AD</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft Intune</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Microsoft Defender</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Azure</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Google Workspace</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Okta</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
             <h3 class="entry-title">Networking &amp; security</h3>
-            <p class="mono tags">Network infrastructure · Cybersecurity · Aruba Networks · Palo Alto NGFW · Extreme Networks · IAM</p>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-wybe work-1x build-network">Network infrastructure</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x cert-cisco cert-nsm">Cybersecurity</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">Aruba Networks</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Palo Alto NGFW</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Extreme Networks</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x">IAM</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
             <h3 class="entry-title">Hardware &amp; electronics</h3>
-            <p class="mono tags">Hardware repair · Electronics · Soldering · Raspberry Pi · Component-level repair</p>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="edu-electronics">Hardware repair</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics build-mixer build-drone build-satellite build-inmoov">Electronics</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics build-mixer build-inmoov">Soldering</button> · <button class="skill" type="button" aria-pressed="false" data-in="build-jarvis build-satellite">Raspberry Pi</button> · <button class="skill" type="button" aria-pressed="false" data-in="edu-electronics">Component-level repair</button></p>
           </div>
         </div>
         <div class="entry skill-row">
           <div class="entry-gutter"></div>
           <div class="entry-body">
             <h3 class="entry-title">Tools &amp; platforms</h3>
-            <p class="mono tags">Jira · Confluence · Windows Server · Kubernetes · SaltStack · HTML</p>
+            <p class="mono tags"><button class="skill" type="button" aria-pressed="false" data-in="work-1x work-data">Jira</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-1x work-data">Confluence</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Windows Server</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">Kubernetes</button> · <button class="skill" type="button" aria-pressed="false" data-in="work-data">SaltStack</button> · <button class="skill" type="button" aria-pressed="false" data-in="">HTML</button></p>
           </div>
         </div>
         <div class="entry skill-row">
@@ -286,6 +300,7 @@
           </div>
         </div>
       </div>
+      <p class="mono skill-used" id="skill-used" aria-live="polite"></p>
     </div>
   </section>
 
@@ -301,7 +316,7 @@
             <p class="mono entry-meta">ASK Privatist · Remote</p>
           </div>
         </article>
-        <article class="entry">
+        <article class="entry" id="edu-electronics">
           <div class="entry-gutter"><span class="mono">08.2020 — 06.2022</span></div>
           <div class="entry-body">
             <h3 class="entry-title">VG2 &amp; VG3 — Computer Electronics &amp; Trade Certificate (Fagbrev)</h3>
@@ -340,14 +355,14 @@
             <p class="mono entry-meta">Google</p>
           </div>
         </article>
-        <article class="entry">
+        <article class="entry" id="cert-cisco">
           <div class="entry-gutter"></div>
           <div class="entry-body">
             <h4 class="entry-title">Introduction to Cybersecurity</h4>
             <p class="mono entry-meta">Cisco</p>
           </div>
         </article>
-        <article class="entry">
+        <article class="entry" id="cert-nsm">
           <div class="entry-gutter"></div>
           <div class="entry-body">
             <h4 class="entry-title">Fundamentals for Cybersecurity</h4>
@@ -359,7 +374,7 @@
   </section>
 
   <!-- ── Contact ── -->
-  <section class="section" id="contact" aria-labelledby="contact-title">
+  <section class="section shade" id="contact" aria-labelledby="contact-title">
     <div class="wrap">
       <h2 id="contact-title">Contact</h2>
       <p class="section-intro">Happy to talk humanoid robots, AI infrastructure or home-lab builds — the more hardware involved, the better. I usually reply within a day.</p>
@@ -459,6 +474,64 @@
     if (!pending) { pending = true; requestAnimationFrame(measure); }
   }, { passive: true });
   measure();
+
+  // The nav marks the section you are reading.
+  const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
+  if ('IntersectionObserver' in window) {
+    const mark = id => navLinks.forEach(a => {
+      if (a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
+    });
+    const spy = new IntersectionObserver(items => {
+      items.forEach(item => { if (item.isIntersecting) mark(item.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main > section').forEach(sec => spy.observe(sec));
+  }
+
+  // Skills: pick one and what used it lights up; the answer is written
+  // out too, because the jobs it points at are usually off-screen.
+  const skills = [...document.querySelectorAll('.skill')];
+  const answer = document.getElementById('skill-used');
+  const entries = [...document.querySelectorAll('#work .entry, #builds .entry, #education .entry')];
+  let pinned = null;
+
+  const describe = id => {
+    const entry = document.getElementById(id);
+    const title = entry.querySelector('.entry-title').textContent.trim();
+    const meta = entry.querySelector('.entry-meta');
+    const where = meta ? meta.textContent.split('·')[0].trim() : '';
+    return { id, text: where && !/^(google|cisco|nsm)/i.test(where) ? title + ', ' + where : title };
+  };
+
+  const show = button => {
+    const ids = button ? button.dataset.in.split(' ').filter(Boolean) : [];
+    document.body.classList.toggle('exploring', !!button && ids.length > 0);
+    entries.forEach(e => {
+      e.classList.toggle('lit', ids.includes(e.id));
+      e.classList.toggle('dim', !!button && ids.length > 0 && !ids.includes(e.id));
+    });
+    skills.forEach(b => b.setAttribute('aria-pressed', String(b === pinned)));
+    answer.textContent = '';
+    if (!button) return;
+    const name = button.textContent.trim();
+    if (!ids.length) { answer.textContent = name + ' — general background, not tied to one job or build.'; return; }
+    answer.append(name + ' → ');
+    ids.map(describe).forEach((d, i) => {
+      if (i) answer.append(' · ');
+      const a = document.createElement('a');
+      a.href = '#' + d.id;
+      a.textContent = d.text;
+      answer.append(a);
+    });
+  };
+
+  skills.forEach(b => {
+    b.addEventListener('mouseenter', () => { if (!pinned) show(b); });
+    b.addEventListener('focus', () => { if (!pinned) show(b); });
+    b.addEventListener('click', () => { pinned = pinned === b ? null : b; show(pinned || b); });
+  });
+  document.getElementById('skills').addEventListener('mouseleave', () => { if (!pinned) show(null); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && pinned) { pinned = null; show(null); } });
 </script>
 </body>
 </html>
