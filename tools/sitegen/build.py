@@ -29,3 +29,52 @@ pages = {
 for path, html in pages.items():
     (out / path).write_text(html)
     print(f"{path:32s} {len(html)/1024:6.1f} KB")
+
+# ── Security headers ─────────────────────────────────────────────────────
+# Written next to the pages so the Content-Security-Policy always allows
+# exactly the inline scripts the pages contain, and nothing else. The only
+# one is the small theme/language script in <head> that must run before
+# the first paint; it is allowed by its hash, so an injected script is not.
+import base64, hashlib, json, re
+
+inline = set()
+for html in pages.values():
+    for body in re.findall(r"<script>(.*?)</script>", html, flags=re.S):
+        inline.add("'sha256-" + base64.b64encode(hashlib.sha256(body.encode()).digest()).decode() + "'")
+
+csp = "; ".join([
+    "default-src 'self'",
+    "script-src 'self' " + " ".join(sorted(inline)),
+    # Inline style attributes carry a few CSS variables (--line: n).
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src https://fonts.gstatic.com",
+    "img-src 'self' data:",
+    "connect-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'none'",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests",
+])
+
+vercel = {
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {"key": "X-Content-Type-Options", "value": "nosniff"},
+                {"key": "X-Frame-Options", "value": "DENY"},
+                {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
+                {"key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()"},
+                {"key": "Cross-Origin-Opener-Policy", "value": "same-origin"},
+            ],
+        },
+        {
+            # Pages only: a PDF viewer is a document of its own.
+            "source": "/((?!.*\\.pdf$).*)",
+            "headers": [{"key": "Content-Security-Policy", "value": csp}],
+        },
+    ]
+}
+(out / "vercel.json").write_text(json.dumps(vercel, indent=2) + "\n")
+print(f"{'vercel.json':32s} {len(inline)} inline script hash(es)")
