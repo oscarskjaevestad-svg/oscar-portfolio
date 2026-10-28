@@ -137,6 +137,65 @@
       .catch(() => { /* keep what the page already says */ });
   }
 
+  /* ── Lab activity: commits per day, drawn like a calendar ──
+     activity.json is written from the Pi (tools/website_status.py
+     --activity in jarvis-lab): a start date and one count per day. Days
+     after the last entry are zero. */
+
+  const activity = $('activity');
+  if (activity) {
+    const DAY = 864e5;
+    const parse = s => { const [y, m, d] = s.split('-').map(Number); return Date.UTC(y, m - 1, d); };
+    const iso = t => new Date(t).toISOString().slice(0, 10);
+    const monday = t => t - ((new Date(t).getUTCDay() + 6) % 7) * DAY;
+    const both = (en, no) => '<span lang="en">' + en + '</span><span lang="nb">' + no + '</span>';
+    const MONTHS = { en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                     no: ['jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des'] };
+
+    const draw = data => {
+      if (!data || !data.start || !Array.isArray(data.days)) return;
+      const start = parse(data.start);
+      const today = parse(new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Oslo' }).format(new Date()));
+      const count = t => { const i = Math.round((t - start) / DAY); return i >= 0 && i < data.days.length ? Number(data.days[i]) || 0 : 0; };
+      const weeks = Math.min(53, Math.max(26, Math.round((monday(today) - monday(start)) / (7 * DAY)) + 1));
+      const first = monday(today) - (weeks - 1) * 7 * DAY;
+
+      const grid = activity.querySelector('.act-grid');
+      const months = activity.querySelector('.act-months');
+      grid.style.setProperty('--weeks', weeks);
+      months.style.setProperty('--weeks', weeks);
+      let cells = '', labels = '', total = 0, active = 0, run = 0, best = 0, lastMonth = -1;
+      for (let w = 0; w < weeks; w++) {
+        const m = new Date(first + w * 7 * DAY).getUTCMonth();
+        // A month that only just shows in the first column gets no label; it would collide with the next.
+        if (m !== lastMonth && (w > 0 || new Date(first).getUTCDate() <= 14)) { labels += '<span style="grid-column:' + (w + 1) + '">' + both(MONTHS.en[m], MONTHS.no[m]) + '</span>'; }
+        lastMonth = m;
+        for (let d = 0; d < 7; d++) {
+          const t = first + (w * 7 + d) * DAY;
+          if (t > today) { cells += '<span class="act-cell future"></span>'; continue; }
+          const n = count(t);
+          total += n;
+          if (n) { active++; run++; best = Math.max(best, run); } else run = 0;
+          const lvl = n === 0 ? 0 : n <= 2 ? 1 : n <= 5 ? 2 : n <= 9 ? 3 : 4;
+          const day = iso(t).split('-').reverse().join('.');
+          cells += '<span class="act-cell l' + lvl + '" title="' + n + ' · ' + day + '"></span>';
+        }
+      }
+      grid.innerHTML = cells;
+      months.innerHTML = labels;
+      activity.querySelector('.act-summary').innerHTML =
+        both(total + ' commits in ' + weeks + ' weeks · ' + active + ' active days · longest streak ' + best + (best === 1 ? ' day' : ' days'),
+             total + ' commits på ' + weeks + ' uker · ' + active + ' aktive dager · lengste rekke ' + best + (best === 1 ? ' dag' : ' dager'));
+      activity.hidden = false;
+      const scroller = activity.querySelector('.act-scroll');
+      scroller.scrollLeft = scroller.scrollWidth;
+    };
+    fetch(base + 'activity.json', { cache: 'no-store' })
+      .then(r => (r.ok ? r.json() : null))
+      .then(draw)
+      .catch(() => { /* the section stays hidden */ });
+  }
+
   /* ── A hairline under the nav once the page has moved ── */
 
   const nav = $('nav');
@@ -274,6 +333,11 @@
     { en: 'A voice assistant that can’t do more than it’s allowed to', no: 'En stemmeassistent som ikke kan gjøre mer enn den har lov til', kind: 'log', href: base + 'log/permission-ladder.html' },
     { en: 'Zero support roofs: why a nine-hour print failed', no: 'Null støttetak: hvorfor en ni timers print feilet', kind: 'log', href: base + 'log/zero-support-roofs.html' },
     { en: 'Levelling a 420 mm bed by measurement', no: 'Nivellering av en 420 mm printeplate etter mål', kind: 'log', href: base + 'log/levelling-the-bed.html' },
+    { en: 'Move the robot hand', no: 'Beveg robothånden', kind: 'page', href: base + 'builds/inmoov.html#hand' },
+    { en: 'InMoov parts in 3D', no: 'InMoov-deler i 3D', kind: 'page', href: base + 'builds/inmoov.html#parts' },
+    { en: 'Try the permission ladder', no: 'Prøv tillatelsesstigen', kind: 'page', href: base + 'log/permission-ladder.html#try' },
+    { en: 'Lab activity', no: 'Aktivitet i laben', kind: 'section', href: home + '#activity' },
+    { en: 'RSS feed for the log', no: 'RSS-feed for loggen', kind: 'action', href: base + 'feed.xml' },
     { en: 'Download CV', no: 'Last ned CV', kind: 'action', href: () => base + (lang() === 'no' ? 'oscar-cv-no.pdf' : 'oscar-cv.pdf') },
     { en: 'Email Oscar', no: 'Send e-post til Oscar', kind: 'action', href: 'mailto:Oscarskjaevestad@gmail.com' },
     { en: 'Switch light / dark', no: 'Bytt lys / mørk', kind: 'action', run: toggleTheme },
@@ -281,7 +345,7 @@
   ];
   const KIND = {
     section: { en: 'Section', no: 'Seksjon' }, page: { en: 'Page', no: 'Side' }, log: { en: 'Log', no: 'Logg' },
-    action: { en: 'Action', no: 'Handling' }, entry: { en: 'Entry', no: 'Oppføring' }, skill: { en: 'Skill', no: 'Ferdighet' },
+    action: { en: 'Action', no: 'Handling' }, jarvis: { en: 'J.A.R.V.I.S.', no: 'J.A.R.V.I.S.' }, entry: { en: 'Entry', no: 'Oppføring' }, skill: { en: 'Skill', no: 'Ferdighet' },
   };
 
   const items = () => {
@@ -311,6 +375,78 @@
       at = next;
     }
     return 50 - Math.min(gaps, 49);
+  };
+
+  /* ── Say hello: a few things J.A.R.V.I.S. answers from the palette ── */
+
+  let toast = null, toastTimer = 0, greeted = 0;
+  const reply = (en, no) => {
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.className = 'jarvis-toast';
+      toast.setAttribute('role', 'status');
+      toast.innerHTML = '<span class="jarvis-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>' +
+        '<span class="jarvis-text"></span>';
+      document.body.append(toast);
+    }
+    toast.querySelector('.jarvis-text').innerHTML = '<span class="mono jarvis-name">J.A.R.V.I.S.</span> ' +
+      '<span lang="en">' + en + '</span><span lang="nb">' + no + '</span>';
+    toast.classList.remove('on');
+    void toast.offsetWidth;  // restart the entrance
+    toast.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('on'), 7000);
+  };
+  const GREETINGS = [
+    ['At your service. Though the real me lives on a Raspberry Pi, not in your browser.',
+     'Til tjeneste. Selv om den ekte meg bor på en Raspberry Pi, ikke i nettleseren din.'],
+    ['Listening. Well — not really. In here I’m a few lines of JavaScript with no microphone.',
+     'Jeg lytter. Vel — egentlig ikke. Her inne er jeg noen linjer JavaScript uten mikrofon.'],
+    ['Hello. I’d offer to dim the lights, but I’m only allowed to touch Oscar’s.',
+     'Hei. Jeg ville tilbudt å dimme lyset, men jeg får bare røre Oscars.'],
+  ];
+  const setTheme = want => {
+    if (root.getAttribute('data-theme') === want) return false;
+    toggleTheme();
+    return true;
+  };
+  const jarvisSays = query => {
+    const q = query.toLowerCase().replace(/[^a-zæøå0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!q) return null;
+    const item = (en, no, run) => ({ label: lang() === 'no' ? no : en, kind: 'jarvis', run });
+    if (/pod bay/.test(q)) {
+      return item('Open the pod bay doors', 'Åpne dørene', () => reply(
+        'I’m sorry, I can’t do that. There’s no tool for doors — I checked.',
+        'Beklager, det kan jeg ikke. Det finnes ikke noe verktøy for dører — jeg sjekket.'));
+    }
+    if (/\b(lights?|lys)\b.*\b(off|av)\b/.test(q)) {
+      return item('Lights off', 'Lys av', () => (setTheme('dark')
+        ? reply('Lights off. That’s a safe action, so I didn’t need to ask.', 'Lyset er av. Det er en trygg handling, så jeg trengte ikke å spørre.')
+        : reply('They’re already off.', 'Det er allerede av.')));
+    }
+    if (/\b(lights?|lys)\b.*\b(on|på)(\s|$)/.test(q)) {
+      return item('Lights on', 'Lys på', () => (setTheme('light')
+        ? reply('Lights on. Safe action — no confirmation needed.', 'Lyset er på. Trygg handling — ingen bekreftelse nødvendig.')
+        : reply('They’re already on.', 'Det er allerede på.')));
+    }
+    if (/^(jarvis )?status$|^how are you|^hvordan går det/.test(q)) {
+      return item('J.A.R.V.I.S., status', 'J.A.R.V.I.S., status', () => {
+        fetch(base + 'status.json', { cache: 'no-store' }).then(r => (r.ok ? r.json() : null)).then(st => {
+          const live = st && st.jarvis && st.jarvis.state === 'live';
+          const stage = st && st.inmoov && st.inmoov.stage;
+          const S = { electronics: ['wiring', 'kobles'], print: ['printing', 'printes'], assemble: ['being assembled', 'monteres'], code: ['being programmed', 'programmeres'], done: ['finished', 'ferdig'] }[stage];
+          reply((live ? 'All systems live.' : 'The real me is offline right now.') + (S ? ' The InMoov hand is ' + S[0] + '.' : ''),
+                (live ? 'Alle systemer er live.' : 'Den ekte meg er frakoblet akkurat nå.') + (S ? ' InMoov-hånden ' + S[1] + '.' : ''));
+        }).catch(() => reply('I can’t reach my own status file. Embarrassing.', 'Jeg når ikke min egen statusfil. Pinlig.'));
+      });
+    }
+    if (/\b(hey|hi|hello|hei|hallo|ok|okay|yo)\b.*\bjarvis\b|^jarvis$/.test(q)) {
+      return item('Hey, J.A.R.V.I.S.', 'Hei, J.A.R.V.I.S.', () => {
+        const g = GREETINGS[greeted++ % GREETINGS.length];
+        reply(g[0], g[1]);
+      });
+    }
+    return null;
   };
 
   let palette = null;
@@ -347,6 +483,8 @@
       .sort((a, b) => b.s - a.s)
       .slice(0, 12)
       .map(r => r.item);
+    const egg = jarvisSays(query);
+    if (egg) results.unshift(egg);
     active = 0;
     const list = palette.querySelector('.palette-list');
     list.innerHTML = '';

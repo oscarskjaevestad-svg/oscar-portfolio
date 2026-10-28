@@ -39,7 +39,7 @@ def table(head_row, rows):
     return out + "</tbody></table></div>"
 
 
-def page(slug, folder, title, desc, crumb, kicker, lead, body, prev=None, nxt=None):
+def page(slug, folder, title, desc, crumb, kicker, lead, body, prev=None, nxt=None, scripts=()):
     """title/lead/kicker/crumb: (en, no). prev/next: (href, (en, no))."""
     h = head(f"{title[0]} — Oscar Skjævestad", desc, f"/{folder}/{slug}.html", R, og_title=title[0], og_desc=desc)
     navlinks = ""
@@ -61,7 +61,7 @@ def page(slug, folder, title, desc, crumb, kicker, lead, body, prev=None, nxt=No
     {navlinks}
   </article>
 </main>
-''' + footer(R)
+''' + footer(R, scripts)
 
 
 # ── Log: zero support roofs ──────────────────────────────────
@@ -149,6 +149,40 @@ LEVEL = page(
 
 # ── Log: the permission ladder ───────────────────────────────
 
+def choice(name, value, en, no, checked=False, note=None):
+    c = " checked" if checked else ""
+    extra = f' <span class="try-mine">{t(*note)}</span>' if note else ""
+    return f'<label class="try-option"><input type="radio" name="{name}" value="{value}"{c} /><span>{t(en, no)}{extra}</span></label>'
+
+
+TRY = f'''
+    <section class="lab-demo try" id="try" aria-labelledby="try-title">
+      <h2 id="try-title">{ico("shield-check")}{t("Try it", "Prøv selv")}</h2>
+      {p("The same checks, in the same order, rewritten for this page. Pick a ceiling, pick who’s asking, and ask for something. Nothing here reaches the real Jarvis.",
+         "De samme sjekkene, i samme rekkefølge, skrevet om for denne siden. Velg et tak, velg hvem som spør, og be om noe. Ingenting her når den ekte Jarvis.")}
+      <div class="try-panel">
+        <div class="try-settings">
+          <fieldset class="try-choice">
+            <legend class="mono">{t("Ceiling", "Tak")}</legend>
+            {choice("ceiling", "read", "Read", "Lese")}
+            {choice("ceiling", "safe_action", "Safe action", "Trygg handling", True, ("mine", "min"))}
+            {choice("ceiling", "confirm_required", "Confirm required", "Krever bekreftelse")}
+          </fieldset>
+          <fieldset class="try-choice">
+            <legend class="mono">{t("Asked by", "Spurt via")}</legend>
+            {choice("channel", "voice", "Voice", "Stemme", True)}
+            {choice("channel", "dashboard", "Dashboard button", "Knapp på dashbordet")}
+          </fieldset>
+        </div>
+        <div class="try-asks"></div>
+        <div class="try-type">
+          <input class="try-input" type="text" autocomplete="off" spellcheck="false" aria-label="Type a request" />
+          <button type="button" class="btn btn-secondary try-go">{t("Ask", "Spør")}</button>
+        </div>
+        <div class="try-result" hidden aria-live="polite"></div>
+      </div>
+    </section>'''
+
 LADDER = page(
     "permission-ladder", "log",
     ("A voice assistant that can’t do more than it’s allowed to", "En stemmeassistent som ikke kan gjøre mer enn den har lov til"),
@@ -159,6 +193,7 @@ LADDER = page(
     f'''
     {figures([("4", "permission levels", "tillatelsesnivåer"), ("500+", "automated tests", "automatiske tester"),
               ("2 min", "to answer a confirmation", "til å svare på en bekreftelse"), ("1", "gate for voice and buttons", "port for stemme og knapper")])}
+    <p class="more">{t('<a href="#try">Skip to the version you can try ↓</a>', '<a href="#try">Hopp til versjonen du kan prøve ↓</a>')}</p>
 
     {h2("A ladder, not a switch", "En stige, ikke en bryter")}
     {p("Every tool belongs to one of four levels: <strong>read</strong> (observe only), <strong>safe action</strong> (reversible and harmless, like a lamp), <strong>confirm required</strong> (physical or costly — a heater setpoint, cancelling a print) and <strong>disabled</strong>. Each installation has a ceiling in its configuration, and tools above it are never even offered to the language model.",
@@ -175,6 +210,7 @@ LADDER = page(
     {h2("Buttons go through the same gate", "Knapper går gjennom samme port")}
     {p("The dashboard has controls for the lights, TV, routines and the printer. Every button calls the same function a spoken request reaches, so it can never do more than Jarvis could be asked to do. On top of that, the dashboard has its own short list: starting a print, slicing, probing the bed and the emergency stop never get a button, whatever the ceiling.",
        "Dashbordet har kontroller for lys, TV, rutiner og printeren. Hver knapp kaller den samme funksjonen som en muntlig forespørsel når, så den kan aldri gjøre mer enn Jarvis kunne blitt bedt om. I tillegg har dashbordet sin egen korte liste: å starte en print, slicing, måling av printeplaten og nødstopp får aldri en knapp, uansett tak.")}
+{TRY}
 
     {h2("Two things the tests caught", "To ting testene fanget")}
     {p("Once, a test sent a real emergency stop to the real printer. It only failed because my laptop happened to be on a different network. Now the test suite refuses any attempt to reach the printer at all.",
@@ -187,6 +223,7 @@ LADDER = page(
     <p class="more">{t('<a href="../builds/jarvis.html">How J.A.R.V.I.S. is built →</a>', '<a href="../builds/jarvis.html">Slik er J.A.R.V.I.S. bygget →</a>')}</p>
 ''',
     prev=("zero-support-roofs.html", ("Zero support roofs", "Null støttetak")),
+    scripts=("ladder.js",),
 )
 
 
@@ -285,12 +322,68 @@ JARVIS = page(
 
     {h2("Stack", "Teknologi")}
     <p class="mono tags">Python · Flask · gunicorn · SQLite · openWakeWord · Whisper · Ollama · Qwen3 · Home Assistant · Klipper · Moonraker · Tailscale · Playwright</p>
+    {t("Psst: press <kbd>/</kbd> and say hello.", "Psst: trykk <kbd>/</kbd> og si hei.", tag="p", cls="mono lab-note psst")}
 ''',
     nxt=("inmoov.html", ("InMoov hand", "InMoov-hånden")),
 )
 
 
 # ── Builds: InMoov ───────────────────────────────────────────
+
+def slider(key, en, no, lo=0, hi=180):
+    return f'''<label class="hand-slider"><span class="mono">{t(en, no)}</span>
+            <input type="range" min="{lo}" max="{hi}" step="1" value="0" data-joint="{key}" />
+            <output class="mono" data-readout="{key}">0°</output></label>'''
+
+
+HAND = f'''
+    <section class="lab-demo" id="hand" aria-labelledby="hand-title">
+      <h2 id="hand-title">{ico("hand-finger")}{t("Move the hand", "Beveg hånden")}</h2>
+      {p("Each finger is one servo pulling a line that runs through all three joints, so one pull curls the whole finger. That’s why one slider per finger is enough. The slider is the servo’s angle; the drawing is the palm side, and segments that tip towards you get shorter.",
+         "Hver finger er én servo som drar i en snor gjennom alle tre leddene, så ett drag krummer hele fingeren. Derfor holder det med én glider per finger. Glideren er servoens vinkel; tegningen viser håndflaten, og ledd som vipper mot deg blir kortere.")}
+      <div class="hand-wrap">
+        <svg class="hand-svg" viewBox="20 60 300 400" aria-hidden="true"></svg>
+        <div class="hand-controls">
+          {slider("thumb", "Thumb", "Tommel")}
+          {slider("index", "Index", "Pekefinger")}
+          {slider("middle", "Middle", "Langfinger")}
+          {slider("ring", "Ring", "Ringfinger")}
+          {slider("little", "Little", "Lillefinger")}
+          {slider("wrist", "Wrist", "Håndledd", -90, 90)}
+          <div class="hand-poses" role="group" aria-label="Poses">
+            <button type="button" class="btn btn-secondary" data-pose="open">{t("Open", "Åpen")}</button>
+            <button type="button" class="btn btn-secondary" data-pose="fist">{t("Fist", "Knyttneve")}</button>
+            <button type="button" class="btn btn-secondary" data-pose="point">{t("Point", "Pek")}</button>
+            <button type="button" class="btn btn-secondary" data-pose="peace">{t("Peace", "Fred")}</button>
+            <button type="button" class="btn btn-secondary" data-pose="rock">Rock</button>
+            <button type="button" class="btn btn-secondary" data-pose="count">{ico("player-play")}{t("Count", "Tell")}</button>
+          </div>
+        </div>
+      </div>
+      {t("A drawing, not a simulation of the real mechanics — and not yet connected to the real hand.",
+         "En tegning, ikke en simulering av den ekte mekanikken — og ennå ikke koblet til den ekte hånden.", tag="p", cls="mono lab-note")}
+    </section>'''
+
+PARTS = f'''
+    <figure class="part-viewer" id="parts" data-src="../parts/" aria-labelledby="parts-cap">
+      <div class="viewer-stage">
+        <canvas tabindex="0" aria-label="3D view of the selected part. Drag or use the arrow keys to turn it."></canvas>
+        {t("This browser can’t show 3D.", "Denne nettleseren kan ikke vise 3D.", tag="p", cls="viewer-msg viewer-fallback mono")}
+        {t("The part didn’t load.", "Delen ble ikke lastet.", tag="p", cls="viewer-msg viewer-error mono")}
+      </div>
+      <div class="viewer-bar">
+        <div class="viewer-parts" role="group" aria-label="Part">
+          <button type="button" class="btn btn-secondary" data-part="little-finger" aria-pressed="true">{t("Little finger", "Lillefinger")}</button>
+          <button type="button" class="btn btn-secondary" data-part="index-finger" aria-pressed="false">{t("Index finger", "Pekefinger")}</button>
+          <button type="button" class="btn btn-secondary" data-part="thumb" aria-pressed="false">{t("Thumb", "Tommel")}</button>
+          <button type="button" class="btn btn-secondary" data-part="wrist" aria-pressed="false">{t("Wrist", "Håndledd")}</button>
+          <button type="button" class="btn btn-secondary" data-part="forearm" aria-pressed="false">{t("Forearm", "Underarm")}</button>
+        </div>
+        <span class="viewer-dims mono"></span>
+      </div>
+      <figcaption class="mono" id="parts-cap">{ico("rotate-360")}{t("Drag to turn. The actual files I sliced — InMoov by Gaël Langevin, CC BY-NC.",
+        "Dra for å snu. De faktiske filene jeg slicet — InMoov av Gaël Langevin, CC BY-NC.")}</figcaption>
+    </figure>'''
 
 INMOOV = page(
     "inmoov", "builds",
@@ -312,6 +405,7 @@ INMOOV = page(
 
     {figures([("17", "printed parts", "printede deler"), ("~59 h", "of printing", "med printing"),
               ("~526 g", "of filament", "filament"), ("7", "servos", "servoer")])}
+{HAND}
 
     {h2("Electronics — done", "Elektronikk — ferdig")}
     {table([("Part", "Del"), ("Role", "Rolle"), ("Status", "Status")],
@@ -332,6 +426,7 @@ INMOOV = page(
             (("4 · Forearm", "4 · Underarm"), ("Four forearm shells", "Fire underarmsskall"), "24 h 30 m"),
             (("5 · Covers", "5 · Deksler"), ("Caps and top surfaces", "Lokk og toppflater"), "9 h 27 m"),
             (("6 · Hardware", "6 · Maskinvare"), ("Bolts, spacers, Arduino mount", "Bolter, avstandsstykker, Arduino-feste"), "3 h 33 m")])}
+{PARTS}
     <p class="more">{t('<a href="../log/zero-support-roofs.html">Why the support roofs matter →</a>', '<a href="../log/zero-support-roofs.html">Hvorfor støttetakene betyr noe →</a>')}</p>
 
     {h2("Then: assembly, code, voice", "Deretter: montering, kode, stemme")}
@@ -339,6 +434,7 @@ INMOOV = page(
        "Fiskesnøre som sener, så styringskoden for servoene, så et J.A.R.V.I.S.-verktøy slik at hånden kan beveges med stemmen — bak den samme tillatelsesstigen som alt annet i huset.")}
 ''',
     prev=("jarvis.html", ("J.A.R.V.I.S.", "J.A.R.V.I.S.")),
+    scripts=("hand.js", "viewer.js"),
 )
 
 

@@ -298,6 +298,20 @@ def build():
         </article>
 
       </div>
+
+      <div class="activity" id="activity" hidden>
+        <h3 class="activity-title">{ico("chart-grid-dots")}{t("Lab activity", "Aktivitet i laben")}</h3>
+        {t("Commits to J.A.R.V.I.S. and this site, one square per day. Updated from the Pi.",
+           "Commits til J.A.R.V.I.S. og denne siden, én rute per dag. Oppdateres fra Pi-en.", tag="p", cls="activity-intro")}
+        <div class="act-scroll">
+          <div class="act-months mono" aria-hidden="true"></div>
+          <div class="act-grid" aria-hidden="true"></div>
+        </div>
+        <div class="act-foot mono">
+          <p class="act-summary"></p>
+          <p class="act-legend" aria-hidden="true">{t("Less", "Mindre")}<span class="act-cell l0"></span><span class="act-cell l1"></span><span class="act-cell l2"></span><span class="act-cell l3"></span><span class="act-cell l4"></span>{t("More", "Mer")}</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -307,6 +321,7 @@ def build():
       <h2 id="log-title">{ico("notebook")}{t("Log", "Logg")}</h2>
       {t("Notes from the bench — what broke, what I measured, and what I changed.",
          "Notater fra arbeidsbenken — hva som gikk galt, hva jeg målte, og hva jeg endret.", tag="p", cls="section-intro")}
+      <p class="mono log-feed"><a href="feed.xml">{ico("rss")}{t("Follow the log with RSS", "Følg loggen med RSS")}</a></p>
       <div class="entries">
         <article class="entry log-row">
           <div class="entry-gutter"><span class="mono">10.2026</span></div>

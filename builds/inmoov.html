@@ -23,6 +23,7 @@
   <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="alternate" type="application/atom+xml" title="Oscar Skjævestad — Log" href="https://oscarns.com/feed.xml" />
   <meta name="theme-color" content="#141210" />
 
   <!-- Before the first paint: mark that scripts run, and apply the saved
@@ -44,7 +45,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../style.css?v=2026-10-28.4" />
+  <link rel="stylesheet" href="../style.css?v=2026-10-28.5" />
 </head>
 <body>
 <!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
@@ -92,12 +93,68 @@
 
     <div class="figures"><div class="figure"><p class="figure-value">17</p><p class="mono figure-label" lang="en">printed parts</p><p class="mono figure-label" lang="nb">printede deler</p></div><div class="figure"><p class="figure-value">~59 h</p><p class="mono figure-label" lang="en">of printing</p><p class="mono figure-label" lang="nb">med printing</p></div><div class="figure"><p class="figure-value">~526 g</p><p class="mono figure-label" lang="en">of filament</p><p class="mono figure-label" lang="nb">filament</p></div><div class="figure"><p class="figure-value">7</p><p class="mono figure-label" lang="en">servos</p><p class="mono figure-label" lang="nb">servoer</p></div></div>
 
+    <section class="lab-demo" id="hand" aria-labelledby="hand-title">
+      <h2 id="hand-title"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 13v-8.5a1.5 1.5 0 0 1 3 0v7.5" /><path d="M11 11.5v-2a1.5 1.5 0 1 1 3 0v2.5" /><path d="M14 10.5a1.5 1.5 0 0 1 3 0v1.5" /><path d="M17 11.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1 -6 6h-2h.208a6 6 0 0 1 -5.012 -2.7a69.74 69.74 0 0 1 -.196 -.3c-.312 -.479 -1.407 -2.388 -3.286 -5.728a1.5 1.5 0 0 1 .536 -2.022a1.867 1.867 0 0 1 2.28 .28l1.47 1.47" /></svg></span><span lang="en">Move the hand</span><span lang="nb">Beveg hånden</span></h2>
+      <p lang="en">Each finger is one servo pulling a line that runs through all three joints, so one pull curls the whole finger. That’s why one slider per finger is enough. The slider is the servo’s angle; the drawing is the palm side, and segments that tip towards you get shorter.</p><p lang="nb">Hver finger er én servo som drar i en snor gjennom alle tre leddene, så ett drag krummer hele fingeren. Derfor holder det med én glider per finger. Glideren er servoens vinkel; tegningen viser håndflaten, og ledd som vipper mot deg blir kortere.</p>
+      <div class="hand-wrap">
+        <svg class="hand-svg" viewBox="20 60 300 400" aria-hidden="true"></svg>
+        <div class="hand-controls">
+          <label class="hand-slider"><span class="mono"><span lang="en">Thumb</span><span lang="nb">Tommel</span></span>
+            <input type="range" min="0" max="180" step="1" value="0" data-joint="thumb" />
+            <output class="mono" data-readout="thumb">0°</output></label>
+          <label class="hand-slider"><span class="mono"><span lang="en">Index</span><span lang="nb">Pekefinger</span></span>
+            <input type="range" min="0" max="180" step="1" value="0" data-joint="index" />
+            <output class="mono" data-readout="index">0°</output></label>
+          <label class="hand-slider"><span class="mono"><span lang="en">Middle</span><span lang="nb">Langfinger</span></span>
+            <input type="range" min="0" max="180" step="1" value="0" data-joint="middle" />
+            <output class="mono" data-readout="middle">0°</output></label>
+          <label class="hand-slider"><span class="mono"><span lang="en">Ring</span><span lang="nb">Ringfinger</span></span>
+            <input type="range" min="0" max="180" step="1" value="0" data-joint="ring" />
+            <output class="mono" data-readout="ring">0°</output></label>
+          <label class="hand-slider"><span class="mono"><span lang="en">Little</span><span lang="nb">Lillefinger</span></span>
+            <input type="range" min="0" max="180" step="1" value="0" data-joint="little" />
+            <output class="mono" data-readout="little">0°</output></label>
+          <label class="hand-slider"><span class="mono"><span lang="en">Wrist</span><span lang="nb">Håndledd</span></span>
+            <input type="range" min="-90" max="90" step="1" value="0" data-joint="wrist" />
+            <output class="mono" data-readout="wrist">0°</output></label>
+          <div class="hand-poses" role="group" aria-label="Poses">
+            <button type="button" class="btn btn-secondary" data-pose="open"><span lang="en">Open</span><span lang="nb">Åpen</span></button>
+            <button type="button" class="btn btn-secondary" data-pose="fist"><span lang="en">Fist</span><span lang="nb">Knyttneve</span></button>
+            <button type="button" class="btn btn-secondary" data-pose="point"><span lang="en">Point</span><span lang="nb">Pek</span></button>
+            <button type="button" class="btn btn-secondary" data-pose="peace"><span lang="en">Peace</span><span lang="nb">Fred</span></button>
+            <button type="button" class="btn btn-secondary" data-pose="rock">Rock</button>
+            <button type="button" class="btn btn-secondary" data-pose="count"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 4v16l13 -8l-13 -8" /></svg></span><span lang="en">Count</span><span lang="nb">Tell</span></button>
+          </div>
+        </div>
+      </div>
+      <p class="mono lab-note" lang="en">A drawing, not a simulation of the real mechanics — and not yet connected to the real hand.</p><p class="mono lab-note" lang="nb">En tegning, ikke en simulering av den ekte mekanikken — og ennå ikke koblet til den ekte hånden.</p>
+    </section>
+
     <h2 lang="en">Electronics — done</h2><h2 lang="nb">Elektronikk — ferdig</h2>
     <div class="table-wrap"><table><thead><tr><th><span lang="en">Part</span><span lang="nb">Del</span></th><th><span lang="en">Role</span><span lang="nb">Rolle</span></th><th><span lang="en">Status</span><span lang="nb">Status</span></th></tr></thead><tbody><tr><td>Arduino Nano Matter</td><td><span lang="en">The controller</span><span lang="nb">Kontrolleren</span></td><td><span lang="en">Headers soldered</span><span lang="nb">Pinner loddet</span></td></tr><tr><td>Adafruit PCA9685</td><td><span lang="en">16-channel servo driver over I²C</span><span lang="nb">16-kanals servodriver over I²C</span></td><td><span lang="en">Soldered, with a 470 µF capacitor</span><span lang="nb">Loddet, med en 470 µF kondensator</span></td></tr><tr><td>6 × MG90S</td><td><span lang="en">The fingers</span><span lang="nb">Fingrene</span></td><td><span lang="en">Wired</span><span lang="nb">Koblet</span></td></tr><tr><td>1 × MG996R</td><td><span lang="en">The wrist</span><span lang="nb">Håndleddet</span></td><td><span lang="en">Ready</span><span lang="nb">Klar</span></td></tr><tr><td>2 × FSR402</td><td><span lang="en">Grip force sensing</span><span lang="nb">Måling av grepskraft</span></td><td><span lang="en">Planned</span><span lang="nb">Planlagt</span></td></tr><tr><td><span lang="en">Bench power supply</span><span lang="nb">Labstrømforsyning</span></td><td><span lang="en">Clean, adjustable servo power</span><span lang="nb">Ren, justerbar strøm til servoene</span></td><td><span lang="en">Ready</span><span lang="nb">Klar</span></td></tr></tbody></table></div>
 
     <h2 lang="en">Printing — next</h2><h2 lang="nb">Printing — neste</h2>
     <p lang="en">All 17 parts are sliced. The little finger goes first, alone: it has the same hinge tolerances as every other finger and prints in under two hours, so if the joints bind I’ll find out before committing twelve hours to the rest. Nine of the parts need supports, and every one of those is sliced with proper support roofs.</p><p lang="nb">Alle 17 deler er slicet. Lillefingeren printes først, alene: den har de samme hengseltoleransene som alle de andre fingrene og printes på under to timer, så hvis leddene binder seg, finner jeg det ut før jeg setter av tolv timer til resten. Ni av delene trenger støtte, og alle er slicet med ordentlige støttetak.</p>
     <div class="table-wrap"><table><thead><tr><th><span lang="en">Stage</span><span lang="nb">Steg</span></th><th><span lang="en">Parts</span><span lang="nb">Deler</span></th><th><span lang="en">Time</span><span lang="nb">Tid</span></th></tr></thead><tbody><tr><td><span lang="en">1 · Test</span><span lang="nb">1 · Test</span></td><td><span lang="en">Little finger</span><span lang="nb">Lillefinger</span></td><td>1 h 44 m</td></tr><tr><td><span lang="en">2 · Hand</span><span lang="nb">2 · Hånd</span></td><td><span lang="en">The other fingers, thumb, covers</span><span lang="nb">De andre fingrene, tommel, deksler</span></td><td>12 h 04 m</td></tr><tr><td><span lang="en">3 · Wrist</span><span lang="nb">3 · Håndledd</span></td><td><span lang="en">Wrist, small and large</span><span lang="nb">Håndledd, lite og stort</span></td><td>7 h 40 m</td></tr><tr><td><span lang="en">4 · Forearm</span><span lang="nb">4 · Underarm</span></td><td><span lang="en">Four forearm shells</span><span lang="nb">Fire underarmsskall</span></td><td>24 h 30 m</td></tr><tr><td><span lang="en">5 · Covers</span><span lang="nb">5 · Deksler</span></td><td><span lang="en">Caps and top surfaces</span><span lang="nb">Lokk og toppflater</span></td><td>9 h 27 m</td></tr><tr><td><span lang="en">6 · Hardware</span><span lang="nb">6 · Maskinvare</span></td><td><span lang="en">Bolts, spacers, Arduino mount</span><span lang="nb">Bolter, avstandsstykker, Arduino-feste</span></td><td>3 h 33 m</td></tr></tbody></table></div>
+
+    <figure class="part-viewer" id="parts" data-src="../parts/" aria-labelledby="parts-cap">
+      <div class="viewer-stage">
+        <canvas tabindex="0" aria-label="3D view of the selected part. Drag or use the arrow keys to turn it."></canvas>
+        <p class="viewer-msg viewer-fallback mono" lang="en">This browser can’t show 3D.</p><p class="viewer-msg viewer-fallback mono" lang="nb">Denne nettleseren kan ikke vise 3D.</p>
+        <p class="viewer-msg viewer-error mono" lang="en">The part didn’t load.</p><p class="viewer-msg viewer-error mono" lang="nb">Delen ble ikke lastet.</p>
+      </div>
+      <div class="viewer-bar">
+        <div class="viewer-parts" role="group" aria-label="Part">
+          <button type="button" class="btn btn-secondary" data-part="little-finger" aria-pressed="true"><span lang="en">Little finger</span><span lang="nb">Lillefinger</span></button>
+          <button type="button" class="btn btn-secondary" data-part="index-finger" aria-pressed="false"><span lang="en">Index finger</span><span lang="nb">Pekefinger</span></button>
+          <button type="button" class="btn btn-secondary" data-part="thumb" aria-pressed="false"><span lang="en">Thumb</span><span lang="nb">Tommel</span></button>
+          <button type="button" class="btn btn-secondary" data-part="wrist" aria-pressed="false"><span lang="en">Wrist</span><span lang="nb">Håndledd</span></button>
+          <button type="button" class="btn btn-secondary" data-part="forearm" aria-pressed="false"><span lang="en">Forearm</span><span lang="nb">Underarm</span></button>
+        </div>
+        <span class="viewer-dims mono"></span>
+      </div>
+      <figcaption class="mono" id="parts-cap"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 16h4v4" /><path d="M19.458 11.042c.86 -2.366 .722 -4.58 -.6 -5.9c-2.272 -2.274 -7.185 -1.045 -10.973 2.743c-3.788 3.788 -5.017 8.701 -2.744 10.974c2.227 2.226 6.987 1.093 10.74 -2.515" /></svg></span><span lang="en">Drag to turn. The actual files I sliced — InMoov by Gaël Langevin, CC BY-NC.</span><span lang="nb">Dra for å snu. De faktiske filene jeg slicet — InMoov av Gaël Langevin, CC BY-NC.</span></figcaption>
+    </figure>
     <p class="more"><span lang="en"><a href="../log/zero-support-roofs.html">Why the support roofs matter →</a></span><span lang="nb"><a href="../log/zero-support-roofs.html">Hvorfor støttetakene betyr noe →</a></span></p>
 
     <h2 lang="en">Then: assembly, code, voice</h2><h2 lang="nb">Deretter: montering, kode, stemme</h2>
@@ -113,10 +170,13 @@
     <p class="mono footer-links">
       <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
       <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
+      <a href="../feed.xml"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M4 4a16 16 0 0 1 16 16" /><path d="M4 11a9 9 0 0 1 9 9" /></svg></span>RSS</a>
     </p>
   </div>
 </footer>
 
-<script src="../site.js?v=2026-10-28.4"></script>
+<script src="../site.js?v=2026-10-28.5"></script>
+<script src="../hand.js?v=2026-10-28.5"></script>
+<script src="../viewer.js?v=2026-10-28.5"></script>
 </body>
 </html>

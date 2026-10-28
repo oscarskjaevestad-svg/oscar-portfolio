@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Oscar Skjævestad — Log</title>
+  <subtitle>Notes from the bench: what broke, what I measured, and what I changed.</subtitle>
+  <link href="https://oscarns.com/feed.xml" rel="self" />
+  <link href="https://oscarns.com/#log" />
+  <id>https://oscarns.com/feed.xml</id>
+  <updated>2026-10-28T12:00:00Z</updated>
+  <author><name>Oscar Skjævestad</name></author>
+  <entry>
+    <title>A voice assistant that can’t do more than it’s allowed to</title>
+    <link href="https://oscarns.com/log/permission-ladder.html" />
+    <id>https://oscarns.com/log/permission-ladder.html</id>
+    <published>2026-10-28T12:00:00Z</published>
+    <updated>2026-10-28T12:00:00Z</updated>
+    <summary>How J.A.R.V.I.S. decides what it may touch, why every button goes through the same gate as a spoken request, and the test that once stopped a real printer.</summary>
+  </entry>
+  <entry>
+    <title>Zero support roofs: why a nine-hour print failed</title>
+    <link href="https://oscarns.com/log/zero-support-roofs.html" />
+    <id>https://oscarns.com/log/zero-support-roofs.html</id>
+    <published>2026-09-27T12:00:00Z</published>
+    <updated>2026-09-27T12:00:00Z</updated>
+    <summary>A downloaded print file had 674 support sections and not one roof for the model to land on. Two quick checks would have caught it.</summary>
+  </entry>
+  <entry>
+    <title>Levelling a 420 mm bed by measurement</title>
+    <link href="https://oscarns.com/log/levelling-the-bed.html" />
+    <id>https://oscarns.com/log/levelling-the-bed.html</id>
+    <published>2026-09-27T12:00:00Z</published>
+    <updated>2026-09-27T12:00:00Z</updated>
+    <summary>From 2.965 mm out of true to 0.597 mm, one screw and one probe at a time — and the whole bed usable again.</summary>
+  </entry>
+</feed>
