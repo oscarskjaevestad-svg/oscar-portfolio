@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 # Bumped on every release, so returning visitors never run a stale script.
-VERSION = "2026-10-28.4"
+VERSION = "2026-10-28.5"
 
 ICONS = Path(__file__).resolve().parent / "icons"   # Tabler Icons 3.50.0, MIT
 
@@ -59,6 +59,7 @@ def head(title, description, path, root, og_title=None, og_desc=None):
   <link rel="icon" href="{root}favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="{root}favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="apple-touch-icon" href="{root}apple-touch-icon.png" />
+  <link rel="alternate" type="application/atom+xml" title="Oscar Skjævestad — Log" href="https://oscarns.com/feed.xml" />
   <meta name="theme-color" content="#141210" />
 
   <!-- Before the first paint: mark that scripts run, and apply the saved
@@ -113,7 +114,9 @@ def nav(root, home=False):
 '''
 
 
-def footer(root):
+def footer(root, scripts=()):
+    """scripts: extra files this page needs, after the shared one."""
+    extra = "".join(f'\n<script src="{root}{s}?v={VERSION}"></script>' for s in scripts)
     return f'''
 <footer class="footer">
   <div class="wrap footer-inner">
@@ -121,11 +124,12 @@ def footer(root):
     <p class="mono footer-links">
       <a href="mailto:Oscarskjaevestad@gmail.com">{ico("mail")}{t("Email", "E-post")}</a>
       <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener">{ico("brand-linkedin")}LinkedIn</a>
+      <a href="{root}feed.xml">{ico("rss")}RSS</a>
     </p>
   </div>
 </footer>
 
-<script src="{root}site.js?v={VERSION}"></script>
+<script src="{root}site.js?v={VERSION}"></script>{extra}
 </body>
 </html>
 '''
