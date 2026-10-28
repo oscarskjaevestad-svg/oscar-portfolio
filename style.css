@@ -927,7 +927,7 @@ kbd {
 /* the hand */
 .hand-wrap {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: var(--s-6);
   align-items: center;
   margin-top: var(--s-6);
@@ -938,7 +938,7 @@ kbd {
 }
 .hand-stage {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
   border-radius: var(--radius-panel);
   background: radial-gradient(ellipse 70% 60% at 50% 45%, var(--wash), transparent 75%), var(--bg-alt);
   overflow: hidden;
@@ -1108,6 +1108,15 @@ kbd {
 .jarvis-wave { display: inline-flex; align-items: center; gap: 2px; height: 18px; flex: none; }
 .jarvis-wave i { display: block; width: 3px; height: 30%; border-radius: 2px; background: var(--signal); }
 .jarvis-toast.on .jarvis-wave i { animation: voice .9s ease-in-out 3; }
+.jarvis-toast.speaking .jarvis-wave i { animation: voice .9s ease-in-out infinite; }
+.jarvis-text { flex: 1; min-width: 0; }
+.jarvis-mute {
+  flex: none; align-self: center;
+  font-size: var(--fs-xs); color: var(--text-faint);
+  background: none; border: 1px solid var(--rule); border-radius: var(--radius);
+  padding: 2px 8px; cursor: pointer;
+}
+.jarvis-mute:hover { color: var(--text); border-color: var(--text-dim); }
 .jarvis-wave i:nth-child(2) { animation-delay: .1s !important; }
 .jarvis-wave i:nth-child(3) { animation-delay: .2s !important; }
 .jarvis-wave i:nth-child(4) { animation-delay: .3s !important; }
@@ -1116,7 +1125,7 @@ kbd {
 
 @media (max-width: 640px) {
   .hand-wrap { grid-template-columns: 1fr; padding: var(--s-4); }
-  .hand-stage { aspect-ratio: 1 / 1; }
+  .hand-stage { aspect-ratio: 4 / 5; }
   .hand-slider { grid-template-columns: 5.5rem 1fr 2.75rem; }
   .try-panel { padding: var(--s-4); }
   .viewer-stage { aspect-ratio: 1 / 1; }
