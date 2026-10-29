@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 # Bumped on every release, so returning visitors never run a stale script.
-VERSION = "2026-10-28.6"
+VERSION = "2026-10-29.1"
 
 ICONS = Path(__file__).resolve().parent / "icons"   # Tabler Icons 3.50.0, MIT
 

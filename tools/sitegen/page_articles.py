@@ -339,8 +339,8 @@ def slider(key, en, no, lo=0, hi=180):
 HAND = f'''
     <section class="lab-demo" id="hand" aria-labelledby="hand-title">
       <h2 id="hand-title">{ico("hand-finger")}{t("Move the hand", "Beveg hånden")}</h2>
-      {p("Each finger is one servo pulling a line that runs through all three joints, so one pull curls the whole finger. That’s why one slider per finger is enough. The slider is the servo’s angle: watch its horn turn in the forearm. Drag the hand to look around it.",
-         "Hver finger er én servo som drar i en snor gjennom alle tre leddene, så ett drag krummer hele fingeren. Derfor holder det med én glider per finger. Glideren er servoens vinkel: se hornet snu seg i underarmen. Dra i hånden for å se den fra andre vinkler.")}
+      {p("Each finger is one servo pulling a line that runs through all three joints, so one pull curls the whole finger. That’s why one slider per finger is enough. The slider is the servo’s angle: watch its pulley turn in the forearm. Drag the hand to look around it.",
+         "Hver finger er én servo som drar i en snor gjennom alle tre leddene, så ett drag krummer hele fingeren. Derfor holder det med én glider per finger. Glideren er servoens vinkel: se trinsa snu seg i underarmen. Dra i hånden for å se den fra andre vinkler.")}
       <div class="hand-wrap">
         <div class="hand-stage">
           <canvas class="hand-canvas" tabindex="0" aria-label="3D view of the hand. Drag or use the arrow keys to look around it."></canvas>
@@ -363,8 +363,8 @@ HAND = f'''
           </div>
         </div>
       </div>
-      {t("A model of how it works, not of every part — and not yet connected to the real hand. The servos sit in the forearm; each blue line is a tendon, and it lights up as its servo pulls.",
-         "En modell av hvordan den virker, ikke av hver del — og ennå ikke koblet til den ekte hånden. Servoene sitter i underarmen; hver blå linje er en sene, og den lyser opp når servoen drar.", tag="p", cls="mono lab-note")}
+      {t("A model of how it works, not of every part — and not yet connected to the real hand. Each finger has two lines on one pulley: the palm-side line winds on and turns blue while you drive it, the back line pays out.",
+         "En modell av hvordan den virker, ikke av hver del — og ennå ikke koblet til den ekte hånden. Hver finger har to snorer på én trinse: snora på håndflatesiden vikles inn og blir blå mens du styrer den, snora på baksiden gis ut.", tag="p", cls="mono lab-note")}
     </section>'''
 
 PARTS = f'''
