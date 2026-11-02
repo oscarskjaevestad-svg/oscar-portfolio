@@ -879,6 +879,12 @@ body.palette-on { overflow: hidden; }
 }
 .lesson p { color: var(--text); }
 
+/* project photos: 3:2, full column width, thin rule, caption below (DESIGN.md) */
+.photo { margin: var(--s-8) 0; }
+.photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover;
+  border: 1px solid var(--rule); border-radius: var(--radius-panel); background: var(--surface); }
+.photo figcaption { margin-top: var(--s-2); color: var(--text-faint); font-family: var(--font-mono); font-size: var(--fs-xs); }
+
 /* diagrams are drawn in the page's own ink */
 .diagram { margin: var(--s-8) 0; }
 .diagram svg { width: 100%; height: auto; display: block; }
