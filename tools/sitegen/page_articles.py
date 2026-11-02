@@ -223,7 +223,57 @@ LADDER = page(
     <p class="more">{t('<a href="../builds/jarvis.html">How J.A.R.V.I.S. is built →</a>', '<a href="../builds/jarvis.html">Slik er J.A.R.V.I.S. bygget →</a>')}</p>
 ''',
     prev=("zero-support-roofs.html", ("Zero support roofs", "Null støttetak")),
+    nxt=("printing-the-hand.html", ("Printing the hand", "Å printe hånden")),
     scripts=("ladder.js",),
+)
+
+
+# ── Log: printing the hand ───────────────────────────────────
+
+HANDPRINT = page(
+    "printing-the-hand", "log",
+    ("Printing a robot hand, and the night it ate the print head", "Å printe en robothånd, og natten den spiste printerhodet"),
+    "Every part of the InMoov hand is printed. On the way: support that couldn’t come out, a profile slip that turned out not to matter, and a 13-hour print that destroyed the print head.",
+    ("Log", "Logg", "log"), ("11.2026", "11.2026"),
+    ("Every printed part of the InMoov hand is done: five fingers, the thumb, the palm and the finger covers. Getting there took two lessons about support and one expensive one about leaving a printer alone.",
+     "Alle de printede delene til InMoov-hånden er ferdige: fem fingre, tommelen, håndflaten og fingerdekslene. Veien dit ga to lærdommer om støtte og én dyr lærdom om å la en printer stå alene."),
+    f'''
+    {figures([(("≈ 25 h", "≈ 25 t"), "of printing for the hand", "printing for hånden"), ("0", "support inside the fingers", "støtte inne i fingrene"),
+              ("4", "pieces reprinted", "deler printet på nytt"), ("1", "print head lost", "printerhode tapt")])}
+
+    {h2("Check the bed before trusting it", "Sjekk platen før du stoler på den")}
+    {p("The bed mesh was a month old, so before the first part I probed the bed again and compared. The shape hadn’t changed, but the whole bed sat about 0.055 mm higher, with the first layer only about 0.03 mm from scraping. I saved the new scan in place of the old one, and every part printed since has gone down cleanly.",
+       "Mesh-en av platen var en måned gammel, så før første del målte jeg platen på nytt og sammenlignet. Formen var den samme, men hele platen lå rundt 0,055 mm høyere, og første lag var bare rundt 0,03 mm fra å skrape. Jeg lagret den nye målingen i stedet for den gamle, og alle deler printet siden har lagt seg pent.")}
+
+    {h2("Support you can’t get out", "Støtte som ikke kan fjernes")}
+    {p("Each finger is six small pieces full of slots, tendon channels and pin holes. My usual settings put snug support in all of them, and no tool on my bench could dig it out again. Limiting support to the build plate didn’t help either: a tendon channel whose floor is the bed still counts as touching the plate.",
+       "Hver finger er seks små deler fulle av spor, senekanaler og hull til pinner. De vanlige innstillingene mine fylte alle med tettsittende støtte, og ingen verktøy på benken min fikk den ut igjen. Å begrense støtten til printeplaten hjalp heller ikke: en senekanal med platen som gulv teller fortsatt som at den berører platen.")}
+    {p("So I measured instead of guessing. The widest gap any finger piece has to bridge is 3.9 mm, and 6.1 mm inside the dome of the fingertip — well within what PLA bridges on its own. I turned support off for the fingers and counted zero support moves in every file before printing. The reprinted pieces came out clean.",
+       "Så jeg målte i stedet for å gjette. Det bredeste spennet noen fingerdel må bygge bro over er 3,9 mm, og 6,1 mm inne i kuppelen på fingertuppen — godt innenfor det PLA klarer på egen hånd. Jeg skrudde av støtte for fingrene og telte null støttebevegelser i hver fil før printing. Delene som ble printet på nytt kom ut rene.")}
+    {p("The finger covers were the exception. They’re curved shells that touch the bed on 10–18 mm² whichever way you turn them, so they kept their support — but it sits under an open hollow, and it came out in one piece.",
+       "Fingerdekslene var unntaket. De er buede skall som berører platen med 10–18 mm² uansett hvordan de snus, så de beholdt støtten — men den sitter under et åpent hulrom, og den kom ut i ett stykke.")}
+
+    {h2("A slip that didn’t matter, this time", "En glipp som ikke betydde noe, denne gangen")}
+    {p("Re-slicing the fingers, I loaded the decorative profile instead of the functional one, so the first ones printed at 8% infill instead of 20%. Before reprinting anything I checked how much it mattered: in a finger piece, infill is under 2% of the plastic even at 20%. The pieces are almost all wall. The rest of the hand was sliced at 20%, and nothing needed reprinting.",
+       "Da jeg slicet fingrene på nytt, lastet jeg dekorasjonsprofilen i stedet for den funksjonelle, så de første ble printet med 8 % fyll i stedet for 20 %. Før jeg printet noe på nytt sjekket jeg hvor mye det betydde: i en fingerdel er fyllet under 2 % av plasten selv med 20 %. Delene er nesten bare vegg. Resten av hånden ble slicet med 20 %, og ingenting måtte printes på nytt.")}
+
+    {h2("The night it ate the print head", "Natten den spiste printerhodet")}
+    {p("The fingers had all stuck well, so I got bolder: two tall forearm shells and the back of the hand on one 13-hour plate, running overnight and into the next day. A watcher script checks the printer while I’m away. It catches filament running out, a clog and a print left paused too long. What it can’t see is a part coming loose.",
+       "Fingrene hadde sittet godt, så jeg ble modigere: to høye underarmsskall og baksiden av hånden på én plate på 13 timer, som gikk gjennom natten og inn i neste dag. Et overvåkingsskript følger med på printeren mens jeg er borte. Det fanger opp tomt filament, tetting og en print som står for lenge på pause. Det det ikke ser, er en del som løsner.")}
+    {p("Only thin outlines of the first layer were left on the bed, so the parts let go early. For hours after that, the printer kept laying plastic into the air, and it built up into a solid lump that encased the hot end. The watcher reported a normal print the whole time, because plastic was still coming out. It just wasn’t landing anywhere. A replacement print head is on its way.",
+       "Bare tynne omriss av første lag var igjen på platen, så delene slapp tidlig. I timevis etter det fortsatte printeren å legge plast ut i luften, og det bygde seg opp til en massiv klump som kapslet inn hotenden. Overvåkeren meldte om en normal print hele tiden, fordi det fortsatt kom plast ut. Den landet bare ikke noe sted. Et nytt printerhode er på vei.")}
+    {p("What changes: no long unattended prints until a camera watches the bed with local spaghetti detection. Tall parts print alone, with a brim, while someone is home. The bed gets washed with soap before alcohol, because alcohol only spreads grease around. And the Z offset gets set again from scratch once the new head is on.",
+       "Det som endres: ingen lange printer uten tilsyn før et kamera følger med på platen med lokal deteksjon av spaghetti. Høye deler printes alene, med brim, mens noen er hjemme. Platen vaskes med såpe før alkohol, fordi alkohol bare smører fettet utover. Og Z-offseten settes på nytt fra bunnen av når det nye hodet er på.")}
+
+    {h2("Meanwhile, assembly", "I mellomtiden, montering")}
+    {p("The printer being down doesn’t stop the hand. The finger segments are glued, the hinge pins are 3 mm brass rod, and the guide had two corrections for me: the swinging lug holes want 3.2–3.5 mm while the fork ears stay at 3 mm, and each finger gets two braided tendons, one to close it and one to open it, knotted together under the fingertip cap.",
+       "At printeren står stille stopper ikke hånden. Fingersegmentene er limt, hengselpinnene er 3 mm messingstang, og byggeguiden hadde to korrigeringer til meg: hullene i leddene som svinger vil ha 3,2–3,5 mm mens ørene på gaflene blir på 3 mm, og hver finger får to flettede sener, én som lukker den og én som åpner den, knyttet sammen under hetten på fingertuppen.")}
+
+    {lesson("A watcher is only as good as what it can measure. Mine measured the filament perfectly and was blind to the one failure that mattered. Know the blind spot of whatever is watching, and don’t let a long run sit in it.",
+            "En overvåker er bare så god som det den kan måle. Min målte filamentet perfekt og var blind for den ene feilen som betydde noe. Kjenn blindsonen til det som overvåker, og ikke la en lang print stå i den.")}
+    <p class="more">{t('<a href="../builds/inmoov.html">The InMoov hand build →</a>', '<a href="../builds/inmoov.html">Byggingen av InMoov-hånden →</a>')}</p>
+''',
+    prev=("permission-ladder.html", ("The permission ladder", "Tillatelsesstigen")),
 )
 
 
@@ -416,25 +466,25 @@ INMOOV = page(
             ("Adafruit PCA9685", ("16-channel servo driver over I²C", "16-kanals servodriver over I²C"), ("Soldered, with a 470 µF capacitor", "Loddet, med en 470 µF kondensator")),
             ("6 × MG90S", ("The fingers", "Fingrene"), ("Wired", "Koblet")),
             ("1 × MG996R", ("The wrist", "Håndleddet"), ("Ready", "Klar")),
-            ("2 × FSR402", ("Grip force sensing", "Måling av grepskraft"), ("Planned", "Planlagt")),
+            ("FSR400", ("Fingertip force sensing", "Måling av kraft i fingertuppene"), ("Planned", "Planlagt")),
             (("Bench power supply", "Labstrømforsyning"), ("Clean, adjustable servo power", "Ren, justerbar strøm til servoene"), ("Ready", "Klar"))])}
 
-    {h2("Printing — next", "Printing — neste")}
-    {p("All 17 parts are sliced. The little finger goes first, alone: it has the same hinge tolerances as every other finger and prints in under two hours, so if the joints bind I’ll find out before committing twelve hours to the rest. Nine of the parts need supports, and every one of those is sliced with proper support roofs.",
-       "Alle 17 deler er slicet. Lillefingeren printes først, alene: den har de samme hengseltoleransene som alle de andre fingrene og printes på under to timer, så hvis leddene binder seg, finner jeg det ut før jeg setter av tolv timer til resten. Ni av delene trenger støtte, og alle er slicet med ordentlige støttetak.")}
-    {table([("Stage", "Steg"), ("Parts", "Deler"), ("Time", "Tid")],
-           [(("1 · Test", "1 · Test"), ("Little finger", "Lillefinger"), "1 h 44 m"),
-            (("2 · Hand", "2 · Hånd"), ("The other fingers, thumb, covers", "De andre fingrene, tommel, deksler"), "12 h 04 m"),
-            (("3 · Wrist", "3 · Håndledd"), ("Wrist, small and large", "Håndledd, lite og stort"), "7 h 40 m"),
-            (("4 · Forearm", "4 · Underarm"), ("Four forearm shells", "Fire underarmsskall"), "24 h 30 m"),
-            (("5 · Covers", "5 · Deksler"), ("Caps and top surfaces", "Lokk og toppflater"), "9 h 27 m"),
-            (("6 · Hardware", "6 · Maskinvare"), ("Bolts, spacers, Arduino mount", "Bolter, avstandsstykker, Arduino-feste"), "3 h 33 m")])}
+    {h2("Printing — the hand is done", "Printing — hånden er ferdig")}
+    {p("Every part of the hand is printed: all five fingers, the thumb, both wrist pieces, the finger covers, and the bolts and clips. The forearm shells and the back-of-hand covers are next, once the printer has a new print head. The fingers print with no support at all, because support in their slots and tendon channels can’t be removed; the finger covers are the only part that still needs it.",
+       "Alle delene til hånden er printet: alle fem fingrene, tommelen, begge håndleddsdelene, fingerdekslene, og boltene og klipsene. Underarmsskallene og dekslene til baksiden av hånden kommer etterpå, når printeren har fått et nytt printerhode. Fingrene printes helt uten støtte, fordi støtte i sporene og senekanalene ikke kan fjernes; fingerdekslene er den eneste delen som fortsatt trenger det.")}
+    {table([("Stage", "Steg"), ("Parts", "Deler"), ("Status", "Status")],
+           [(("1 · Fingers", "1 · Fingre"), ("All five fingers and the thumb", "Alle fem fingrene og tommelen"), ("Printed", "Printet")),
+            (("2 · Wrist", "2 · Håndledd"), ("Wrist, small and large", "Håndledd, lite og stort"), ("Printed", "Printet")),
+            (("3 · Covers", "3 · Deksler"), ("Finger covers", "Fingerdeksler"), ("Printed", "Printet")),
+            (("4 · Hardware", "4 · Maskinvare"), ("Bolts and clips", "Bolter og klips"), ("Printed", "Printet")),
+            (("5 · Forearm", "5 · Underarm"), ("Four forearm shells and the cap", "Fire underarmsskall og lokket"), ("Waiting for the printer", "Venter på printeren")),
+            (("6 · Covers", "6 · Deksler"), ("Back of the hand, two pieces", "Baksiden av hånden, to deler"), ("Waiting for the printer", "Venter på printeren"))])}
 {PARTS}
-    <p class="more">{t('<a href="../log/zero-support-roofs.html">Why the support roofs matter →</a>', '<a href="../log/zero-support-roofs.html">Hvorfor støttetakene betyr noe →</a>')}</p>
+    <p class="more">{t('<a href="../log/printing-the-hand.html">How the printing went, and the night it ate the print head →</a>', '<a href="../log/printing-the-hand.html">Hvordan printingen gikk, og natten den spiste printerhodet →</a>')}</p>
 
     {h2("Then: assembly, code, voice", "Deretter: montering, kode, stemme")}
-    {p("Fishing-line tendons, then the servo control code, then a J.A.R.V.I.S. tool so the hand can be moved by voice — behind the same permission ladder as everything else in the house.",
-       "Fiskesnøre som sener, så styringskoden for servoene, så et J.A.R.V.I.S.-verktøy slik at hånden kan beveges med stemmen — bak den samme tillatelsesstigen som alt annet i huset.")}
+    {p("Assembly has started: the finger segments are glued, and the hinge pins will be 3 mm brass rod. Next come the braided tendons, two per finger, then the servo control code, then a J.A.R.V.I.S. tool so the hand can be moved by voice — behind the same permission ladder as everything else in the house.",
+       "Monteringen er i gang: fingersegmentene er limt, og hengselpinnene blir 3 mm messingstang. Så kommer de flettede senene, to per finger, så styringskoden for servoene, så et J.A.R.V.I.S.-verktøy slik at hånden kan beveges med stemmen — bak den samme tillatelsesstigen som alt annet i huset.")}
 ''',
     prev=("jarvis.html", ("J.A.R.V.I.S.", "J.A.R.V.I.S.")),
     scripts=("hand.js", "viewer.js"),
@@ -465,6 +515,7 @@ FOLLOW = page(
 
     {h2("What’s in it so far", "Hva som er der så langt")}
     <ul class="feed-list">
+      <li><a href="printing-the-hand.html">{t("Printing a robot hand, and the night it ate the print head", "Å printe en robothånd, og natten den spiste printerhodet")}</a> <span class="mono">11.2026</span></li>
       <li><a href="permission-ladder.html">{t("A voice assistant that can’t do more than it’s allowed to", "En stemmeassistent som ikke kan gjøre mer enn den har lov til")}</a> <span class="mono">10.2026</span></li>
       <li><a href="zero-support-roofs.html">{t("Zero support roofs: why a nine-hour print failed", "Null støttetak: hvorfor en ni timers print feilet")}</a> <span class="mono">09.2026</span></li>
       <li><a href="levelling-the-bed.html">{t("Levelling a 420 mm bed by measurement", "Nivellering av en 420 mm printeplate etter mål")}</a> <span class="mono">09.2026</span></li>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Printing a robot hand, and the night it ate the print head — Oscar Skjævestad</title>
+  <meta name="description" content="Every part of the InMoov hand is printed. On the way: support that couldn’t come out, a profile slip that turned out not to matter, and a 13-hour print that destroyed the print head." />
+  <meta name="author" content="Oscar Skjævestad" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / link previews -->
+  <meta property="og:title" content="Printing a robot hand, and the night it ate the print head" />
+  <meta property="og:description" content="Every part of the InMoov hand is printed. On the way: support that couldn’t come out, a profile slip that turned out not to matter, and a 13-hour print that destroyed the print head." />
+  <meta property="og:url" content="https://oscarns.com/log/printing-the-hand.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://oscarns.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead at Wybe Robotics" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="https://oscarns.com/log/printing-the-hand.html" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="alternate" type="application/atom+xml" title="Oscar Skjævestad — Log" href="https://oscarns.com/feed.xml" />
+  <meta name="theme-color" content="#141210" />
+
+  <!-- Before the first paint: mark that scripts run, and apply the saved
+       theme and language, so nothing flashes in the wrong one. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var store = {};
+      try { store.theme = localStorage.getItem('theme'); store.lang = localStorage.getItem('lang'); } catch (e) {}
+      if (store.theme === 'light') root.setAttribute('data-theme', 'light');
+      var asked = new URLSearchParams(location.search).get('lang');
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = asked || store.lang || (/^(nb|nn|no)\b/.test(nav) ? 'no' : 'en');
+      if (lang === 'no') { root.setAttribute('data-lang', 'no'); root.setAttribute('lang', 'nb'); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=2026-10-29.1" />
+</head>
+<body>
+<!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
+
+<span lang="en"><a class="skip-link" href="#main">Skip to content</a></span><span lang="nb"><a class="skip-link" href="#main">Hopp til innhold</a></span>
+
+<header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
+  <div class="wrap nav-inner">
+    <a class="nav-name" href="../#top">Oscar Skjævestad</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="../#work"><span lang="en">Work</span><span lang="nb">Arbeid</span></a>
+      <a href="../#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a>
+      <a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a>
+      <a href="../#skills"><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></a>
+      <a href="../#contact"><span lang="en">Contact</span><span lang="nb">Kontakt</span></a>
+      <span class="nav-tools">
+        <button class="nav-tool theme-switch" id="theme-switch" type="button">light</button>
+        <button class="nav-tool" id="lang-switch" type="button">no</button>
+        <button class="nav-tool palette-open" id="palette-open" type="button" aria-haspopup="dialog"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 9a2 2 0 1 1 2 -2v10a2 2 0 1 1 -2 -2h10a2 2 0 1 1 -2 2v-10a2 2 0 1 1 2 2h-10" /></svg></span><span class="kbd-hint">K</span></button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <header class="page-head" id="top">
+    <div class="wrap">
+      <p class="mono crumb"><a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a> / <span lang="en">11.2026</span><span lang="nb">11.2026</span></p>
+      <h1><span lang="en">Printing a robot hand, and the night it ate the print head</span><span lang="nb">Å printe en robothånd, og natten den spiste printerhodet</span></h1>
+      <p class="lead" lang="en">Every printed part of the InMoov hand is done: five fingers, the thumb, the palm and the finger covers. Getting there took two lessons about support and one expensive one about leaving a printer alone.</p><p class="lead" lang="nb">Alle de printede delene til InMoov-hånden er ferdige: fem fingre, tommelen, håndflaten og fingerdekslene. Veien dit ga to lærdommer om støtte og én dyr lærdom om å la en printer stå alene.</p>
+    </div>
+  </header>
+  <article class="wrap article">
+
+    <div class="figures"><div class="figure"><p class="figure-value"><span lang="en">≈ 25 h</span><span lang="nb">≈ 25 t</span></p><p class="mono figure-label" lang="en">of printing for the hand</p><p class="mono figure-label" lang="nb">printing for hånden</p></div><div class="figure"><p class="figure-value">0</p><p class="mono figure-label" lang="en">support inside the fingers</p><p class="mono figure-label" lang="nb">støtte inne i fingrene</p></div><div class="figure"><p class="figure-value">4</p><p class="mono figure-label" lang="en">pieces reprinted</p><p class="mono figure-label" lang="nb">deler printet på nytt</p></div><div class="figure"><p class="figure-value">1</p><p class="mono figure-label" lang="en">print head lost</p><p class="mono figure-label" lang="nb">printerhode tapt</p></div></div>
+
+    <h2 lang="en">Check the bed before trusting it</h2><h2 lang="nb">Sjekk platen før du stoler på den</h2>
+    <p lang="en">The bed mesh was a month old, so before the first part I probed the bed again and compared. The shape hadn’t changed, but the whole bed sat about 0.055 mm higher, with the first layer only about 0.03 mm from scraping. I saved the new scan in place of the old one, and every part printed since has gone down cleanly.</p><p lang="nb">Mesh-en av platen var en måned gammel, så før første del målte jeg platen på nytt og sammenlignet. Formen var den samme, men hele platen lå rundt 0,055 mm høyere, og første lag var bare rundt 0,03 mm fra å skrape. Jeg lagret den nye målingen i stedet for den gamle, og alle deler printet siden har lagt seg pent.</p>
+
+    <h2 lang="en">Support you can’t get out</h2><h2 lang="nb">Støtte som ikke kan fjernes</h2>
+    <p lang="en">Each finger is six small pieces full of slots, tendon channels and pin holes. My usual settings put snug support in all of them, and no tool on my bench could dig it out again. Limiting support to the build plate didn’t help either: a tendon channel whose floor is the bed still counts as touching the plate.</p><p lang="nb">Hver finger er seks små deler fulle av spor, senekanaler og hull til pinner. De vanlige innstillingene mine fylte alle med tettsittende støtte, og ingen verktøy på benken min fikk den ut igjen. Å begrense støtten til printeplaten hjalp heller ikke: en senekanal med platen som gulv teller fortsatt som at den berører platen.</p>
+    <p lang="en">So I measured instead of guessing. The widest gap any finger piece has to bridge is 3.9 mm, and 6.1 mm inside the dome of the fingertip — well within what PLA bridges on its own. I turned support off for the fingers and counted zero support moves in every file before printing. The reprinted pieces came out clean.</p><p lang="nb">Så jeg målte i stedet for å gjette. Det bredeste spennet noen fingerdel må bygge bro over er 3,9 mm, og 6,1 mm inne i kuppelen på fingertuppen — godt innenfor det PLA klarer på egen hånd. Jeg skrudde av støtte for fingrene og telte null støttebevegelser i hver fil før printing. Delene som ble printet på nytt kom ut rene.</p>
+    <p lang="en">The finger covers were the exception. They’re curved shells that touch the bed on 10–18 mm² whichever way you turn them, so they kept their support — but it sits under an open hollow, and it came out in one piece.</p><p lang="nb">Fingerdekslene var unntaket. De er buede skall som berører platen med 10–18 mm² uansett hvordan de snus, så de beholdt støtten — men den sitter under et åpent hulrom, og den kom ut i ett stykke.</p>
+
+    <h2 lang="en">A slip that didn’t matter, this time</h2><h2 lang="nb">En glipp som ikke betydde noe, denne gangen</h2>
+    <p lang="en">Re-slicing the fingers, I loaded the decorative profile instead of the functional one, so the first ones printed at 8% infill instead of 20%. Before reprinting anything I checked how much it mattered: in a finger piece, infill is under 2% of the plastic even at 20%. The pieces are almost all wall. The rest of the hand was sliced at 20%, and nothing needed reprinting.</p><p lang="nb">Da jeg slicet fingrene på nytt, lastet jeg dekorasjonsprofilen i stedet for den funksjonelle, så de første ble printet med 8 % fyll i stedet for 20 %. Før jeg printet noe på nytt sjekket jeg hvor mye det betydde: i en fingerdel er fyllet under 2 % av plasten selv med 20 %. Delene er nesten bare vegg. Resten av hånden ble slicet med 20 %, og ingenting måtte printes på nytt.</p>
+
+    <h2 lang="en">The night it ate the print head</h2><h2 lang="nb">Natten den spiste printerhodet</h2>
+    <p lang="en">The fingers had all stuck well, so I got bolder: two tall forearm shells and the back of the hand on one 13-hour plate, running overnight and into the next day. A watcher script checks the printer while I’m away. It catches filament running out, a clog and a print left paused too long. What it can’t see is a part coming loose.</p><p lang="nb">Fingrene hadde sittet godt, så jeg ble modigere: to høye underarmsskall og baksiden av hånden på én plate på 13 timer, som gikk gjennom natten og inn i neste dag. Et overvåkingsskript følger med på printeren mens jeg er borte. Det fanger opp tomt filament, tetting og en print som står for lenge på pause. Det det ikke ser, er en del som løsner.</p>
+    <p lang="en">Only thin outlines of the first layer were left on the bed, so the parts let go early. For hours after that, the printer kept laying plastic into the air, and it built up into a solid lump that encased the hot end. The watcher reported a normal print the whole time, because plastic was still coming out. It just wasn’t landing anywhere. A replacement print head is on its way.</p><p lang="nb">Bare tynne omriss av første lag var igjen på platen, så delene slapp tidlig. I timevis etter det fortsatte printeren å legge plast ut i luften, og det bygde seg opp til en massiv klump som kapslet inn hotenden. Overvåkeren meldte om en normal print hele tiden, fordi det fortsatt kom plast ut. Den landet bare ikke noe sted. Et nytt printerhode er på vei.</p>
+    <p lang="en">What changes: no long unattended prints until a camera watches the bed with local spaghetti detection. Tall parts print alone, with a brim, while someone is home. The bed gets washed with soap before alcohol, because alcohol only spreads grease around. And the Z offset gets set again from scratch once the new head is on.</p><p lang="nb">Det som endres: ingen lange printer uten tilsyn før et kamera følger med på platen med lokal deteksjon av spaghetti. Høye deler printes alene, med brim, mens noen er hjemme. Platen vaskes med såpe før alkohol, fordi alkohol bare smører fettet utover. Og Z-offseten settes på nytt fra bunnen av når det nye hodet er på.</p>
+
+    <h2 lang="en">Meanwhile, assembly</h2><h2 lang="nb">I mellomtiden, montering</h2>
+    <p lang="en">The printer being down doesn’t stop the hand. The finger segments are glued, the hinge pins are 3 mm brass rod, and the guide had two corrections for me: the swinging lug holes want 3.2–3.5 mm while the fork ears stay at 3 mm, and each finger gets two braided tendons, one to close it and one to open it, knotted together under the fingertip cap.</p><p lang="nb">At printeren står stille stopper ikke hånden. Fingersegmentene er limt, hengselpinnene er 3 mm messingstang, og byggeguiden hadde to korrigeringer til meg: hullene i leddene som svinger vil ha 3,2–3,5 mm mens ørene på gaflene blir på 3 mm, og hver finger får to flettede sener, én som lukker den og én som åpner den, knyttet sammen under hetten på fingertuppen.</p>
+
+    <div class="lesson"><p lang="en">A watcher is only as good as what it can measure. Mine measured the filament perfectly and was blind to the one failure that mattered. Know the blind spot of whatever is watching, and don’t let a long run sit in it.</p><p lang="nb">En overvåker er bare så god som det den kan måle. Min målte filamentet perfekt og var blind for den ene feilen som betydde noe. Kjenn blindsonen til det som overvåker, og ikke la en lang print stå i den.</p></div>
+    <p class="more"><span lang="en"><a href="../builds/inmoov.html">The InMoov hand build →</a></span><span lang="nb"><a href="../builds/inmoov.html">Byggingen av InMoov-hånden →</a></span></p>
+
+    <nav class="article-nav mono" aria-label="More"><a href="permission-ladder.html">← <span lang="en">The permission ladder</span><span lang="nb">Tillatelsesstigen</span></a><span></span></nav>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
+    <p class="mono footer-links">
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
+      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
+      <a href="../log/follow.html"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M4 4a16 16 0 0 1 16 16" /><path d="M4 11a9 9 0 0 1 9 9" /></svg></span>RSS</a>
+    </p>
+  </div>
+</footer>
+
+<script src="../site.js?v=2026-10-29.1"></script>
+</body>
+</html>
