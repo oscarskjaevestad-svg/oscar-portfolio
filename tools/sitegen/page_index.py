@@ -324,6 +324,14 @@ def build():
       <p class="mono log-feed"><a href="log/follow.html">{ico("rss")}{t("Follow the log with RSS", "Følg loggen med RSS")}</a></p>
       <div class="entries">
         <article class="entry log-row">
+          <div class="entry-gutter"><span class="mono">11.2026</span></div>
+          <div class="entry-body">
+            <h3 class="entry-title"><a href="log/printing-the-hand.html">{t("Printing a robot hand, and the night it ate the print head", "Å printe en robothånd, og natten den spiste printerhodet")}</a></h3>
+            {t("Every part of the InMoov hand is printed. On the way: support that couldn’t come out, a profile slip that turned out not to matter, and a 13-hour print that destroyed the print head.",
+               "Alle delene til InMoov-hånden er printet. Underveis: støtte som ikke kunne fjernes, en glipp i profilen som viste seg å ikke bety noe, og en print på 13 timer som ødela printerhodet.", tag="p")}
+          </div>
+        </article>
+        <article class="entry log-row">
           <div class="entry-gutter"><span class="mono">10.2026</span></div>
           <div class="entry-body">
             <h3 class="entry-title"><a href="log/permission-ladder.html">{t("A voice assistant that can’t do more than it’s allowed to", "En stemmeassistent som ikke kan gjøre mer enn den har lov til")}</a></h3>

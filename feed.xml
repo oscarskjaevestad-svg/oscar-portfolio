@@ -5,8 +5,16 @@
   <link href="https://oscarns.com/feed.xml" rel="self" />
   <link href="https://oscarns.com/#log" />
   <id>https://oscarns.com/feed.xml</id>
-  <updated>2026-10-28T12:00:00Z</updated>
+  <updated>2026-11-02T12:00:00Z</updated>
   <author><name>Oscar Skjævestad</name></author>
+  <entry>
+    <title>Printing a robot hand, and the night it ate the print head</title>
+    <link href="https://oscarns.com/log/printing-the-hand.html" />
+    <id>https://oscarns.com/log/printing-the-hand.html</id>
+    <published>2026-11-02T12:00:00Z</published>
+    <updated>2026-11-02T12:00:00Z</updated>
+    <summary>Every part of the InMoov hand is printed. On the way: support that couldn’t come out, a profile slip that turned out not to matter, and a 13-hour print that destroyed the print head.</summary>
+  </entry>
   <entry>
     <title>A voice assistant that can’t do more than it’s allowed to</title>
     <link href="https://oscarns.com/log/permission-ladder.html" />
