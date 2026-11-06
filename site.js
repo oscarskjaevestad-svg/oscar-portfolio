@@ -115,7 +115,9 @@
     const jarvis = $('jarvis-status');
     if (jarvis && status && status.jarvis) {
       const live = status.jarvis.state === 'live';
-      const tests = status.jarvis.tests ? Math.floor(status.jarvis.tests / 100) * 100 + '+' : '500+';
+      // Round big counts down to the hundred ("500+"); show small ones as they are.
+      const n = Number(status.jarvis.tests);
+      const tests = Number.isFinite(n) && n > 0 ? (n >= 100 ? Math.floor(n / 100) * 100 + '+' : String(Math.floor(n))) : '500+';
       jarvis.innerHTML = live
         ? '<span lang="en">Live · local voice assistant · ' + tests + ' tests</span><span lang="nb">Live · lokal stemmeassistent · ' + tests + ' tester</span>'
         : '<span lang="en">Offline for now · local voice assistant</span><span lang="nb">Frakoblet akkurat nå · lokal stemmeassistent</span>';
