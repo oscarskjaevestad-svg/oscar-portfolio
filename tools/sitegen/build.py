@@ -12,7 +12,7 @@ and, if the homepage changed, python tools/build-assets.py to re-print the CV.
 import sys
 from pathlib import Path
 from page_index import build as index
-from page_articles import ZERO, LEVEL, LADDER, HANDPRINT, JARVIS, INMOOV, FOLLOW, lost
+from page_articles import ZERO, LEVEL, LADDER, HANDPRINT, BLINDSPOT, JARVIS, INMOOV, FOLLOW, lost
 
 out = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parents[2]
 (out / "log").mkdir(exist_ok=True)
@@ -24,6 +24,7 @@ pages = {
     "log/levelling-the-bed.html": LEVEL,
     "log/permission-ladder.html": LADDER,
     "log/printing-the-hand.html": HANDPRINT,
+    "log/closing-the-blind-spot.html": BLINDSPOT,
     "builds/jarvis.html": JARVIS,
     "builds/inmoov.html": INMOOV,
     "log/follow.html": FOLLOW,
@@ -38,6 +39,9 @@ for path, html in pages.items():
 from xml.sax.saxutils import escape
 
 LOG = [
+    ("log/closing-the-blind-spot.html", "Closing the blind spot",
+     "After a runaway print destroyed the print head, the printer got eyes: a camera on the bed, failure detection on my own server, and alerts that reach my phone. None of it has caught a real failure yet.",
+     "2026-11-07"),
     ("log/printing-the-hand.html", "Printing a robot hand, and the night it ate the print head",
      "Every part of the InMoov hand is printed. On the way: support that couldn’t come out, a profile slip that turned out not to matter, and a 13-hour print that destroyed the print head.",
      "2026-11-02"),

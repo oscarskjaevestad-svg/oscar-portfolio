@@ -326,6 +326,14 @@ def build():
         <article class="entry log-row">
           <div class="entry-gutter"><span class="mono">11.2026</span></div>
           <div class="entry-body">
+            <h3 class="entry-title"><a href="log/closing-the-blind-spot.html">{t("Closing the blind spot", "Å tette blindsonen")}</a></h3>
+            {t("After a runaway print destroyed the print head, the printer got eyes: a camera on the bed, failure detection on my own server, and alerts that reach my phone. None of it has caught a real failure yet.",
+               "Etter at en print som løp løpsk ødela printerhodet, fikk printeren øyne: et kamera på platen, feildeteksjon på min egen server, og varsler som når telefonen min. Ingenting av det har fanget en ekte feil ennå.", tag="p")}
+          </div>
+        </article>
+        <article class="entry log-row">
+          <div class="entry-gutter"><span class="mono">11.2026</span></div>
+          <div class="entry-body">
             <h3 class="entry-title"><a href="log/printing-the-hand.html">{t("Printing a robot hand, and the night it ate the print head", "Å printe en robothånd, og natten den spiste printerhodet")}</a></h3>
             {t("Every part of the InMoov hand is printed. On the way: support that couldn’t come out, a profile slip that turned out not to matter, and a 13-hour print that destroyed the print head.",
                "Alle delene til InMoov-hånden er printet. Underveis: støtte som ikke kunne fjernes, en glipp i profilen som viste seg å ikke bety noe, og en print på 13 timer som ødela printerhodet.", tag="p")}

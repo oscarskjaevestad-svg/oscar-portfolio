@@ -291,6 +291,56 @@ HANDPRINT = page(
     <p class="more">{t('<a href="../builds/inmoov.html">The InMoov hand build →</a>', '<a href="../builds/inmoov.html">Byggingen av InMoov-hånden →</a>')}</p>
 ''',
     prev=("permission-ladder.html", ("The permission ladder", "Tillatelsesstigen")),
+    nxt=("closing-the-blind-spot.html", ("Closing the blind spot", "Å tette blindsonen")),
+)
+
+
+# ── Log: closing the blind spot ──────────────────────────────
+
+BLINDSPOT = page(
+    "closing-the-blind-spot", "log",
+    ("Closing the blind spot", "Å tette blindsonen"),
+    "After a runaway print destroyed the print head, the printer got eyes: a camera on the bed, failure detection on my own server, and alerts that reach my phone. None of it has caught a real failure yet.",
+    ("Log", "Logg", "log"), ("11.2026", "11.2026"),
+    ("The print that destroyed my print head ran for hours in front of a watcher that saw nothing wrong. So the printer now has eyes, a detector that runs at home, and a way to wake me up. The honest part: it’s all waiting for the new print head before it can prove anything.",
+     "Printen som ødela printerhodet mitt gikk i timevis foran en overvåker som ikke så noe galt. Så nå har printeren øyne, en detektor som kjører hjemme, og en måte å vekke meg på. Den ærlige delen: alt venter på det nye printerhodet før det kan bevise noe."),
+    f'''
+    {figures([("1", "camera, pointed at the bed", "kamera, rettet mot platen"), ("0", "video frames leaving the house", "videobilder som forlater huset"),
+              ("6", "services checked every minute", "tjenester sjekket hvert minutt"), ("0", "real failures caught so far", "ekte feil fanget så langt")])}
+
+    {h2("What the old watcher couldn’t see", "Det den gamle overvåkeren ikke så")}
+    {p("My watcher script reads the printer’s own sensors: whether filament is moving, whether the print is paused, whether it finished. When a part came loose overnight, every one of those looked normal. Plastic was still flowing; it just wasn’t landing on anything. The only way to notice that is to look at the bed.",
+       "Overvåkingsskriptet mitt leser printerens egne sensorer: om filamentet beveger seg, om printen står på pause, om den ble ferdig. Da en del løsnet i løpet av natten, så alt dette normalt ut. Plasten rant fortsatt; den landet bare ikke på noe. Den eneste måten å merke det på er å se på platen.")}
+
+    {h2("A camera that only sees the bed", "Et kamera som bare ser platen")}
+    {p("A small USB camera now sits on the printer, angled down so the frame is the print bed and nothing else in the room. The printer streams it on my own network. It never goes to a cloud service, and the dashboard and the detector both read it from there.",
+       "Et lite USB-kamera sitter nå på printeren, vinklet ned slik at bildet er printeplaten og ingenting annet i rommet. Printeren strømmer det på mitt eget nettverk. Det går aldri til en skytjeneste, og både dashbordet og detektoren leser det derfra.")}
+
+    {h2("Failure detection that runs at home", "Feildeteksjon som kjører hjemme")}
+    {p("The detector is Obico, an open-source tool that watches camera frames for the tangles a failed print leaves. I run my own copy on the workstation, on its CPU, so no frame leaves the house. When it’s confident a print has failed, it pauses the printer. A paused printer then trips the watcher, which alerts me, and cancels and cools the printer down if it’s still paused after 30 minutes.",
+       "Detektoren er Obico, et åpen kildekode-verktøy som ser etter flokene en mislykket print etterlater i kamerabildene. Jeg kjører min egen kopi på arbeidsstasjonen, på prosessoren, så ingen bilder forlater huset. Når den er sikker på at en print har feilet, setter den printeren på pause. En printer på pause utløser så overvåkeren, som varsler meg, og avbryter og kjøler ned printeren hvis den fortsatt står på pause etter 30 minutter.")}
+    {p("It needs about 800 MB of memory, and the workstation didn’t have that to spare: it already holds two language models for Jarvis. Switching off the graphical desktop, which nobody used because the machine is only reached remotely, took free memory from 1.3 GB to about 3.8 GB.",
+       "Den trenger rundt 800 MB minne, og det hadde ikke arbeidsstasjonen til overs: den har allerede to språkmodeller for Jarvis. Å skru av det grafiske skrivebordet, som ingen brukte fordi maskinen bare nås eksternt, tok ledig minne fra 1,3 GB til rundt 3,8 GB.")}
+
+    {h2("Alerts that reach my phone", "Varsler som når telefonen min")}
+    {p("An alert is only useful if it wakes me. The watcher now sends to ntfy, a notification server I also run myself. Failures go out as urgent, a finished print as an ordinary notice. To reach an iPhone, ntfy passes an empty wake-up through its public relay, and the phone then fetches the message itself from my server over my private network.",
+       "Et varsel er bare nyttig hvis det vekker meg. Overvåkeren sender nå til ntfy, en varslingsserver jeg også kjører selv. Feil sendes som haster, en ferdig print som et vanlig varsel. For å nå en iPhone sender ntfy et tomt vekkesignal gjennom sin offentlige relé, og telefonen henter så selve meldingen fra serveren min over mitt private nettverk.")}
+    {p("While I was at it, the rest of the lab got the same treatment. Uptime Kuma checks six services every minute, among them Jarvis, the voice transcription, the language models, the home automation and the Raspberry Pi, and tells my phone when one stops answering.",
+       "Når jeg først holdt på, fikk resten av laben samme behandling. Uptime Kuma sjekker seks tjenester hvert minutt, blant dem Jarvis, taletranskripsjonen, språkmodellene, hjemmeautomasjonen og Raspberry Pi-en, og sier fra til telefonen min når en slutter å svare.")}
+
+    {h2("Two bugs the watcher had all along", "To feil overvåkeren hadde hele tiden")}
+    {p("A code review of the watcher turned up two problems that had never bitten. If a print was paused, resumed, then paused again, the 30-minute clock kept counting from the first pause, so the second pause could cancel the print almost at once. And it guessed whether a print had finished from how far along it got, so a print cancelled at 99% would have been reported as done. The clock now resets on every resume, and the printer’s own job history decides between finished and cancelled.",
+       "En kodegjennomgang av overvåkeren avdekket to feil som aldri hadde slått til. Hvis en print ble satt på pause, startet igjen og så satt på pause på nytt, fortsatte 30-minuttersklokken å telle fra første pause, så den andre pausen kunne avbryte printen nesten med en gang. Og den gjettet om en print var ferdig ut fra hvor langt den kom, så en print avbrutt på 99 % ville blitt meldt som ferdig. Klokken nullstilles nå hver gang printen fortsetter, og printerens egen jobbhistorikk avgjør om den ble ferdig eller avbrutt.")}
+
+    {h2("Not proven yet", "Ikke bevist ennå")}
+    {p("None of this has watched a real print. The printer is waiting for its new print head, and the detector won’t even connect until the printer reports ready. When the head arrives, the first print will be short, with me watching, to see Obico follow it and stay quiet. Until it has done that, the old rule holds: no long prints left alone.",
+       "Ingenting av dette har fulgt med på en ekte print. Printeren venter på det nye printerhodet, og detektoren kobler seg ikke engang til før printeren melder at den er klar. Når hodet kommer, blir første print kort, med meg ved siden av, for å se at Obico følger med og holder seg stille. Før den har gjort det, gjelder den gamle regelen: ingen lange printer uten tilsyn.")}
+
+    {lesson("Adding a sensor isn’t the same as closing a blind spot. It’s closed when the sensor has caught the failure it was added for, or at least been seen watching a real run. Until then, keep acting as if it’s still open.",
+            "Å legge til en sensor er ikke det samme som å tette en blindsone. Den er tettet når sensoren har fanget feilen den ble lagt til for, eller i det minste er sett følge med på en ekte kjøring. Inntil da: oppfør deg som om den fortsatt er åpen.")}
+    <p class="more">{t('<a href="../builds/inmoov.html">The InMoov hand build →</a>', '<a href="../builds/inmoov.html">Byggingen av InMoov-hånden →</a>')}</p>
+''',
+    prev=("printing-the-hand.html", ("Printing the hand", "Å printe hånden")),
 )
 
 
@@ -532,6 +582,7 @@ FOLLOW = page(
 
     {h2("What’s in it so far", "Hva som er der så langt")}
     <ul class="feed-list">
+      <li><a href="closing-the-blind-spot.html">{t("Closing the blind spot", "Å tette blindsonen")}</a> <span class="mono">11.2026</span></li>
       <li><a href="printing-the-hand.html">{t("Printing a robot hand, and the night it ate the print head", "Å printe en robothånd, og natten den spiste printerhodet")}</a> <span class="mono">11.2026</span></li>
       <li><a href="permission-ladder.html">{t("A voice assistant that can’t do more than it’s allowed to", "En stemmeassistent som ikke kan gjøre mer enn den har lov til")}</a> <span class="mono">10.2026</span></li>
       <li><a href="zero-support-roofs.html">{t("Zero support roofs: why a nine-hour print failed", "Null støttetak: hvorfor en ni timers print feilet")}</a> <span class="mono">09.2026</span></li>

@@ -5,8 +5,16 @@
   <link href="https://oscarns.com/feed.xml" rel="self" />
   <link href="https://oscarns.com/#log" />
   <id>https://oscarns.com/feed.xml</id>
-  <updated>2026-11-02T12:00:00Z</updated>
+  <updated>2026-11-07T12:00:00Z</updated>
   <author><name>Oscar Skjævestad</name></author>
+  <entry>
+    <title>Closing the blind spot</title>
+    <link href="https://oscarns.com/log/closing-the-blind-spot.html" />
+    <id>https://oscarns.com/log/closing-the-blind-spot.html</id>
+    <published>2026-11-07T12:00:00Z</published>
+    <updated>2026-11-07T12:00:00Z</updated>
+    <summary>After a runaway print destroyed the print head, the printer got eyes: a camera on the bed, failure detection on my own server, and alerts that reach my phone. None of it has caught a real failure yet.</summary>
+  </entry>
   <entry>
     <title>Printing a robot hand, and the night it ate the print head</title>
     <link href="https://oscarns.com/log/printing-the-hand.html" />
