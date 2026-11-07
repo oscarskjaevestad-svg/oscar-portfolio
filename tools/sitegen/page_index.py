@@ -324,7 +324,7 @@ def build():
       <p class="mono log-feed"><a href="log/follow.html">{ico("rss")}{t("Follow the log with RSS", "Følg loggen med RSS")}</a></p>
       <div class="entries">
         <article class="entry log-row">
-          <div class="entry-gutter"><span class="mono">11.2026</span></div>
+          <div class="entry-gutter"><span class="mono">11.2026</span><span class="mono log-project">{t("3D printer", "3D-printer")}</span></div>
           <div class="entry-body">
             <h3 class="entry-title"><a href="log/closing-the-blind-spot.html">{t("Closing the blind spot", "Å tette blindsonen")}</a></h3>
             {t("After a runaway print destroyed the print head, the printer got eyes: a camera on the bed, failure detection on my own server, and alerts that reach my phone. None of it has caught a real failure yet.",
@@ -332,7 +332,7 @@ def build():
           </div>
         </article>
         <article class="entry log-row">
-          <div class="entry-gutter"><span class="mono">11.2026</span></div>
+          <div class="entry-gutter"><span class="mono">11.2026</span><span class="mono log-project">InMoov</span></div>
           <div class="entry-body">
             <h3 class="entry-title"><a href="log/printing-the-hand.html">{t("Printing a robot hand, and the night it ate the print head", "Å printe en robothånd, og natten den spiste printerhodet")}</a></h3>
             {t("Every part of the InMoov hand is printed. On the way: support that couldn’t come out, a profile slip that turned out not to matter, and a 13-hour print that destroyed the print head.",
@@ -340,7 +340,7 @@ def build():
           </div>
         </article>
         <article class="entry log-row">
-          <div class="entry-gutter"><span class="mono">10.2026</span></div>
+          <div class="entry-gutter"><span class="mono">10.2026</span><span class="mono log-project">J.A.R.V.I.S.</span></div>
           <div class="entry-body">
             <h3 class="entry-title"><a href="log/permission-ladder.html">{t("A voice assistant that can’t do more than it’s allowed to", "En stemmeassistent som ikke kan gjøre mer enn den har lov til")}</a></h3>
             {t("How J.A.R.V.I.S. decides what it may touch, why every button goes through the same gate as a spoken request, and the test that once stopped a real printer.",
@@ -348,7 +348,7 @@ def build():
           </div>
         </article>
         <article class="entry log-row">
-          <div class="entry-gutter"><span class="mono">09.2026</span></div>
+          <div class="entry-gutter"><span class="mono">09.2026</span><span class="mono log-project">{t("3D printer", "3D-printer")}</span></div>
           <div class="entry-body">
             <h3 class="entry-title"><a href="log/zero-support-roofs.html">{t("Zero support roofs: why a nine-hour print failed", "Null støttetak: hvorfor en ni timers print feilet")}</a></h3>
             {t("A downloaded print file had 674 support sections and not one roof for the model to land on. Two quick checks would have caught it.",
@@ -356,7 +356,7 @@ def build():
           </div>
         </article>
         <article class="entry log-row">
-          <div class="entry-gutter"><span class="mono">09.2026</span></div>
+          <div class="entry-gutter"><span class="mono">09.2026</span><span class="mono log-project">{t("3D printer", "3D-printer")}</span></div>
           <div class="entry-body">
             <h3 class="entry-title"><a href="log/levelling-the-bed.html">{t("Levelling a 420 mm bed by measurement", "Nivellering av en 420 mm printeplate etter mål")}</a></h3>
             {t("From 2.965 mm out of true to 0.597 mm, one screw and one probe at a time — and the whole bed usable again.",
