@@ -719,6 +719,8 @@ svg.tabler { stroke-width: 1.75; }
 .more { margin-top: var(--s-3); font-size: var(--fs-sm); }
 .log-row .entry-title a { color: var(--text); }
 .log-row .entry-title a:hover { color: var(--signal); }
+/* which project a log entry belongs to, under its date */
+.log-project { color: var(--text-dim); }
 .now-updated { margin-top: var(--s-4); }
 
 /* ── ⌘K palette ─────────────────────────────────────── */
