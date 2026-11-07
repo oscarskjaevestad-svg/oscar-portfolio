@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Closing the blind spot — Oscar Skjævestad</title>
+  <meta name="description" content="After a runaway print destroyed the print head, the printer got eyes: a camera on the bed, failure detection on my own server, and alerts that reach my phone. None of it has caught a real failure yet." />
+  <meta name="author" content="Oscar Skjævestad" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / link previews -->
+  <meta property="og:title" content="Closing the blind spot" />
+  <meta property="og:description" content="After a runaway print destroyed the print head, the printer got eyes: a camera on the bed, failure detection on my own server, and alerts that reach my phone. None of it has caught a real failure yet." />
+  <meta property="og:url" content="https://oscarns.com/log/closing-the-blind-spot.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://oscarns.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Oscar Skjævestad — IT &amp; Robot Deployment Lead at Wybe Robotics" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="canonical" href="https://oscarns.com/log/closing-the-blind-spot.html" />
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="alternate" type="application/atom+xml" title="Oscar Skjævestad — Log" href="https://oscarns.com/feed.xml" />
+  <meta name="theme-color" content="#141210" />
+
+  <!-- Before the first paint: mark that scripts run, and apply the saved
+       theme and language, so nothing flashes in the wrong one. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      root.classList.add('js');
+      var store = {};
+      try { store.theme = localStorage.getItem('theme'); store.lang = localStorage.getItem('lang'); } catch (e) {}
+      if (store.theme === 'light') root.setAttribute('data-theme', 'light');
+      var asked = new URLSearchParams(location.search).get('lang');
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = asked || store.lang || (/^(nb|nn|no)\b/.test(nav) ? 'no' : 'en');
+      if (lang === 'no') { root.setAttribute('data-lang', 'no'); root.setAttribute('lang', 'nb'); }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css?v=2026-11-06.1" />
+</head>
+<body>
+<!-- Icons: Tabler Icons (MIT), https://tabler.io/icons -->
+
+<span lang="en"><a class="skip-link" href="#main">Skip to content</a></span><span lang="nb"><a class="skip-link" href="#main">Hopp til innhold</a></span>
+
+<header class="nav" id="nav">
+  <span class="progress" id="progress" aria-hidden="true"></span>
+  <div class="wrap nav-inner">
+    <a class="nav-name" href="../#top">Oscar Skjævestad</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="../#work"><span lang="en">Work</span><span lang="nb">Arbeid</span></a>
+      <a href="../#builds"><span lang="en">Builds</span><span lang="nb">Prosjekter</span></a>
+      <a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a>
+      <a href="../#skills"><span lang="en">Skills</span><span lang="nb">Ferdigheter</span></a>
+      <a href="../#contact"><span lang="en">Contact</span><span lang="nb">Kontakt</span></a>
+      <span class="nav-tools">
+        <button class="nav-tool theme-switch" id="theme-switch" type="button">light</button>
+        <button class="nav-tool" id="lang-switch" type="button">no</button>
+        <button class="nav-tool palette-open" id="palette-open" type="button" aria-haspopup="dialog"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M7 9a2 2 0 1 1 2 -2v10a2 2 0 1 1 -2 -2h10a2 2 0 1 1 -2 2v-10a2 2 0 1 1 2 2h-10" /></svg></span><span class="kbd-hint">K</span></button>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <header class="page-head" id="top">
+    <div class="wrap">
+      <p class="mono crumb"><a href="../#log"><span lang="en">Log</span><span lang="nb">Logg</span></a> / <span lang="en">11.2026</span><span lang="nb">11.2026</span></p>
+      <h1><span lang="en">Closing the blind spot</span><span lang="nb">Å tette blindsonen</span></h1>
+      <p class="lead" lang="en">The print that destroyed my print head ran for hours in front of a watcher that saw nothing wrong. So the printer now has eyes, a detector that runs at home, and a way to wake me up. The honest part: it’s all waiting for the new print head before it can prove anything.</p><p class="lead" lang="nb">Printen som ødela printerhodet mitt gikk i timevis foran en overvåker som ikke så noe galt. Så nå har printeren øyne, en detektor som kjører hjemme, og en måte å vekke meg på. Den ærlige delen: alt venter på det nye printerhodet før det kan bevise noe.</p>
+    </div>
+  </header>
+  <article class="wrap article">
+
+    <div class="figures"><div class="figure"><p class="figure-value">1</p><p class="mono figure-label" lang="en">camera, pointed at the bed</p><p class="mono figure-label" lang="nb">kamera, rettet mot platen</p></div><div class="figure"><p class="figure-value">0</p><p class="mono figure-label" lang="en">video frames leaving the house</p><p class="mono figure-label" lang="nb">videobilder som forlater huset</p></div><div class="figure"><p class="figure-value">6</p><p class="mono figure-label" lang="en">services checked every minute</p><p class="mono figure-label" lang="nb">tjenester sjekket hvert minutt</p></div><div class="figure"><p class="figure-value">0</p><p class="mono figure-label" lang="en">real failures caught so far</p><p class="mono figure-label" lang="nb">ekte feil fanget så langt</p></div></div>
+
+    <h2 lang="en">What the old watcher couldn’t see</h2><h2 lang="nb">Det den gamle overvåkeren ikke så</h2>
+    <p lang="en">My watcher script reads the printer’s own sensors: whether filament is moving, whether the print is paused, whether it finished. When a part came loose overnight, every one of those looked normal. Plastic was still flowing; it just wasn’t landing on anything. The only way to notice that is to look at the bed.</p><p lang="nb">Overvåkingsskriptet mitt leser printerens egne sensorer: om filamentet beveger seg, om printen står på pause, om den ble ferdig. Da en del løsnet i løpet av natten, så alt dette normalt ut. Plasten rant fortsatt; den landet bare ikke på noe. Den eneste måten å merke det på er å se på platen.</p>
+
+    <h2 lang="en">A camera that only sees the bed</h2><h2 lang="nb">Et kamera som bare ser platen</h2>
+    <p lang="en">A small USB camera now sits on the printer, angled down so the frame is the print bed and nothing else in the room. The printer streams it on my own network. It never goes to a cloud service, and the dashboard and the detector both read it from there.</p><p lang="nb">Et lite USB-kamera sitter nå på printeren, vinklet ned slik at bildet er printeplaten og ingenting annet i rommet. Printeren strømmer det på mitt eget nettverk. Det går aldri til en skytjeneste, og både dashbordet og detektoren leser det derfra.</p>
+
+    <h2 lang="en">Failure detection that runs at home</h2><h2 lang="nb">Feildeteksjon som kjører hjemme</h2>
+    <p lang="en">The detector is Obico, an open-source tool that watches camera frames for the tangles a failed print leaves. I run my own copy on the workstation, on its CPU, so no frame leaves the house. When it’s confident a print has failed, it pauses the printer. A paused printer then trips the watcher, which alerts me, and cancels and cools the printer down if it’s still paused after 30 minutes.</p><p lang="nb">Detektoren er Obico, et åpen kildekode-verktøy som ser etter flokene en mislykket print etterlater i kamerabildene. Jeg kjører min egen kopi på arbeidsstasjonen, på prosessoren, så ingen bilder forlater huset. Når den er sikker på at en print har feilet, setter den printeren på pause. En printer på pause utløser så overvåkeren, som varsler meg, og avbryter og kjøler ned printeren hvis den fortsatt står på pause etter 30 minutter.</p>
+    <p lang="en">It needs about 800 MB of memory, and the workstation didn’t have that to spare: it already holds two language models for Jarvis. Switching off the graphical desktop, which nobody used because the machine is only reached remotely, took free memory from 1.3 GB to about 3.8 GB.</p><p lang="nb">Den trenger rundt 800 MB minne, og det hadde ikke arbeidsstasjonen til overs: den har allerede to språkmodeller for Jarvis. Å skru av det grafiske skrivebordet, som ingen brukte fordi maskinen bare nås eksternt, tok ledig minne fra 1,3 GB til rundt 3,8 GB.</p>
+
+    <h2 lang="en">Alerts that reach my phone</h2><h2 lang="nb">Varsler som når telefonen min</h2>
+    <p lang="en">An alert is only useful if it wakes me. The watcher now sends to ntfy, a notification server I also run myself. Failures go out as urgent, a finished print as an ordinary notice. To reach an iPhone, ntfy passes an empty wake-up through its public relay, and the phone then fetches the message itself from my server over my private network.</p><p lang="nb">Et varsel er bare nyttig hvis det vekker meg. Overvåkeren sender nå til ntfy, en varslingsserver jeg også kjører selv. Feil sendes som haster, en ferdig print som et vanlig varsel. For å nå en iPhone sender ntfy et tomt vekkesignal gjennom sin offentlige relé, og telefonen henter så selve meldingen fra serveren min over mitt private nettverk.</p>
+    <p lang="en">While I was at it, the rest of the lab got the same treatment. Uptime Kuma checks six services every minute, among them Jarvis, the voice transcription, the language models, the home automation and the Raspberry Pi, and tells my phone when one stops answering.</p><p lang="nb">Når jeg først holdt på, fikk resten av laben samme behandling. Uptime Kuma sjekker seks tjenester hvert minutt, blant dem Jarvis, taletranskripsjonen, språkmodellene, hjemmeautomasjonen og Raspberry Pi-en, og sier fra til telefonen min når en slutter å svare.</p>
+
+    <h2 lang="en">Two bugs the watcher had all along</h2><h2 lang="nb">To feil overvåkeren hadde hele tiden</h2>
+    <p lang="en">A code review of the watcher turned up two problems that had never bitten. If a print was paused, resumed, then paused again, the 30-minute clock kept counting from the first pause, so the second pause could cancel the print almost at once. And it guessed whether a print had finished from how far along it got, so a print cancelled at 99% would have been reported as done. The clock now resets on every resume, and the printer’s own job history decides between finished and cancelled.</p><p lang="nb">En kodegjennomgang av overvåkeren avdekket to feil som aldri hadde slått til. Hvis en print ble satt på pause, startet igjen og så satt på pause på nytt, fortsatte 30-minuttersklokken å telle fra første pause, så den andre pausen kunne avbryte printen nesten med en gang. Og den gjettet om en print var ferdig ut fra hvor langt den kom, så en print avbrutt på 99 % ville blitt meldt som ferdig. Klokken nullstilles nå hver gang printen fortsetter, og printerens egen jobbhistorikk avgjør om den ble ferdig eller avbrutt.</p>
+
+    <h2 lang="en">Not proven yet</h2><h2 lang="nb">Ikke bevist ennå</h2>
+    <p lang="en">None of this has watched a real print. The printer is waiting for its new print head, and the detector won’t even connect until the printer reports ready. When the head arrives, the first print will be short, with me watching, to see Obico follow it and stay quiet. Until it has done that, the old rule holds: no long prints left alone.</p><p lang="nb">Ingenting av dette har fulgt med på en ekte print. Printeren venter på det nye printerhodet, og detektoren kobler seg ikke engang til før printeren melder at den er klar. Når hodet kommer, blir første print kort, med meg ved siden av, for å se at Obico følger med og holder seg stille. Før den har gjort det, gjelder den gamle regelen: ingen lange printer uten tilsyn.</p>
+
+    <div class="lesson"><p lang="en">Adding a sensor isn’t the same as closing a blind spot. It’s closed when the sensor has caught the failure it was added for, or at least been seen watching a real run. Until then, keep acting as if it’s still open.</p><p lang="nb">Å legge til en sensor er ikke det samme som å tette en blindsone. Den er tettet når sensoren har fanget feilen den ble lagt til for, eller i det minste er sett følge med på en ekte kjøring. Inntil da: oppfør deg som om den fortsatt er åpen.</p></div>
+    <p class="more"><span lang="en"><a href="../builds/inmoov.html">The InMoov hand build →</a></span><span lang="nb"><a href="../builds/inmoov.html">Byggingen av InMoov-hånden →</a></span></p>
+
+    <nav class="article-nav mono" aria-label="More"><a href="printing-the-hand.html">← <span lang="en">Printing the hand</span><span lang="nb">Å printe hånden</span></a><span></span></nav>
+  </article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <p class="mono">© <span id="year">2026</span> Oscar Skjævestad · oscarns.com</p>
+    <p class="mono footer-links">
+      <a href="mailto:Oscarskjaevestad@gmail.com"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" /><path d="M3 7l9 6l9 -6" /></svg></span><span lang="en">Email</span><span lang="nb">E-post</span></a>
+      <a href="https://linkedin.com/in/oscar-skjaevestad" target="_blank" rel="noopener"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M8 11v5" /><path d="M8 8v.01" /><path d="M12 16v-5" /><path d="M16 16v-3a2 2 0 1 0 -4 0" /><path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" /></svg></span>LinkedIn</a>
+      <a href="../log/follow.html"><span class="ico"><svg class="tabler" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" ><path d="M4 19a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M4 4a16 16 0 0 1 16 16" /><path d="M4 11a9 9 0 0 1 9 9" /></svg></span>RSS</a>
+    </p>
+  </div>
+</footer>
+
+<script src="../site.js?v=2026-11-06.1"></script>
+</body>
+</html>
