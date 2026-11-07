@@ -100,7 +100,7 @@ The check in step 6 fails if any of these is missing:
 | Where | What to add (newest first) |
 |---|---|
 | `tools/sitegen/build.py` | the import, a `"log/slug.html": NEWNAME` line in `pages`, and a `LOG` feed entry `(path, title, summary, "YYYY-MM-DD")` at the top |
-| `tools/sitegen/page_index.py` | an `<article class="entry log-row">` at the top of the log list, `MM.YYYY` in the gutter, title and summary in both languages |
+| `tools/sitegen/page_index.py` | an `<article class="entry log-row">` at the top of the log list: `MM.YYYY` in the gutter followed by the project, `<span class="mono log-project">InMoov</span>` (or `J.A.R.V.I.S.`, or `{t("3D printer", "3D-printer")}`; a new project gets its own short name), then title and summary in both languages |
 | `tools/sitegen/page_articles.py`, `FOLLOW` | an `<li>` at the top of "What's in it so far" |
 | `sitemap.xml` | a `<url>` with `<loc>` and today's `<lastmod>` (this file is hand-written) |
 
