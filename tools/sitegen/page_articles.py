@@ -46,7 +46,7 @@ def table(head_row, rows):
     return out + "</tbody></table></div>"
 
 
-def page(slug, folder, title, desc, crumb, kicker, lead, body, prev=None, nxt=None, scripts=()):
+def page(slug, folder, title, desc, crumb, kicker, lead, body, prev=None, nxt=None, scripts=(), count=True):
     """title/lead/kicker/crumb: (en, no). prev/next: (href, (en, no))."""
     h = head(f"{title[0]} — Oscar Skjævestad", desc, f"/{folder}/{slug}.html", R, og_title=title[0], og_desc=desc)
     navlinks = ""
@@ -68,7 +68,7 @@ def page(slug, folder, title, desc, crumb, kicker, lead, body, prev=None, nxt=No
     {navlinks}
   </article>
 </main>
-''' + footer(R, scripts)
+''' + footer(R, scripts, count)
 
 
 # ── Log: zero support roofs ──────────────────────────────────
@@ -590,6 +590,7 @@ FOLLOW = page(
     </ul>
     {t("The feed is in English; the site is in both.", "Feeden er på engelsk; siden er på begge språk.", tag="p", cls="mono lab-note")}
 ''',
+    count=False,   # this page promises "no tracking"
 )
 
 

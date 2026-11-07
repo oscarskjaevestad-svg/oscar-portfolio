@@ -114,9 +114,17 @@ def nav(root, home=False):
 '''
 
 
-def footer(root, scripts=()):
-    """scripts: extra files this page needs, after the shared one."""
+def footer(root, scripts=(), count=True):
+    """
+    scripts: extra files this page needs, after the shared one.
+    count: load Vercel Web Analytics. Cookieless and aggregate (no personal
+    data; visitors are a hash that resets daily), served from this domain
+    so the CSP's 'self' covers it. Off on the follow page, which promises
+    "no tracking".
+    """
     extra = "".join(f'\n<script src="{root}{s}?v={VERSION}"></script>' for s in scripts)
+    if count:
+        extra += '\n<script defer src="/_vercel/insights/script.js"></script>'
     return f'''
 <footer class="footer">
   <div class="wrap footer-inner">
